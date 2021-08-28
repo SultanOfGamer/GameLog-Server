@@ -33,6 +33,7 @@ app.use(
         }),
     })
 )
+const passport = require('./controll/passport')(app)
 
 const indexRouter = require('./routes/index')
 const authRouter = require('./routes/auth');
