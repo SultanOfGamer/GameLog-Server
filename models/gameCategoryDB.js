@@ -16,8 +16,8 @@ const gameCategorySchema = new mongoose.Schema({
     id:{type:String, unique: true},
     name:{type:String, unique: true},
     slug:{type:String, unique: true},
-    created_at:{type:String, unique: true},
-    updated_at:{type:String, unique: true},
+    created_at:{type:String},
+    updated_at:{type:String},
 })
 
 const axios = require('axios')
