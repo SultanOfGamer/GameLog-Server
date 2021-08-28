@@ -8,7 +8,12 @@ const shortid = require('shortid')
 const getDate = require('../util/date')
 
 
-router.get('/login', (request,response)=>{
+router.post('/login', (request,response)=>{
+    users.findOne({email:request.body.email, password:request.body.password}, (err, user)=>{
+        if(err) return response.status(500).json({message: '에러!'});
+        else if(user) return response.status(200).json({message:'find user', data:user});
+        else return response.stauts(404).json({message:'user undefined'});
+    });
 
 })
 
