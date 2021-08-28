@@ -10,16 +10,20 @@ const db = mongoose.connect(url, (err)=>{
     }
 })
 
+
+
 const gameCategorySchema = new mongoose.Schema({
-    id:String,
-    name:String,
-    slug:String,
-    created_at:String,
-    updated_at:String,
+    id:{type:String, unique: true},
+    name:{type:String, unique: true},
+    slug:{type:String, unique: true},
+    created_at:{type:String, unique: true},
+    updated_at:{type:String, unique: true},
 })
 
 const axios = require('axios')
 const gameCategory = mongoose.model('gameCategory', gameCategorySchema);
+// gameCategory.collection.createIndex({id:1},{unique:true})
+
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
@@ -46,12 +50,22 @@ function saveCategory(){ //limit를 설정해서 데이터 가져오기
 }
 //TODO PROMISE 비동기 저장 시스템
 saveCategory().then(response=>{
-    console.log(response)
-    const gameCategoryDB = new gameCategory(response);
-    gameCategoryDB.save((err) => {
-        if(err) return 'err'
-        else return 'save complete'
+    // console.log(response)
+    const gameData = response;
+    let temparray = []
+    let tempObject = {}
+    // console.log(gameData[0])
+
+    gameData.forEach(i=>{
+        const gameCategoryDB = new gameCategory(i);
+        gameCategoryDB.save((err) => {
+            // gameCategoryDB.findOneAndUpdate({upsert:true})
+            if(err) return 'err'
+            else return 'save complete'
+        })
     })
+}).catch(err=>{
+    console.log(err)
 })
 
 module.exports = gameCategory;
