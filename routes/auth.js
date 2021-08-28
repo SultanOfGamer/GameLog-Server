@@ -3,38 +3,52 @@ const express = require('express')
 const router = express.Router()
 
 const users = require('../models/userDatabase');
-const passport = require('../controll/passport')
 
 const shortid = require('shortid')
 const getDate = require('../util/date')
 
+module.exports = function(passport){
+    // router.post('/login', (request,response,next)=>{
+    //     passport.authenticate('login', function(err, user, info) {
+    //         if (err) { return next(err); }
+    //         if (!user) { return response.send('user undefined!'); }
+    //         // response.logIn(user, function(err) {
+    //         //     if (err) { return next(err); }
+    //         //     return response.send(user.username);
+    //         // });
+    //     })(request, response, next);
+    // })
+    //TODO Login 성공 시에 처리
+        router.post('/login',
+        passport.authenticate('login', {
+            successRedirect: '/',
+            // failureRedirect: '/login'
+        })
+    )
 
-router.post('/login', (request,response)=>{
-    users.findOne({email:request.body.email, password:request.body.password}, (err, user)=>{
-        if(err) return response.status(500).json({message: '에러!'});
-        else if(user) return response.status(200).json({message:'find user', data:user});
-        else return response.stauts(404).json({message:'user undefined'});
-    });
-
-})
-
-router.get('/logout', (request,response)=>{
-
-})
-
-
-
-router.post('/signup', (request,response)=>{
-    if(request.body.password !== request.body.passwordConfirm){
-        return response.send('Incorrect confirm password !')
-    }
-    const newUser = new users(request.body);
-    newUser.id = shortid.generate();
-    newUser.signDate = getDate();
-    newUser.save((err)=>{
-        if(err) return response.status(500).json({message: 'failure save'})
-        else return response.status(200).json({message:'save success'})
+    router.get('/logout', (request,response)=>{
+        request.logout();
+        // req.session.destroy(function(){ // session을 지우는 function
+        //     res.redirect('/')
+        // })
+        request.session.save(function () { //session 값을 저장함
+            response.send('logout!')
+        })
     })
-})
 
-module.exports = router;
+    router.post('/signup', (request,response)=>{
+        if(request.body.password !== request.body.passwordConfirm){
+            return response.send('Incorrect confirm password !')
+        }
+        const newUser = new users(request.body);
+        newUser.id = shortid.generate();
+        newUser.signDate = getDate();
+        newUser.save((err)=>{
+            if(err) return response.status(500).json({message: 'failure save'})
+            else return response.status(200).json({message:'save success'})
+        })
+    })
+    return router
+}
+
+
