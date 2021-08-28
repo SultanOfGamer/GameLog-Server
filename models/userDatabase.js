@@ -10,8 +10,8 @@ const db = mongoose.connect(url, (err)=>{
 
 const userSchema = new mongoose.Schema({
   id:String,
-  email:String,
-  nickname:String,
+  email:{type:String, unique: true},
+  nickname:{type:String, unique: true},
   password:String,
   signDate:String
 })
