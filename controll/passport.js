@@ -11,7 +11,7 @@ module.exports = function(app) {
     app.use(passport.session())
 
     passport.serializeUser(function (user, done) {
-        console.log('serial', user.id)
+        // console.log('serial', user.id)
         done(null, user.id);
     })
 
@@ -21,7 +21,7 @@ module.exports = function(app) {
             else if(user) return user
             else return 'user undefiend'
         });
-        console.log('deserialize', id, user)
+        // console.log('deserialize', id, user)
         done(null, user);
     })
 
@@ -32,13 +32,17 @@ module.exports = function(app) {
         function (email, password, done) {
             users.findOne({ email: email }, function (err, user) {
                     if (err) { return done(err); }
-                    if (!user) {
-                        return done(null, false, { message: 'Incorrect username.' });
+                    if (!user) { // user email이 없을 때
+                        return done(null, false, { message: 'there is no email.' });
+                    }else{
+                        bcrypt.compare(password, user.password, function(err, result){
+                            if(result){
+                                return done(null, user);
+                            }else{ // password가 일치하지 않을 때
+                                return done(null, false,{message:'Incorrect password'})
+                            }
+                        })
                     }
-                    // if (!user.validPassword(password)) {
-                    //     return done(null, false, { message: 'Incorrect password.' });
-                    // }
-                    return done(null, user);
                 }
             )}
         )

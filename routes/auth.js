@@ -5,6 +5,7 @@ const router = express.Router()
 const users = require('../models/userDatabase');
 
 const shortid = require('shortid')
+const bcrypt = require('bcrypt')
 const getDate = require('../util/date')
 
 module.exports = function(passport){
@@ -19,7 +20,7 @@ module.exports = function(passport){
     //     })(request, response, next);
     // })
     //TODO Login 성공 시에 처리
-        router.post('/login',
+    router.post('/login',
         passport.authenticate('login', {
             successRedirect: '/',
             // failureRedirect: '/login'
@@ -40,12 +41,15 @@ module.exports = function(passport){
         if(request.body.password !== request.body.passwordConfirm){
             return response.send('Incorrect confirm password !')
         }
-        const newUser = new users(request.body);
-        newUser.id = shortid.generate();
-        newUser.signDate = getDate();
-        newUser.save((err)=>{
-            if(err) return response.status(500).json({message: 'failure save'})
-            else return response.status(200).json({message:'save success'})
+        bcrypt.hash(request.body.password, 10, function(err, hash){
+            const newUser = new users(request.body);
+            newUser.id = shortid.generate();
+            newUser.signDate = getDate();
+            newUser.password = hash;
+            newUser.save((err)=>{
+                if(err) return response.status(500).json({message: 'failure save'})
+                else return response.status(200).json({message:'회원가입 완료'})
+            })
         })
     })
     return router
