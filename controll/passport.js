@@ -17,12 +17,11 @@ module.exports = function(app) {
 
     passport.deserializeUser(function (id, done) {
         const user = users.findOne({id:id}, (err, user)=>{
-            if(err) return err
-            else if(user) return user
-            else return 'user undefiend'
+            if(err) done(null, false);
+            else if(user) done(null, user);
+            else done(null, false);
         });
-        // console.log('deserialize', id, user)
-        done(null, user);
+
     })
 
     passport.use('login', new LocalStrategy({
