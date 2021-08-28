@@ -4,33 +4,21 @@ const router = express.Router()
 
 const users = require('../models/userDatabase');
 
-function getDate(){
-  const date = new Date();
-  var year = date.getFullYear().toString();
-
-  var month = date.getMonth() + 1;
-  month = month < 10 ? '0' + month.toString() : month.toString();
-
-  var day = date.getDate();
-  day = day < 10 ? '0' + day.toString() : day.toString();
-
-  return year + '/' +  month + '/' + day ;
-  return Date
-}
+const shortid = require('shortid')
+const getDate = require('../util/date')
 
 
-
-router.get('/auth/login', (request,response)=>{
+router.get('/login', (request,response)=>{
 
 })
 
-router.get('/auth/logout', (request,response)=>{
+router.get('/logout', (request,response)=>{
 
 })
 
 
 
-router.post('/auth/signup', (request,response)=>{
+router.post('/signup', (request,response)=>{
   // console.log(request.body);
   const newUser = new users(request.body);
   newUser.id = shortid.generate();
