@@ -45,8 +45,8 @@ module.exports ={ //limit를 설정해서 데이터 가져오기
         })
             .then(response => {
                 // return response.data
-                const gameData = response.data;
-                gameData.forEach(i => {
+                const resultData = response.data;
+                resultData.forEach(i => {
                     const gameGenresDB = new gameGenres(i);
                     gameGenresDB.save((err) => {
                         if (err) return 'err'
