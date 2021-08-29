@@ -21,7 +21,7 @@ const gamePlatformsCategory = {
 }
 
 const axios = require('axios')
-const gamePlatforms = mongoose.model('gamePlatforms', gamePlatformsSchema);
+const gamePlatforms = mongoose.model('game_Platforms', gamePlatformsSchema);
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
@@ -39,15 +39,15 @@ const response = axios({
         // return response.data
         const resultData = response.data;
         resultData.forEach(i => {
-            const gamePlatformsDB = new gamePlatforms(i);
-            gamePlatformsDB.category_id = i.category
-            gamePlatformsDB.category_name = gamePlatformsCategory[i.category]
-            gamePlatformsDB.save((err) => {
+            const gamePlatformsInstance = new gamePlatforms(i);
+            gamePlatformsInstance.category_id = i.category
+            gamePlatformsInstance.category_name = gamePlatformsCategory[i.category]
+            gamePlatformsInstance.save((err) => {
                 if (err) return 'err'
                 else return 'save complete'
             })
         })
-        // gamePlatformsDB.find({}, function(err, game){
+        // gamePlatforms.find({}, function(err, game){
         //     // console.log(game)
         // })
     })
