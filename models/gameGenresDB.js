@@ -1,16 +1,3 @@
-//
-// const mongoose = require('mongoose')
-// const url = 'mongodb://127.0.0.1:27017/testserver';
-//
-// const db = mongoose.connect(url, (err)=>{
-//     if(err){
-//         console.log(err.message);
-//     }else{
-//         console.log('mongodb success connect!')
-//     }
-// })
-
-
 const mongoose = require('./initDB')
 
 
@@ -23,7 +10,7 @@ const gameGenresSchema = new mongoose.Schema({
 })
 
 const axios = require('axios')
-const gameGenres = mongoose.model('gameGenres', gameGenresSchema);
+const gameGenres = mongoose.model('game_Genres', gameGenresSchema);
 // gameCategory.collection.createIndex({id:1},{unique:true})
 
 
@@ -47,8 +34,8 @@ module.exports ={ //limit를 설정해서 데이터 가져오기
                 // return response.data
                 const resultData = response.data;
                 resultData.forEach(i => {
-                    const gameGenresDB = new gameGenres(i);
-                    gameGenresDB.save((err) => {
+                    const gameGenresInstance = new gameGenres(i);
+                    gameGenresInstance.save((err) => {
                         if (err) return 'err'
                         else return 'save complete'
                     })
