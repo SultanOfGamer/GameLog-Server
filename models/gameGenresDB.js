@@ -1,15 +1,17 @@
+//
+// const mongoose = require('mongoose')
+// const url = 'mongodb://127.0.0.1:27017/testserver';
+//
+// const db = mongoose.connect(url, (err)=>{
+//     if(err){
+//         console.log(err.message);
+//     }else{
+//         console.log('mongodb success connect!')
+//     }
+// })
 
-const mongoose = require('mongoose')
-const url = 'mongodb://127.0.0.1:27017/testserver';
 
-const db = mongoose.connect(url, (err)=>{
-    if(err){
-        console.log(err.message);
-    }else{
-        console.log('mongodb success connect!')
-    }
-})
-
+const mongoose = require('./initDB')
 
 
 const gameGenresSchema = new mongoose.Schema({
@@ -28,38 +30,35 @@ const gameGenres = mongoose.model('gameGenres', gameGenresSchema);
 const IGDBconfig = require('../config/IGDBconfig.json')
 
 
-function saveGenres(){ //limit를 설정해서 데이터 가져오기
-    const response = axios({
-        url: "https://api.igdb.com/v4/genres",
-        method: 'POST',
-        headers: {
-            'Accept': IGDBconfig.IGDB.Accept,
-            'Client-ID': IGDBconfig.IGDB.Client_ID,
-            'Authorization': IGDBconfig.IGDB.Authorization,
-        },
-        data: "fields *; limit 50;"
-    })
-        .then(response => {
-            return response.data
+// module.exports = gameGenres
+module.exports ={ //limit를 설정해서 데이터 가져오기
+    gameGenresSave:function(){
+        const response = axios({
+            url: "https://api.igdb.com/v4/genres",
+            method: 'POST',
+            headers: {
+                'Accept': IGDBconfig.IGDB.Accept,
+                'Client-ID': IGDBconfig.IGDB.Client_ID,
+                'Authorization': IGDBconfig.IGDB.Authorization,
+            },
+            data: "fields *; limit 50;"
         })
-        .catch(err => {
-            console.error(err);
-            console.log('err')
-        });
-    return response
+            .then(response => {
+                // return response.data
+                const gameData = response.data;
+                gameData.forEach(i => {
+                    const gameGenresDB = new gameGenres(i);
+                    gameGenresDB.save((err) => {
+                        if (err) return 'err'
+                        else return 'save complete'
+                    })
+                })
+            })
+            .catch(err => {
+                console.error(err);
+                console.log('err')
+            });
+        return gameGenres;
+    },
+    getGameGenresDB: gameGenres
 }
-//TODO PROMISE 비동기 저장 시스템
-saveGenres().then(response=>{
-    const gameData = response;
-    gameData.forEach(i=>{
-        const gameGenresDB = new gameGenres(i);
-        gameGenresDB.save((err) => {
-            if(err) return 'err'
-            else return 'save complete'
-        })
-    })
-}).catch(err=>{
-    console.log(err)
-})
-
-module.exports = gameGenres;
