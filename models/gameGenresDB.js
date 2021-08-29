@@ -12,7 +12,7 @@ const db = mongoose.connect(url, (err)=>{
 
 
 
-const gameCategorySchema = new mongoose.Schema({
+const gameGenresSchema = new mongoose.Schema({
     id:{type:String, unique: true},
     name:{type:String, unique: true},
     slug:{type:String, unique: true},
@@ -21,14 +21,14 @@ const gameCategorySchema = new mongoose.Schema({
 })
 
 const axios = require('axios')
-const gameCategory = mongoose.model('gameCategory', gameCategorySchema);
+const gameGenres = mongoose.model('gameGenres', gameGenresSchema);
 // gameCategory.collection.createIndex({id:1},{unique:true})
 
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
 
-function saveCategory(){ //limit를 설정해서 데이터 가져오기
+function saveGenres(){ //limit를 설정해서 데이터 가져오기
     const response = axios({
         url: "https://api.igdb.com/v4/genres",
         method: 'POST',
@@ -49,17 +49,11 @@ function saveCategory(){ //limit를 설정해서 데이터 가져오기
     return response
 }
 //TODO PROMISE 비동기 저장 시스템
-saveCategory().then(response=>{
-    // console.log(response)
+saveGenres().then(response=>{
     const gameData = response;
-    let temparray = []
-    let tempObject = {}
-    // console.log(gameData[0])
-
     gameData.forEach(i=>{
-        const gameCategoryDB = new gameCategory(i);
-        gameCategoryDB.save((err) => {
-            // gameCategoryDB.findOneAndUpdate({upsert:true})
+        const gameGenresDB = new gameGenres(i);
+        gameGenresDB.save((err) => {
             if(err) return 'err'
             else return 'save complete'
         })
@@ -68,4 +62,4 @@ saveCategory().then(response=>{
     console.log(err)
 })
 
-module.exports = gameCategory;
+module.exports = gameGenres;
