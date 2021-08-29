@@ -42,3 +42,6 @@ const response = axios({
     });
 
 
+module.exports={
+    gameGameModesDB:gameGameModes
+}

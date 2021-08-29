@@ -57,3 +57,7 @@ const response = axios({
     });
 
 // gameGameModes
+
+module.exports={
+    getGamePlatformsDB:gamePlatforms
+}
