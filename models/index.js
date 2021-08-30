@@ -3,10 +3,9 @@ const initDB = require('./initDB')
 const userDatabase = require('./userDatabase')
 
 const gameGameModes = require('./gameGameModes')
-const gameGenres = require('./gameGameModes')
-const gamePlatforms = require('./gameGameModes')
-const gameThemes = require('./gameGameModes')
-const gameGameModes = require('./gameGameModes')
+const gameGenres = require('./gameGenresDB')
+const gamePlatforms = require('./gamePlatforms')
+const gameThemes = require('./gameThemes')
 
 const gameDB = require('./gamesDB')
 

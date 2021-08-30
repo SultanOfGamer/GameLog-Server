@@ -37,10 +37,10 @@ app.use(
 )
 const passport = require('./controll/index').passport(app)
 
-const indexRouter = require('./routes/index')
-const authRouter = require('./routes/auth')(passport);
+const homeRouter = require('./routes/index').home
+const authRouter = require('./routes/index').auth(passport);
 
-app.use('/', indexRouter)
+app.use('/', homeRouter)
 app.use('/auth', authRouter);
 
 

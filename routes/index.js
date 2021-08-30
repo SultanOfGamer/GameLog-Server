@@ -1,24 +1,18 @@
-const express = require('express');
-const app = express();
-const router = express.Router();
 
-const userControl = require('../controll/index').users
-const gameGenresDB = require('../models/index').gameGenres
-const users = require('../models/index').userDatabase
+const auth = require('./auth')
+
+//Tab bar(footer) 기준으로 라우팅 분리
+const friend = require('./friend')
+const home = require('./home')
+const library = require('./library')
+const search = require('./search')
 
 
-router.get('/', (request,response)=>{
-    if(userControl.isUser(request,response)){ // 로그인 세션 성공시에
-        gameGenresDB.getGameGenresDB.find({}, function(err, game){
-            if(game){
-                response.json(game)
-            }else{
-                response.send('gameGenres load fail')
-            }
-        })
-    }else{
-        response.send('say Hello GameLog Application')
-    }
-})
+module.exports = {
+    auth:auth,
+    friend:friend,
+    home:home,
+    library:library,
+    search:search,
 
-module.exports = router;
+}
