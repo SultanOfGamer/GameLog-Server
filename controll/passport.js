@@ -1,6 +1,6 @@
-// const users = require('../models/userDatabase');
+const usersDB = require('../models/index').userDatabase;
 
-const users = require('./index').users;
+// const users = require('./index').users;
 const bcrypt = require('bcrypt');
 
 
@@ -18,7 +18,7 @@ module.exports = function(app) {
     })
 
     passport.deserializeUser(function (id, done) {
-        const user = users.findOne({id:id}, (err, user)=>{
+        const user = usersDB.findOne({id:id}, (err, user)=>{
             if(err) done(null, false);
             else if(user) done(null, user);
             else done(null, false);
@@ -31,7 +31,7 @@ module.exports = function(app) {
             passwordField: 'password'
         },
         function (email, password, done) {
-            users.findOne({ email: email }, function (err, user) {
+            usersDB.findOne({ email: email }, function (err, user) {
                     if (err) { return done(err); }
                     if (!user) { // user email이 없을 때
                         return done(null, false, { message: 'there is no email.' });
