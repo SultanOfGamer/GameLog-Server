@@ -4,6 +4,8 @@ const router = express.Router();
 
 const userControl = require('../controll/index').users
 const gameGenresDB = require('../models/index').gameGenres
+const gameGameList = require('../models/index').gameDB
+
 const usersDB = require('../models/index').userDatabase
 
 
@@ -12,12 +14,18 @@ router.get('/', (request,response)=>{
         gameGenresDB.getGameGenresDB.find({}, function(err, game){
             if(game){
                 response.json(game)
+
+                // response.json(gameGameList.initGameList)
             }else{
                 response.send('gameGenres load fail')
             }
         })
+        // console.log(gameGameList.initGameList)
     }else{
-        response.send('say Hello GameLog Application')
+        // response.send('say Hello GameLog Application')
+        gameGameList.initGameList.then(result=>{
+            response.json(result)
+        })
     }
 })
 
