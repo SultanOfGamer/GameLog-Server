@@ -1,7 +1,7 @@
 const mongoose = require('./initDB')
 
 const userSchema = new mongoose.Schema({
-  id:String,
+  id:{type:String, unique: true},
   email:{type:String, unique: true},
   nickname:{type:String, unique: true},
   password:String,
