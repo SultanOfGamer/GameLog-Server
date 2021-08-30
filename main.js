@@ -5,15 +5,15 @@ const fs = require('fs')
 
 // npm function
 const cookieParser = require('cookie-parser');
-// const logger = require('morgan');
 const session = require('express-session')
 const bodyParser = require('body-parser')
-// const axios = require('axios')
 const compression = require('compression')
 const helmet = require('helmet')
+// const logger = require('morgan');
+// const axios = require('axios')
 
 const MongoStore = require('connect-mongo');
-const mongoose = require("./models/initDB");
+// const mongoose = require("./models/initDB");
 
 const express = require('express');
 const app = express();
@@ -35,7 +35,7 @@ app.use(
         }),
     })
 )
-const passport = require('./controll/passport')(app)
+const passport = require('./controll/index').passport(app)
 
 const indexRouter = require('./routes/index')
 const authRouter = require('./routes/auth')(passport);
