@@ -46,11 +46,39 @@ module.exports = function(passport){
             newUser.id = shortid.generate();
             newUser.signDate = getDate();
             newUser.password = hash;
+
             newUser.save((err)=>{
                 if(err) return response.status(500).json({message: 'failure save'})
                 else return response.status(200).json({message:'회원가입 완료'})
             })
         })
+    })
+
+    router.post('/validation/:value', (request,response)=>{
+        console.log(request.params.value)
+        const value = request.params.value
+        const queryString = request.query.value;
+        console.log(queryString)
+        switch(value){
+            case 'email':
+                users.findOne({email:queryString}, function(err, user){
+                    if(err) response.send(err)
+                    if(!user) response.send(true)
+                    else response.send(false)
+                })
+                break
+            case 'nickname':
+                users.findOne({nickname:queryString}, function(err, user){
+                    if(err) response.send(err)
+                    if(!user) response.send(true)
+                    else response.send(false)
+                })
+                break
+            default:
+                response.send('error page')
+                break
+        }
+
     })
     return router
 }
