@@ -1,15 +1,7 @@
-const mongoose = require('mongoose')
-const url = 'mongodb://127.0.0.1:27017/testserver';
-const db = mongoose.connect(url, (err)=>{
-  if(err){
-    console.log(err.message);
-  }else{
-    console.log('mongodb success connect!')
-  }
-})
+const mongoose = require('./initDB')
 
 const userSchema = new mongoose.Schema({
-  id:String,
+  id:{type:String, unique: true},
   email:{type:String, unique: true},
   nickname:{type:String, unique: true},
   password:String,

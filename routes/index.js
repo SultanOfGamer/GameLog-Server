@@ -1,15 +1,18 @@
-const express = require('express');
-const app = express();
-const router = express.Router();
 
-const userControl = require('../controll/user')
+const auth = require('./auth')
 
-router.get('/', (request,response)=>{
-    if(userControl.isUser(request,response)){
-        response.send('user email:' + request.user.email)
-    }else{
-        response.send('say Hello GameLog Application')
-    }
-})
+//Tab bar(footer) 기준으로 라우팅 분리
+const friend = require('./friend')
+const home = require('./home')
+const library = require('./library')
+const search = require('./search')
 
-module.exports = router;
+
+module.exports = {
+    auth:auth,
+    friend:friend,
+    home:home,
+    library:library,
+    search:search,
+
+}

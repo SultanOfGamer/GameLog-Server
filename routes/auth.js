@@ -6,7 +6,7 @@ const users = require('../models/userDatabase');
 
 const shortid = require('shortid')
 const bcrypt = require('bcrypt')
-const getDate = require('../util/date')
+const getDate = require('../util/index').date;
 
 module.exports = function(passport){
     // router.post('/login', (request,response,next)=>{

@@ -12,7 +12,7 @@ function getDate(){
     let minutes = date.getMinutes();  // 분
     let seconds = date.getSeconds();  // 초
 
-    return year + '/' +  month + '/' + day + '-' + hours + ':' + minutes + ':' + seconds;
+    return year + '/' +  month + '/' + day + '_' + hours + ':' + minutes + ':' + seconds;
 }
 
 module.exports = getDate;

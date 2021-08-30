@@ -5,15 +5,15 @@ const fs = require('fs')
 
 // npm function
 const cookieParser = require('cookie-parser');
-// const logger = require('morgan');
 const session = require('express-session')
 const bodyParser = require('body-parser')
-// const axios = require('axios')
 const compression = require('compression')
 const helmet = require('helmet')
+// const logger = require('morgan');
+// const axios = require('axios')
 
 const MongoStore = require('connect-mongo');
-const mongoose = require("mongoose");
+// const mongoose = require("./models/initDB");
 
 const express = require('express');
 const app = express();
@@ -22,6 +22,8 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(compression())
 app.use(helmet());
+
+
 
 app.use(
     session({
@@ -33,12 +35,12 @@ app.use(
         }),
     })
 )
-const passport = require('./controll/passport')(app)
+const passport = require('./controll/index').passport(app)
 
-const indexRouter = require('./routes/index')
-const authRouter = require('./routes/auth')(passport);
+const homeRouter = require('./routes/index').home
+const authRouter = require('./routes/index').auth(passport);
 
-app.use('/', indexRouter)
+app.use('/', homeRouter)
 app.use('/auth', authRouter);
 
 
