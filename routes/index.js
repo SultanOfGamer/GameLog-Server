@@ -2,9 +2,10 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 
-const userControl = require('../controll/user')
-const gameGenresDB = require('../models/gameGenresDB')
-const users = require('../models/userDatabase')
+const userControl = require('../controll/index').users
+const gameGenresDB = require('../models/index').gameGenres
+const users = require('../models/index').userDatabase
+
 
 router.get('/', (request,response)=>{
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에
