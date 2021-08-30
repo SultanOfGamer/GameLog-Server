@@ -17,5 +17,5 @@ module.exports = {
     gamePlatforms:gamePlatforms,
     gameThemes:gameThemes,
     gameGameModes:gameGameModes,
-    gmaeDB:gameDB
+    gameDB:gameDB
 }
