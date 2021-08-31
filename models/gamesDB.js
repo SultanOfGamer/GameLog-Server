@@ -26,9 +26,18 @@ const gameStatus = {
 
 const mongoose = require('./initDB')
 
+const imageSchema = new mongoose.Schema({
+    id:{type:String, unique: true, required:true},
+    game:{type:String, required:true},
+    height:{type:Number},
+    width:{type:Number},
+    url:{type:String},
+    image_id:{type:String}
+})
+
 const gameSchema = new mongoose.Schema({
-    id:{type:String, unique: true},
-    name:{type:String, unique: true},
+    id:{type:String, unique: true, required:true},
+    name:{type:String, unique: true, required:true},
     slug:{type:String},
 
     aggregated_rating:{type:String},        //기관평가 점수
@@ -51,8 +60,8 @@ const gameSchema = new mongoose.Schema({
     storyline:{type:String},                // 게임 스토리 짧은 설명
     summary:{type:String},                  //게임의 description
 
-    cover:{type:String},                    //게임의 cover 이미지 API cover 사용
-    screenshots:{type:String},              //게임 스크린샷, API screenshots 사용
+    cover:imageSchema,                    //게임의 cover 이미지 API cover 사용
+    screenshots:imageSchema,              //게임 스크린샷, API screenshots 사용
 
 })
 
