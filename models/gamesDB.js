@@ -1,4 +1,4 @@
-const category = {
+const gameCategory = {
     0: "main_game",
     1: "dlc_addon",
     2: "expansion",
@@ -13,7 +13,7 @@ const category = {
     11: "port",
     12: "fork"
 }
-const status = {
+const gameStatus = {
     0: "released",
     2: "alpha",
     3: "beta",
@@ -30,14 +30,30 @@ const gameSchema = new mongoose.Schema({
     id:{type:String, unique: true},
     name:{type:String, unique: true},
     slug:{type:String},
-    category:{type:String}, // 게임 카테고리
-    genres:{type:String}, //게임 장르 Ex) Puzzle, Shooter
 
-    alternative_name:{type:String},
-    created_at:{type:String},
-    updated_at:{type:String},
-    category_id:{type:String},
-    category_name:{type:String}
+    aggregated_rating:{type:String},        //기관평가 점수
+    aggregated_rating_count:{type:String},  //기관 평가 숫자
+    alternative_name:{type:String},         //검색시에 사용되는 대안 이름
+
+    first_release_date:{type:Number},       // 첫 배포 날짜 UNIX time
+    created_at:{type:Number},               // create 날짜
+    updated_at:{type:Number},               //업데이트 날짜
+    release_dates:{type:Number},
+
+    category:{type:String},                 //게임 카테고리 in file gameCategory 참조
+    status:{type:String},                   //게임 상태 in file gameStatus 참조
+
+    game_modes:{type:String},               //gameGameModes 참조
+    genres:{Type:String},                   //gamegenres 참조 게임 장르 Ex) Puzzle, Shooter
+    platforms:{type:String},                //gamePlatforms 참조
+    themes:{type:String},                   //gameThemes 참조
+
+    storyline:{type:String},                // 게임 스토리 짧은 설명
+    summary:{type:String},                  //게임의 description
+
+    cover:{type:String},                    //게임의 cover 이미지 API cover 사용
+    screenshots:{type:String},              //게임 스크린샷, API screenshots 사용
+
 })
 
 const axios = require('axios')
