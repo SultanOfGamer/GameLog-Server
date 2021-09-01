@@ -4,6 +4,12 @@ const axios = require('axios')
 const IGDBconfig = require('../config/IGDBconfig.json')
 
 
+function renameKey ( obj, oldKey, newKey ) {
+  obj[newKey] = obj[oldKey];
+  delete obj[oldKey];
+}
+
+
 
 function gameGetImage(type,
                       attribute,
@@ -23,8 +29,12 @@ function gameGetImage(type,
     })
         .then(response => {
             // saveGameList(response.data);
-            console.log(response.data);
-            return response.data;
+            let result =  response.data;
+            // result.forEach(obj=>renameKey(obj, 'id', 'cover_id'));
+            // console.log(result)
+            // const updatedJson = JSON.stringify( result )
+            // console.log(updatedJson)
+            return result;
         })
         .catch(err => {
             console.error(err);
