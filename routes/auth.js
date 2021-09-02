@@ -24,9 +24,13 @@ module.exports = function(passport){
     //TODO Login 성공 시에 처리
     router.post('/login',
         passport.authenticate('login', {
-            successRedirect: '/',
-            failureRedirect: '/login'
-        })
+            // successRedirect: '/',
+            // failureRedirect: '/login'
+        }), (request,response)=>{
+            if(request.user){ //로그인성공
+                response.send('welcome! ' + request.user.nickname)
+            }
+        }
     )
 
     router.get('/logout', (request,response)=>{
@@ -45,11 +49,13 @@ module.exports = function(passport){
         }
         bcrypt.hash(request.body.password, 10, function(err, hash){
             const newUser = new users(request.body);
+            // console.log(request.body)
             newUser.id = shortid.generate();
             newUser.signDate = getDate();
             newUser.password = hash;
             newUser.save((err)=>{
-                if(err) return response.status(500).json({message: 'failure save'})
+                // console.log(err)
+                if(err) return response.status(500).json({message: '회원가입 실패'})
                 else return response.status(200).json({message:'회원가입 완료'})
             })
         })
