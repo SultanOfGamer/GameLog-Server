@@ -40,15 +40,15 @@ const gameSchema = new mongoose.Schema({
     name:{type:String},
     slug:{type:String},
 
-    aggregated_rating:{type:String},        //기관평가 점수
-    aggregated_rating_count:{type:String},  //기관 평가 숫자
+    aggregated_rating:{type:Number},        //기관평가 점수
+    aggregated_rating_count:{type:Number},  //기관 평가 숫자
     alternative_names:[{type:String}],         //검색시에 사용되는 대안 이름
     involved_companies:[{type:String}],
 
     first_release_date:{type:String},       // 첫 배포 날짜 UNIX time
-    created_at:{type:String},               // create 날짜
-    updated_at:{type:String},               //업데이트 날짜
-    release_dates:[{type:String}],
+    created_at:{type:Number},               // create 날짜
+    updated_at:{type:Number},               //업데이트 날짜
+    release_dates:[{type:Number}],
 
     category:{type:String},                 //게임 카테고리 in file gameCategory 참조
     status:{type:String},                   //게임 상태 in file gameStatus 참조
@@ -73,6 +73,7 @@ const IGDBconfig = require('../config/IGDBconfig.json')
 
 const gameGetImage = require('./index').gameGetImage
 
+const modelIndex = require('./index')
 
 // 사용자 별 추천 DB 전송
 
@@ -87,16 +88,20 @@ function initGameList(){
     const attribute = 'fields *;'
     const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
     const sort = 'sort aggregated_rating desc; '
-    const limitCount = 'limit 10;'
+    const limitCount = 'limit 5;'
 
     const gameList = getGameListIGDB(attribute, condition, sort, limitCount);
     // gameList.findOne({id:'26758'}, (err, data)=>{
     //     console.log(data)
     // })
     // getGameListMongo(gameGameList, 26578)
-    return gameList;
+    // return gameList;
+    // getGameListMongo(gameGameList)
 }
 
+function trasnferGameList(){
+
+}
 
 function userGameListRecommnad(user, themes){ //유저별 추천 return 값
     // const attribute = 'fields *;'
@@ -113,6 +118,22 @@ function userGameListRecommnad(user, themes){ //유저별 추천 return 값
     return result;
 }
 
+function getSaveOptions(model, array, instance, type=''){
+    let temp =  array.map(data=>{
+        return model.find({id:data}, {_id:0, name:1})
+            .then(data=>{
+                instance = data[0].name
+                return data[0].name
+            })
+    })
+    return temp
+}
+
+
+//TODO
+//mongodb 에서 불러오는 get 또한 작성, 로직 생각
+//get함수 따로 작성
+//save로 이름 변경,
 function getGameListIGDB(attribute, condition='', sort='',
                          limitCount=''){
     const response = axios({
@@ -128,11 +149,40 @@ function getGameListIGDB(attribute, condition='', sort='',
         .then(response => {
             const resultData = response.data;
             resultData.forEach((i,index)=>{
-                setTimeout(() => console.log("delay i"), index * 1000);
-                console.log(index)
+                setTimeout(() => {},index * 1000);
                 const gameGameInstance = new gameGameList(i);
-                // console.log(gameGameInstance)
-                // //why not working save instance?
+                gameGameInstance.category = gameCategory[i.category]
+                gameGameInstance.status = gameStatus[i.status]
+                // platforms 은 따로
+
+                //TODO REFACTORING!!!!!!!!!!!!
+                //game mode 저장
+                i.game_modes.map(data=>{
+                    return modelIndex.getGameModes.find({id:data}, {_id:0, name:1})
+                        .then(data=>{
+                            gameGameInstance.game_modes = data[0].name
+                            return data[0].name
+                        })
+                })
+                //game Genres 저장
+                i.genres.map(data=>{
+                    return modelIndex.getGenres.find({id:data}, {_id:0, name:1})
+                        .then(data=>{
+                            gameGameInstance.genres = data[0].name
+                            return data[0].name
+                        })
+                })
+
+                //game Themes 저장
+                i.themes.map(data=>{
+                    return modelIndex.getThemes.find({id:data}, {_id:0, name:1})
+                        .then(data=>{
+                            gameGameInstance.themes = data[0].name
+                            return data[0].name
+                        })
+                })
+
+
                 gameGetImage('covers', 'fields *;',
                     'where game = '+i.id+';','','',index)
                     .then(result=>{
@@ -146,7 +196,7 @@ function getGameListIGDB(attribute, condition='', sort='',
                             // return result;
                         }).then(()=>{
                         gameGameInstance.save((err)=>{
-                            console.log(err)
+                            // console.log(err)
                             if(err) return 'err'
                             else return 'save'
                         })
@@ -166,5 +216,6 @@ function postGameList(){
 }
 
 module.exports = {
-    initGameList:initGameList()
+    initGameList:initGameList(),
+    gameModel:gameGameList
 }
