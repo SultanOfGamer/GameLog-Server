@@ -15,7 +15,8 @@ function gameGetImage(type,
                       attribute,
                       condition='',
                       sort='',
-                      limitCount=''){
+                      limitCount='',
+                      time = 0){
 
     const response = axios({
         url: "https://api.igdb.com/v4/"+type,
@@ -28,12 +29,10 @@ function gameGetImage(type,
         data: attribute + condition + sort + limitCount
     })
         .then(response => {
-            // saveGameList(response.data);
             let result =  response.data;
-            // result.forEach(obj=>renameKey(obj, 'id', 'cover_id'));
-            // console.log(result)
-            // const updatedJson = JSON.stringify( result )
-            // console.log(updatedJson)
+            // if(type === 'screenshots'){
+                setTimeout(() => console.log("delay post"), time*1000);
+            // }
             return result;
         })
         .catch(err => {

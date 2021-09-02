@@ -68,38 +68,45 @@ const gameSchema = new mongoose.Schema({
 
 const axios = require('axios')
 const gameGameList = mongoose.model('game_gameList', gameSchema);
-const imageModel = mongoose.model('', imageSchema);
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
 const gameGetImage = require('./index').gameGetImage
 
-// 있는 게임일 경우 mongo db로 없는 게임일 경우 API에 받아와서 저장 -> name을 통하여 구분분
-
-//game은 전체다 불러올 필요 x 필요한 것만 받아서 전송
-// init 첫 페이지
 
 // 사용자 별 추천 DB 전송
 
 //genres 별 게임 전송
 
 //init = Themes 로 해야할지 genres로 해야할지 고민
-// 선호별 genres 5개 안에 게임 20개씩 담아서 rating 내림차순으로 전송
+//선호별 genres 5개 안에 게임 10개씩 담아서 rating 내림차순으로 전송
+
+//데이터 가져오는 것은 것은 것은것은 mongodb default, 없는 값은 IGDB로 새로 전송 해서 받아오는 로직을 짜야하는데 어케하지
 
 function initGameList(){
-    getGameListIGDB('fields *; ',
-        'where aggregated_rating > 70 & aggregated_rating_count > 5; ',
-        'sort aggregated_rating desc;',
-        'limit 10;'
-    )
+    const attribute = 'fields *;'
+    const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
+    const sort = 'sort aggregated_rating desc; '
+    const limitCount = 'limit 10;'
+
+    const gameList = getGameListIGDB(attribute, condition, sort, limitCount);
+    // gameList.findOne({id:'26758'}, (err, data)=>{
+    //     console.log(data)
+    // })
+    // getGameListMongo(gameGameList, 26578)
+    return gameList;
 }
 
-function userGameListRecommnad(){
 
-    const result = getGameListIGDB('fields *; ',
-        'where aggregated_rating > 70 & aggregated_rating_count > 5; ',
-        'sort aggregated_rating desc;',
-        'limit 30;'
+function userGameListRecommnad(user, themes){ //유저별 추천 return 값
+    // const attribute = 'fields *;'
+    // const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
+    // const sort = 'sort aggregated_rating desc; '
+    // const limitCount = 'limit 10;'
+    // gameList.findOne({id'26758'}, (err, data)=>{
+    //
+    // })
+    const result = getGameListIGDB(attribute, condition, sort, limitCount
     ).then(result=>{
         return result
     }).catch(err=>{return err})
@@ -120,22 +127,23 @@ function getGameListIGDB(attribute, condition='', sort='',
     })
         .then(response => {
             const resultData = response.data;
-            resultData.forEach(i=>{
-                // console.log(i)
+            resultData.forEach((i,index)=>{
+                setTimeout(() => console.log("delay i"), index * 1000);
+                console.log(index)
                 const gameGameInstance = new gameGameList(i);
                 // console.log(gameGameInstance)
                 // //why not working save instance?
                 gameGetImage('covers', 'fields *;',
-                    'where game = '+i.id+';')
+                    'where game = '+i.id+';','','',index)
                     .then(result=>{
                         gameGameInstance.cover = result
-                        return result
+                        // return result
                     }).then(()=>{
-                    gameGetImage('screenshots', 'fields *;',
-                        'where game = '+i.id+';')
+                    gameGetImage('screenshots', 'fields *; ',
+                        'where game = '+i.id+';', '','',index)
                         .then(result=>{
                             gameGameInstance.screenshots = result
-                            return result;
+                            // return result;
                         }).then(()=>{
                         gameGameInstance.save((err)=>{
                             console.log(err)
@@ -143,48 +151,20 @@ function getGameListIGDB(attribute, condition='', sort='',
                             else return 'save'
                         })
                     })
-
                 });
-                // gameGameInstance.cover.cover_id = tempInstance.id
-
-
             })
             return response.data;
         })
         .catch(err => {
             console.error(err);
         });
-
     return gameGameList
-}
-
-function saveGameListToMongo(resultData){
-    resultData.forEach(i=>{
-        const gameGameInstance = new gameGameList(i);
-        // console.log(i)
-        // gameGetImage('covers', 'fields *;', 'where game = '+i.id+';')
-        //     .then(result=>{
-        //         console.log(result)
-        //         gameGameInstance.cover = result
-        //         return gameGameInstance;
-        //     }).then(result=>{
-        //     result.save((err)=>{
-        //         if (err) return 'err'
-        //         else return 'save complete'
-        //     })
-        // })
-
-        gameGameInstance.save((err)=>{
-            if (err) return 'err'
-            else return 'save complete'
-        })
-    })
-    return true;
 }
 
 function postGameList(){
 
 }
+
 module.exports = {
     initGameList:initGameList()
 }
