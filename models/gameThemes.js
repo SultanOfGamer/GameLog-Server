@@ -40,6 +40,6 @@ const response = axios({
     });
 
 module.exports={
-    getGameThemesDB: gameThemes
+    getGameThemes: gameThemes
 }
 

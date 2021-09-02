@@ -8,14 +8,18 @@ const gamePlatforms = require('./gamePlatforms')
 const gameThemes = require('./gameThemes')
 
 const gameDB = require('./gamesDB')
+const gameGetImage = require('./gameGetImage')
+const getAlterNames = require('./gameAlterNames')
 
 module.exports = {
     userDatabase:userDatabase,
 
-    gameGameModes:gameGameModes,
-    gameGenres:gameGenres,
-    gamePlatforms:gamePlatforms,
-    gameThemes:gameThemes,
-    gameGameModes:gameGameModes,
-    gameDB:gameDB
+    getGameModes:gameGameModes.getGameModes,
+    getGenres:gameGenres.getGameGenresDB,
+    getPlatforms:gamePlatforms.getGamePlatforms,
+    getThemes:gameThemes.getGameThemes,
+
+    gameDB:gameDB,
+    gameGetImage: gameGetImage,
+    getAlterNames:getAlterNames
 }

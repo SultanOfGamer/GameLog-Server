@@ -27,7 +27,6 @@ const response = axios({
     data: "fields *; limit 100;"
 })
     .then(response => {
-        console.log(response)
         const resultData = response.data;
         resultData.forEach(i => {
             const gameAlterNameInstance = new gameAlterNames(i);
@@ -36,9 +35,6 @@ const response = axios({
                 else return 'save complete'
             })
         })
-        // gamePlatforms.find({}, function(err, game){
-        //     // console.log(game)
-        // })
     })
     .catch(err => {
         console.error(err);
@@ -46,6 +42,4 @@ const response = axios({
     });
 
 
-module.exports={
-    getGameAlterNames:gameAlterNames
-}
+module.exports= gameAlterNames

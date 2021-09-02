@@ -43,5 +43,5 @@ const response = axios({
 
 
 module.exports={
-    gameGameModesDB:gameGameModes
+    getGameModes:gameGameModes
 }
