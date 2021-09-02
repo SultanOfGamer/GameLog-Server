@@ -14,5 +14,4 @@ module.exports = {
     home:home,
     library:library,
     search:search,
-
 }

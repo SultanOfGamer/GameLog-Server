@@ -4,6 +4,8 @@ const router = express.Router()
 
 const users = require('../models/userDatabase');
 
+const userControl = require('../controll/index').users
+
 const shortid = require('shortid')
 const bcrypt = require('bcrypt')
 const getDate = require('../util/index').date;
@@ -46,7 +48,6 @@ module.exports = function(passport){
             newUser.id = shortid.generate();
             newUser.signDate = getDate();
             newUser.password = hash;
-
             newUser.save((err)=>{
                 if(err) return response.status(500).json({message: 'failure save'})
                 else return response.status(200).json({message:'회원가입 완료'})
@@ -55,12 +56,13 @@ module.exports = function(passport){
     })
 
     router.post('/validation/:value', (request,response)=>{
-        console.log(request.params.value)
+        // console.log(request.params.value)
         const value = request.params.value
         const queryString = request.query.value;
-        console.log(queryString)
+        // console.log(queryString)
         switch(value){
             case 'email':
+                if(!userControl.emailValidation(queryString)) return response.send(false)
                 users.findOne({email:queryString}, function(err, user){
                     if(err) response.send(err)
                     if(!user) response.send(true)
