@@ -31,7 +31,9 @@ function gameGetImage(type,
         .then(response => {
             let result =  response.data;
             // if(type === 'screenshots'){
-                setTimeout(() => console.log("delay post"), time*1000);
+                setTimeout(() => {
+
+                }, time*1000);
             // }
             return result;
         })

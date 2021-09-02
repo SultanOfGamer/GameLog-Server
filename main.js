@@ -23,8 +23,6 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(compression())
 app.use(helmet());
 
-
-
 app.use(
     session({
         secret: "rqwr@#^^#fsazfcz",
@@ -39,10 +37,15 @@ const passport = require('./controll/index').passport(app)
 
 const homeRouter = require('./routes/index').home
 const authRouter = require('./routes/index').auth(passport);
-
-app.use('/', homeRouter)
+const friendRouter = require('./routes/index').friend;
+const libraryRouter = require('./routes/index').library;
+const searchRouter = require('./routes/index').search;
 app.use('/auth', authRouter);
 
+app.use('/', homeRouter)
+// app.use('/friend', friendRouter);
+// app.use('/library', libraryRouter);
+// app.use('/search', searchRouter);
 
 
 // ERROR handling
