@@ -23,6 +23,16 @@ const gameStatus = {
     7: "rumored"
 }
 
+const gamePlatformsCategory = {
+    1: "console",
+    2: "arcade",
+    3: "platform",
+    4: "operating_system",
+    5: "portable_console",
+    6: "computer"
+}
+
+
 
 const mongoose = require('./initDB')
 
@@ -85,7 +95,7 @@ const modelIndex = require('./index')
 //데이터 가져오는 것은 것은 것은것은 mongodb default, 없는 값은 IGDB로 새로 전송 해서 받아오는 로직을 짜야하는데 어케하지
 
 function initGameList(){
-    const attribute = 'fields *;'
+    const attribute = 'fields *, platforms.name, platforms.category, game_modes, genres ;'
     const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
     const sort = 'sort aggregated_rating desc; '
     const limitCount = 'limit 5;'
@@ -159,27 +169,30 @@ function getGameListIGDB(attribute, condition='', sort='',
                 //game mode 저장
                 i.game_modes.forEach((data,index)=>{
                     modelIndex.getGameModes.find({id:data}, {_id:0, name:1})
-                        .then(data=>{
-                            i.game_modes[index] = data[0].name
+                        .then(resultData=>{
+                            i.game_modes[index] = resultData[0].name
                         })
                 })
                 //game Genres 저장
                 i.genres.forEach((data, index)=>{
                     modelIndex.getGenres.find({id:data}, {_id:0, name:1})
-                        .then(data=>{
-                            i.genres[index] = data[0].name
+                        .then(resultData=>{
+                            i.genres[index] = resultData[0].name
                         })
                 })
 
                 //game Themes 저장
                 i.themes.forEach((data, index)=>{
                     modelIndex.getThemes.find({id:data}, {_id:0, name:1})
-                        .then(data=>{
-                            i.themes[index] = data[0].name
+                        .then(resultData=>{
+                            i.themes[index] = resultData[0].name
                         })
                 })
-
-
+                //platforms의 category string category로 분리, 저장
+                i.platforms.forEach((data, index)=>{
+                    data.category = gamePlatformsCategory[data.category]
+                })
+                console.log(i)
                 gameGetImage('covers', 'fields *;',
                     'where game = '+i.id+';','','',index)
                     .then(result=>{
