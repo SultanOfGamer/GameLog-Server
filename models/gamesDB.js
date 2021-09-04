@@ -157,28 +157,25 @@ function getGameListIGDB(attribute, condition='', sort='',
 
                 //TODO REFACTORING!!!!!!!!!!!!
                 //game mode 저장
-                i.game_modes.map(data=>{
-                    return modelIndex.getGameModes.find({id:data}, {_id:0, name:1})
+                i.game_modes.forEach((data,index)=>{
+                    modelIndex.getGameModes.find({id:data}, {_id:0, name:1})
                         .then(data=>{
-                            gameGameInstance.game_modes = data[0].name
-                            return data[0].name
+                            i.game_modes[index] = data[0].name
                         })
                 })
                 //game Genres 저장
-                i.genres.map(data=>{
-                    return modelIndex.getGenres.find({id:data}, {_id:0, name:1})
+                i.genres.forEach((data, index)=>{
+                    modelIndex.getGenres.find({id:data}, {_id:0, name:1})
                         .then(data=>{
-                            gameGameInstance.genres = data[0].name
-                            return data[0].name
+                            i.genres[index] = data[0].name
                         })
                 })
 
                 //game Themes 저장
-                i.themes.map(data=>{
-                    return modelIndex.getThemes.find({id:data}, {_id:0, name:1})
+                i.themes.forEach((data, index)=>{
+                    modelIndex.getThemes.find({id:data}, {_id:0, name:1})
                         .then(data=>{
-                            gameGameInstance.themes = data[0].name
-                            return data[0].name
+                            i.themes[index] = data[0].name
                         })
                 })
 
