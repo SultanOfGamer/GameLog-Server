@@ -9,6 +9,8 @@ function renameKey ( obj, oldKey, newKey ) {
   delete obj[oldKey];
 }
 
+//삭제 예정
+
 
 
 function gameGetImage(type,

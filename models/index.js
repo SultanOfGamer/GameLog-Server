@@ -8,7 +8,6 @@ const gamePlatforms = require('./gamePlatforms')
 const gameThemes = require('./gameThemes')
 
 const gameDB = require('./gamesDB')
-const gameGetImage = require('./gameGetImage')
 const getAlterNames = require('./gameAlterNames')
 
 module.exports = {
@@ -20,6 +19,5 @@ module.exports = {
     getThemes:gameThemes.getGameThemes,
 
     gameDB:gameDB,
-    gameGetImage: gameGetImage,
     getAlterNames:getAlterNames
 }
