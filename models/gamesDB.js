@@ -1,3 +1,8 @@
+
+
+
+
+//gameCategory, status str 변경 enum
 const gameCategory = {
     0: "main_game",
     1: "dlc_addon",
@@ -22,7 +27,7 @@ const gameStatus = {
     6: "cancelled",
     7: "rumored"
 }
-
+// platforms category 변경 enum
 const gamePlatformsCategory = {
     1: "console",
     2: "arcade",
@@ -31,7 +36,6 @@ const gamePlatformsCategory = {
     5: "portable_console",
     6: "computer"
 }
-
 
 const mongoose = require('./initDB')
 
@@ -101,10 +105,6 @@ const gameGameList = mongoose.model('game_gameList', gameSchema);
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
-const gameGetImage = require('./index').gameGetImage
-
-const modelIndex = require('./index')
-
 // 사용자 별 추천 DB 전송
 
 //genres 별 게임 전송
@@ -131,34 +131,13 @@ function initGameList(){
     const attribute = 'fields *, ' + sumStr + ';'
     const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
     const sort = 'sort aggregated_rating desc; '
-    const limitCount = 'limit 30;'
+    const limitCount = 'limit 50;'
 
-    const gameList = saveGameListIGDBToMongo(attribute, condition, sort, limitCount);
-    // gameList.findOne({id:'26758'}, (err, data)=>{
-    //     console.log(data)
-    // })
-    // getGameListMongo(gameGameList, 26578)
-    // return gameList;
-    // getGameListMongo(gameGameList)
+    const gameList = saveGameListIGDBToDB(attribute, condition, sort, limitCount);
 }
 
-function userGameListRecommnad(user, themes){ //유저별 추천 return 값
-    // const attribute = 'fields *;'
-    // const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
-    // const sort = 'sort aggregated_rating desc; '
-    // const limitCount = 'limit 10;'
-    // gameList.findOne({id'26758'}, (err, data)=>{
-    //
-    // })
-    const result = saveGameListIGDBToMongo(attribute, condition, sort, limitCount
-    ).then(result=>{
-        return result
-    }).catch(err=>{return err})
-    return result;
-}
-
-function saveGameListIGDBToMongo(attribute, condition='', sort='',
-                         limitCount=''){
+function saveGameListIGDBToDB(attribute, condition='', sort='',
+                                 limitCount=''){
     const response = axios({
         url: "https://api.igdb.com/v4/games",
         method: 'POST',
