@@ -14,6 +14,7 @@ const gameDB = require('./gamesDB')
 module.exports = {
     userDatabase:userDatabase,
     getUserGames:userGames.getUserGames,
+
     getGameModes:gameGameModes.getGameModes,
     getGenres:gameGenres.getGameGenresDB,
     getPlatforms:gamePlatforms.getGamePlatforms,

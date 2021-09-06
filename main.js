@@ -37,14 +37,15 @@ const passport = require('./controll/index').passport(app)
 
 const homeRouter = require('./routes/index').home
 const authRouter = require('./routes/index').auth(passport);
-const friendRouter = require('./routes/index').friend;
 const libraryRouter = require('./routes/index').library;
+const wishlistRouter = require('./routes/index').wishlist;
 const searchRouter = require('./routes/index').search;
+
 app.use('/auth', authRouter);
 
 app.use('/', homeRouter)
-// app.use('/friend', friendRouter);
-// app.use('/library', libraryRouter);
+app.use('/game/library', libraryRouter);
+app.use('/game/wishlist', wishlistRouter);
 // app.use('/search', searchRouter);
 
 
