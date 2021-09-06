@@ -6,6 +6,8 @@ const db = mongoose.connect(url, {
     username:"root",
     password:"root"
   },
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 },(err)=>{
   if(err){
     console.log(err.message);
