@@ -70,7 +70,7 @@ const imageSchema = new mongoose.Schema({
 })
 
 const gameSchema = new mongoose.Schema({
-    id:{type:String, unique: true, index:true, sparse:true},
+    id:{type:String, index:true, sparse:true},
     name:{type:String, required:true},
     slug:{type:String},
 
@@ -129,15 +129,22 @@ function initGameList(){
     let sumStr = gameModes + genres + platforms + themes + alter_names + involved_com + cover + screenshots;
 
     const attribute = 'fields *, ' + sumStr + ';'
-    const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
+    const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 1; '
     const sort = 'sort aggregated_rating desc; '
-    const limitCount = 'limit 50;'
+    // const sort = ''
+    const limitCount = 'limit 50; '
 
-    const gameList = saveGameListIGDBToDB(attribute, condition, sort, limitCount);
+    let pos = 0;
+    let offset = ' offset ' + pos  + ';';
+    for (let i = 0; i < 50; i++) {
+        const gameList = saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
+        pos = pos + 1;
+        setTimeout(() => {}, 1000);
+    }
 }
 
 function saveGameListIGDBToDB(attribute, condition='', sort='',
-                                 limitCount=''){
+                                 limitCount='', offset=''){
     const response = axios({
         url: "https://api.igdb.com/v4/games",
         method: 'POST',
@@ -146,7 +153,7 @@ function saveGameListIGDBToDB(attribute, condition='', sort='',
             'Client-ID': IGDBconfig.IGDB.Client_ID,
             'Authorization': IGDBconfig.IGDB.Authorization,
         },
-        data: attribute + condition + sort + limitCount
+        data: attribute + condition + sort + limitCount + offset
     })
         .then(response => {
             const resultData = response.data;
@@ -180,6 +187,6 @@ function postGameList(){
 }
 
 module.exports = {
-    initGameList:initGameList(),
-    gameModel:gameGameList
+    initGameList:initGameList,
+    getGameList:gameGameList
 }
