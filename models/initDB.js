@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const url = 'mongodb://127.0.0.1:27017/testserver';
-const db = mongoose.connect(url, (err)=>{
+const url = 'mongodb://root:root@127.0.0.1:27017';
+const db = mongoose.connect(url, {dbName:'testserver'},(err)=>{
   if(err){
     console.log(err.message);
   }else{
