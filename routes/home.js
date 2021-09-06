@@ -25,7 +25,8 @@ router.get('/', async (request,response)=>{
                     gameControl.getGameQuery(gameGameList, genres.name)
                         .then(r=>{
                             let tempDict = {};
-                            tempDict[genres.name] = r
+                            tempDict['genres'] = genres.name;
+                            tempDict['gameList'] = r;
                             resolve(tempDict)
                         })
                 })
