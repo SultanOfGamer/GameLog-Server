@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
-const url = 'mongodb://root:root@127.0.0.1:27017';
-const db = mongoose.connect(url, {dbName:'testserver'},(err)=>{
+const url = 'mongodb://127.0.0.1:27017';
+const db = mongoose.connect(url, {
+  authSource:"admin",
+  auth:{
+    username:"root",
+    password:"root"
+  },
+},(err)=>{
   if(err){
     console.log(err.message);
   }else{
