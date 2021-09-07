@@ -8,7 +8,6 @@ const gameControl = require('../controll/index').games;
 
 router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에 회원별 데이터 전송
-        let responseDict = [];
         try{
             //genresData를 user genres로 편의성 맞게 변경
             const genresData = await gameControl.getCategory('genres')
