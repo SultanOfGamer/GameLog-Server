@@ -5,30 +5,27 @@ const router = express.Router();
 const userControl = require('../controll/index').users
 const userGameControl = require('../controll/index').userGames;
 
-const userGameModel = require('../models/index').getUserGames;
-
 
 router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)) {
         try{
-            const userLibraryList = await userGameControl.getUserGames(request.user, userGameModel)
-            console.log(userLibraryList)
-
+            const userLibraryList = await userGameControl.getUserGames(request.user)
+            response.send(userLibraryList)
         }catch(err){
-
+            response.send(err)
         }
-
-        response.send('this library')
     }else{
         response.send({message:'please login!'})
     }
 
 })
-
+1
 router.post('/insert', (request,response)=>{
     if(userControl.isUser(request,response)) {
-        userGameControl.addUserGames(request.user, userGameModel)
-        response.send(request.user)
+        const gameId = request.body.gameId;
+
+        userGameControl.addUserGames(request.user, gameId)
+        response.send('insert success')
     }else{
         response.send({message:'please login!'})
     }
