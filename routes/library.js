@@ -3,33 +3,53 @@ const express = require('express');
 const router = express.Router();
 
 const userControl = require('../controll/index').users
+const userGameControl = require('../controll/index').userGames;
+
+const userGameModel = require('../models/index').getUserGames;
 
 
-
-router.get('/', (request,response)=>{
+router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)) {
+        try{
+            const userLibraryList = await userGameControl.getUserGames(request.user, userGameModel)
+            console.log(userLibraryList)
 
-        response.send(request.user.nickname)
+        }catch(err){
+
+        }
+
+        response.send('this library')
     }else{
         response.send({message:'please login!'})
     }
 
 })
 
-//
-// router.get('/', (request,response)=>{
-//     if(userControl.isUser(request,response)) {
-//         console.log(request.user.nickname)
-//     }
-//
-// })
-//
-// router.get('/', (request,response)=>{
-//     if(userControl.isUser(request,response)) {
-//         console.log(request.user.nickname)
-//     }
-//
-// })
+router.post('/insert', (request,response)=>{
+    if(userControl.isUser(request,response)) {
+        userGameControl.addUserGames(request.user, userGameModel)
+        response.send(request.user)
+    }else{
+        response.send({message:'please login!'})
+    }
+
+})
+
+router.get('/update', (request,response)=>{
+    if(userControl.isUser(request,response)) {
+        console.log(request.user.nickname)
+    }
+
+})
+
+router.get('/delete', (request,response)=>{
+    if(userControl.isUser(request,response)) {
+        console.log(request.user.nickname)
+    }
+
+})
+
+
 
 
 module.exports = router;
