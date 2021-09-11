@@ -6,6 +6,7 @@ const userControl = require('../controll/index').users
 const gameControl = require('../controll/index').games;
 
 
+//query page
 router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에 회원별 데이터 전송
         try{

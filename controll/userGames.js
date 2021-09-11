@@ -29,7 +29,6 @@ module.exports = {
             const tempGame = data[0]
 
             userGameModel.create({
-                // id: 0, //TODO 유효성 검사 필요 중복 x
                 userEmail: user.email,
                 userNickname: user.nickname,
 
@@ -47,9 +46,9 @@ module.exports = {
                 userGameStatus: body.userGameStatus,
                 //정보가 저장된 시점
                 createdTime: getDate()
-             }).then(r =>{
-                 return r
-             })
+            }).then(r =>{
+                return r
+            })
                 .catch((err)=>{
                     // console.log(err)
                     return err
@@ -57,13 +56,31 @@ module.exports = {
         })
 
     },
-    updateUserGames:function(user){
-
+    updateUserGames:function(user, body){
+        userGameModel.findOneAndUpdate(
+            {id:body.id},
+            {
+                    userGameEval: body.userGameEval,
+                    userGameEvalText: body.userGameEvalText,
+                    userGameMemo: body.userGameMemo,
+                    userGameStatus: body.userGameStatus,
+                    updatedTime:getDate()
+                },{new:true},
+            (err, game)=>{
+                if(err) return err
+            }
+        )
     },
     deleteUserGames:function(board_id){
 
     },
     getUserWishGames:function(user){
-
+        return new Promise(function(resolve, reject){
+            userGameModel.find({userNickname:user.nickname})
+                .limit(30)
+                .then(data=>{
+                    resolve(data)
+                })
+        })
     }
 }
