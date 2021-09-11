@@ -57,7 +57,7 @@ module.exports = {
 
     },
     updateUserGames:function(user, body){
-        userGameModel.findOneAndUpdate(
+        return userGameModel.findOneAndUpdate(
             {id:body.id},
             {
                     userGameEval: body.userGameEval,
@@ -69,11 +69,15 @@ module.exports = {
             (err, game)=>{
                 if(err) return err
             }
-        )
+        ).catch((err)=>{console.log(err)})
     },
-    deleteUserGames:function(board_id){
-
+    deleteUserGames:function(body){
+        return userGameModel.deleteOne({id:body.id}, function(err, result){
+            if(err){return err}
+            else return result
+        })
     },
+    //wishlist 전용 Controller
     getUserWishGames:function(user){
         return new Promise(function(resolve, reject){
             userGameModel.find({userNickname:user.nickname})

@@ -31,7 +31,7 @@ router.get('/', async (request,response)=>{
 router.post('/insert', (request,response)=>{
     if(userControl.isUser(request,response)) {
         userGameControl.insertUserGames(request.user, request.body)
-        response.send('insert success')
+        response.send({message:'insert success'})
     }else{
         response.send({message:'please login!'})
     }
@@ -55,7 +55,7 @@ router.post('/update', (request,response)=>{
 // null, 빈칸 입력 혹은 유저가 삭제했을 시
 router.post('/delete', (request,response)=>{
     if(userControl.isUser(request,response)) {
-        console.log(request.user.nickname)
+        userGameControl.deleteUserGames(request.body)
         response.send({message:'delete success'})
     }
 })
