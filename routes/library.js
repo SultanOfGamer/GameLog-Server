@@ -29,11 +29,11 @@ router.get('/', async (request,response)=>{
 //로그인 정보
 // body -> 게임 id(number), 게임평가(number), 게임 평가(text), 게임 메모(text), 게임 status
 // body -> gameId, userGameEval, userGameEvalText, userGameMemo, userGameStatus 필요
+// 무언가를 입력했을 때만 insert를 호출할 것
+
 router.post('/insert', (request,response)=>{
     if(userControl.isUser(request,response)) {
-        const gameId = request.body.gameId;
-
-        userGameControl.insertUserGames(request.user, gameId)
+        userGameControl.insertUserGames(request.user, request.body)
         response.send('insert success')
     }else{
         response.send({message:'please login!'})

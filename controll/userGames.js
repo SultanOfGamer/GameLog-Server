@@ -16,9 +16,9 @@ module.exports = {
                 })
         })
     },
-    insertUserGames:function(user, gameId){ // add user 별 library 데이터 추가
+    insertUserGames:function(user, body){ // add user 별 library 데이터 추가
         let tempGame = new Promise(function(resolve, reject){
-            gameList.find({id:gameId})
+            gameList.find({id:body.gameId})
                 .limit(1)
                 .then(data=>{
                     resolve(data)
@@ -28,8 +28,8 @@ module.exports = {
         tempGame.then(data=>{
             const tempGame = data[0]
 
-            userGameModel.insertMany({
-                id: 0, //TODO 유효성 검사 필요 중복 x
+            userGameModel.create({
+                // id: 0, //TODO 유효성 검사 필요 중복 x
                 userEmail: user.email,
                 userNickname: user.nickname,
 
@@ -37,17 +37,23 @@ module.exports = {
                 gameId: tempGame.id,
                 gameName: tempGame.name,
                 aggregated_rating: tempGame.aggregated_rating,
+                aggregated_rating_count: tempGame.aggregated_rating_count,
                 first_release_date: tempGame.first_release_date,
 
                 //유저측, 전송되는 데이터, request body로 받을 것
-                userGameEval: 4,
-                userGameEvalText: 'this is got game',
-                userGameMemo: 'so hard game',
-                userGameStatus: 'todo',
+                userGameEval: body.userGameEval,
+                userGameEvalText: body.userGameEvalText,
+                userGameMemo: body.userGameMemo,
+                userGameStatus: body.userGameStatus,
                 //정보가 저장된 시점
                 createdTime: getDate()
-             }).then(r =>{return r})
-                .catch((err)=>{return err})
+             }).then(r =>{
+                 return r
+             })
+                .catch((err)=>{
+                    // console.log(err)
+                    return err
+                })
         })
 
     },
