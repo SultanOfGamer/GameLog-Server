@@ -6,10 +6,11 @@ const gameList = require('../models/index').getGameList
 const userGameModel = require('../models/index').getUserGames;
 
 module.exports = {
-    getUserGames:function(user){ //get user 별 library 데이터 베이스
+    getUserGames:function(user, offset){ //get user 별 library 데이터 베이스
         return new Promise(function(resolve, reject){
             userGameModel.find({userNickname:user.nickname})
-                .limit(10)
+                .limit(30)
+                .skip(offset * 30)
                 .then(data=>{
                     resolve(data)
                 })
@@ -31,7 +32,6 @@ module.exports = {
                 id: 0, //TODO 유효성 검사 필요 중복 x
                 userEmail: user.email,
                 userNickname: user.nickname,
-                wishTime: getDate(),
 
                 // game list 에서 받아온 game 정보 저장
                 gameId: tempGame.id,

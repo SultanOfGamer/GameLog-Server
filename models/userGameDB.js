@@ -1,7 +1,7 @@
 const mongoose = require('./initDB')
 
 const userGamesSchema = new mongoose.Schema({
-    id:{type:String, unique: true}, // Database id
+    id:{type:String, unique: true, index:true, required:true}, // Database id
     userEmail:{type:String},        //작성 user email
     userNickname:{type:String},     //작성 user nickname
     wishTime:String,                 //wishlist 담은 날짜

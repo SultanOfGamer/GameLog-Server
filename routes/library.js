@@ -7,10 +7,15 @@ const userGameControl = require('../controll/index').userGames;
 
 
 //user library 데이터 전송
+//로그인 정보
+//params page 필요
 router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)) {
+        let page = request.params.page
+        if(page === undefined) page = 0;
+
         try{
-            const userLibraryList = await userGameControl.getUserGames(request.user)
+            const userLibraryList = await userGameControl.getUserGames(request.user, request.params.page)
             response.send(userLibraryList)
         }catch(err){
             response.send(err)
