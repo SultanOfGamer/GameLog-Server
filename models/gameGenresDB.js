@@ -17,9 +17,7 @@ const gameGenres = mongoose.model('game_Genres', gameGenresSchema);
 const IGDBconfig = require('../config/IGDBconfig.json')
 
 
-// module.exports = gameGenres
-module.exports ={ //limit를 설정해서 데이터 가져오기
-    gameGenresSave:function(){
+function saveGenresDB(){
         const response = axios({
             url: "https://api.igdb.com/v4/genres",
             method: 'POST',
@@ -46,6 +44,10 @@ module.exports ={ //limit를 설정해서 데이터 가져오기
                 console.log('err')
             });
         return gameGenres;
-    },
+    }
+
+// module.exports = gameGenres
+module.exports ={ //limit를 설정해서 데이터 가져오기
+    saveGenresDB:saveGenresDB,
     getGameGenresDB: gameGenres
 }

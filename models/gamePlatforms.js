@@ -25,7 +25,8 @@ const gamePlatforms = mongoose.model('game_Platforms', gamePlatformsSchema);
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
-const response = axios({
+function savePlatformsDB(){
+    const response = axios({
     url: "https://api.igdb.com/v4/platforms",
     method: 'POST',
     headers: {
@@ -55,9 +56,13 @@ const response = axios({
         console.error(err);
         console.log('err')
     });
+    return response
+}
+
 
 // gameGameModes
 
 module.exports={
+    savePlatformsDB:savePlatformsDB,
     getGamePlatforms:gamePlatforms
 }

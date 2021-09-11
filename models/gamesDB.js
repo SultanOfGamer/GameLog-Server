@@ -115,6 +115,11 @@ const IGDBconfig = require('../config/IGDBconfig.json')
 //데이터 가져오는 것은 것은 것은것은 mongodb default, 없는 값은 IGDB로 새로 전송 해서 받아오는 로직을 짜야하는데 어케하지
 
 function initGameList(){
+    //처음 받아오는 게임 리스트
+
+}
+
+function initGameListSave(){ //IGDB to mongo db save function
     //field 쿼리문 작성
     const gameModes = 'game_modes.name, '
     const genres = 'genres.name, '
@@ -129,20 +134,19 @@ function initGameList(){
     let sumStr = gameModes + genres + platforms + themes + alter_names + involved_com + cover + screenshots;
 
     const attribute = 'fields *, ' + sumStr + ';'
-    const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 1; '
+    const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
     const sort = 'sort aggregated_rating desc; '
     // const sort = ''
-    const limitCount = 'limit 50; '
+    const limitCount = 'limit 25; '
 
     let pos = 0;
     let offset = ' offset ' + pos  + ';';
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 25; i++) {
         const gameList = saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
         pos = pos + 1;
-        setTimeout(() => {}, 1000);
+        setTimeout(() => {}, 2000);
     }
 }
-
 function saveGameListIGDBToDB(attribute, condition='', sort='',
                                  limitCount='', offset=''){
     const response = axios({
@@ -168,8 +172,8 @@ function saveGameListIGDBToDB(attribute, condition='', sort='',
                 gameGameInstance.platforms.forEach((data, index)=>{
                     data.category_name = gamePlatformsCategory[data.category]
                 })
+                gameGameInstance.aggregated_rating = Number.parseFloat(gameGameInstance.aggregated_rating / 20).toFixed(2)
                 gameGameInstance.save((err)=>{
-                    // console.log(err)
                     if(err) return 'err'
                     else return 'save'
                 })
@@ -188,5 +192,6 @@ function postGameList(){
 
 module.exports = {
     initGameList:initGameList,
+    saveGameList:initGameListSave,
     getGameList:gameGameList
 }

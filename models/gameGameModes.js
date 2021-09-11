@@ -16,7 +16,8 @@ const gameGameModes = mongoose.model('game_GameModes', gameGameModesSchema);
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
-const response = axios({
+function saveGameModesDB(){
+    const response = axios({
     url: "https://api.igdb.com/v4/game_modes",
     method: 'POST',
     headers: {
@@ -40,8 +41,12 @@ const response = axios({
         console.error(err);
         console.log('err dad')
     });
+    return response
+}
+
 
 
 module.exports={
+    saveGameModesDB:saveGameModesDB,
     getGameModes:gameGameModes
 }
