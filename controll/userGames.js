@@ -1,5 +1,4 @@
 
-const shortid = require('shortid')
 const getDate = require('../util/index').date;
 
 const gameList = require('../models/index').getGameList
@@ -7,10 +6,11 @@ const userGameModel = require('../models/index').getUserGames;
 
 module.exports = {
     getUserGames:function(user, offset){ //get user 별 library 데이터 베이스
+        const pageCount = 30;
         return new Promise(function(resolve, reject){
             userGameModel.find({userNickname:user.nickname})
-                .limit(30)
-                .skip(offset * 30)
+                .limit(pageCount)
+                .skip(offset * pageCount)
                 .then(data=>{
                     resolve(data)
                 })
@@ -54,7 +54,6 @@ module.exports = {
                     return err
                 })
         })
-
     },
     updateUserGames:function(user, body){
         return userGameModel.findOneAndUpdate(
@@ -77,11 +76,14 @@ module.exports = {
             else return result
         })
     },
+
     //wishlist 전용 Controller
-    getUserWishGames:function(user){
+    getUserWishGames:function(user, body, page){
+        const pageCount = 30;
         return new Promise(function(resolve, reject){
-            userGameModel.find({userNickname:user.nickname})
-                .limit(30)
+            userGameModel.find({userNickname:user.nickname, userGameStatus:'wish'})
+                .limit(pageCount)
+                .skip(page * pageCount)
                 .then(data=>{
                     resolve(data)
                 })

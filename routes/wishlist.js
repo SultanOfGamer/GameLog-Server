@@ -3,15 +3,18 @@ const express = require('express');
 const router = express.Router();
 
 const userControl = require('../controll/index').users
+const userGameControl = require('../controll/index').userGames;
 
-router.get('/', (request,response)=>{
+
+router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)) {
-        // response.send(request.user.nickname)
-        response.send('this is your wishlist')
+        let page = request.query.page - 1 // pagination
+        const wishlistData = await userGameControl.getUserWishGames(request.user, request.body, page)
+        response.send(wishlistData)
     }else{
         response.send({message:'please login!'})
     }
-
 })
+
 
 module.exports = router;

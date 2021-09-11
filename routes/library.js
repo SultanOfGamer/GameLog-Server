@@ -41,9 +41,9 @@ router.post('/insert', (request,response)=>{
 // 해당하는 user, id를 찾아서 데이터 변경
 // body -> 게임 id(number), 게임평가(number), 게임 평가(text), 게임 메모(text), 게임 status
 // body -> gameId, userGameEval, userGameEvalText, userGameMemo, userGameStatus 필요
-router.post('/update', (request,response)=>{
+router.post('/update', async (request,response)=>{
     if(userControl.isUser(request,response)) {
-        userGameControl.updateUserGames(request.user, request.body)
+        await userGameControl.updateUserGames(request.user, request.body)
         response.send({message:'update success'})
     }else{
         response.send({message:'please login!'})
