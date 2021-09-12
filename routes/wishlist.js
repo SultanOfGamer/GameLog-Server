@@ -16,5 +16,14 @@ router.get('/', async (request,response)=>{
     }
 })
 
+router.post('/insert', (request,response)=>{
+    if(userControl.isUser(request,response)) {
+        userGameControl.insertUserGames(request.user, request.body)
+        response.send({message:'insert success'})
+    }else{
+        response.send({message:'please login!'})
+    }
+})
+
 
 module.exports = router;
