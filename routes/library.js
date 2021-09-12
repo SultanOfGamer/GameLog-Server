@@ -31,7 +31,11 @@ router.get('/', async (request,response)=>{
 router.post('/insert', (request,response)=>{
     if(userControl.isUser(request,response)) {
         userGameControl.insertUserGames(request.user, request.body)
-        response.send({message:'insert success'})
+            .then(()=>{
+                return response.send({message:'insert success'})
+            }).catch((err)=>{
+                return response.send({message:'insert fail', err:err})
+        })
     }else{
         response.send({message:'please login!'})
     }
@@ -43,8 +47,11 @@ router.post('/insert', (request,response)=>{
 // body -> gameId, userGameEval, userGameEvalText, userGameMemo, userGameStatus 필요
 router.post('/update', async (request,response)=>{
     if(userControl.isUser(request,response)) {
-        await userGameControl.updateUserGames(request.user, request.body)
-        response.send({message:'update success'})
+        const sendMessage = await userGameControl.updateUserGames(request.user, request.body)
+            .catch((err)=> {
+                return response.send({message: 'update fail', err: err})
+            })
+        response.send(sendMessage)
     }else{
         response.send({message:'please login!'})
     }
@@ -53,10 +60,12 @@ router.post('/update', async (request,response)=>{
 //user library 데이터 삭제
 //삭제하는 id 전송후 삭제
 // null, 빈칸 입력 혹은 유저가 삭제했을 시
-router.post('/delete', (request,response)=>{
+router.post('/delete', async (request,response)=>{
     if(userControl.isUser(request,response)) {
-        userGameControl.deleteUserGames(request.body)
-        response.send({message:'delete success'})
+        const sendMessage = await userGameControl.deleteUserGames(request.body)
+        response.send(sendMessage)
+    }else{
+        response.send({message:'please login!'})
     }
 })
 

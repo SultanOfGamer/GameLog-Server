@@ -1,8 +1,9 @@
 const express = require('express');
-const app = express();
 const router = express.Router();
 
-const userControl = require('../controll/user')
+const userControl = require('../controll/index').users
+const userGameControl = require('../controll/index').userGames;
+
 
 
 
