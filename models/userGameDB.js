@@ -29,7 +29,7 @@ userGamesSchema.index({
     userNickname:1,
     gameId:1
 },{unique:true})
-userGamesSchema.plugin(autoIncrementIndex, {id:"gameUSer_seq",inc_field:'id'});
+userGamesSchema.plugin(autoIncrementIndex, {id:"gameUser_seq",inc_field:'id'});
 
 
 const userGames = mongoose.model('users_library', userGamesSchema);
