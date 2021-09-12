@@ -1,3 +1,7 @@
+
+const users = require('../models/index').userDatabase;
+const getDate = require('../util/index').date;
+
 module.exports = {
     isUser:function(request,response){
         if(request.user){
@@ -9,5 +13,35 @@ module.exports = {
     emailValidation: function ( email ) {
             var regex=/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
             return (email != '' && email != 'undefined' && regex.test(email));
+    },
+    signupInsert:function(body, hash){
+        return users.create({
+                email:body.email,
+                nickname:body.nickname,
+                signDate:getDate(),
+                password:hash
+            })
+    },
+    findEmailVal:function(queryString){
+        return new Promise((resolve, reject) => {
+            users.findOne({email:queryString}, function(err, user){
+                if(err) reject(err)
+                if(!user) resolve({data:true,
+                        message: "사용 가능한 이메일입니다."
+                    })
+                else resolve({message:"이미 중복된 이메일이 존재합니다."})
+            })
+        })
+    },
+    findNickVal:function(queryString){
+        return new Promise((resolve, reject) => {
+            users.findOne({nickname:queryString}, function(err, user){
+                if(err) reject(err)
+                if(!user) resolve({data:true,
+                        message: "사용 가능한 닉네임입니다."
+                    })
+                else resolve({message:"이미 중복된 닉네임이 존재합니다."})
+            })
+        })
     }
 }

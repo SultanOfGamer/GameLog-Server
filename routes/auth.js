@@ -2,13 +2,13 @@
 const express = require('express')
 const router = express.Router()
 
-const users = require('../models/userDatabase');
+// const users = require('../models/userDatabase');
 
 const userControl = require('../controll/index').users
 
-const shortid = require('shortid')
+// const shortid = require('shortid')
+// const getDate = require('../util/index').date;
 const bcrypt = require('bcrypt')
-const getDate = require('../util/index').date;
 
 module.exports = function(passport){
     // router.post('/login', (request,response,next)=>{
@@ -48,41 +48,28 @@ module.exports = function(passport){
             return response.send('Incorrect confirm password !')
         }
         bcrypt.hash(request.body.password, 10, function(err, hash){
-            const newUser = new users(request.body);
-            // console.log(request.body)
-            newUser.id = shortid.generate();
-            newUser.signDate = getDate();
-            newUser.password = hash;
-            newUser.save((err)=>{
-                // console.log(err)
-                if(err) return response.status(500).json({message: '회원가입 실패'})
-                else return response.status(200).json({message:'회원가입 완료'})
-            })
+            userControl.signupInsert(request.body, hash)
+                .then(()=>{
+                    return response.status(500).json({message: '회원가입 완료'})
+                }).catch((err)=>{
+                    return response.status(200).json({message:'회원가입 실패', err:err})
+                })
         })
     })
 
-    router.post('/validation/:value', (request,response)=>{
+    router.post('/validation/:value', async (request,response)=>{
         const value = request.params.value
         const queryString = request.query.value;
+        let sendMessage = {};
         switch(value){
             case 'email':
                 if(!userControl.emailValidation(queryString)) return response.send({message:"이메일 형식이 아닙니다."})
-                users.findOne({email:queryString}, function(err, user){
-                    if(err) response.send(err)
-                    if(!user) response.send({data:true,
-                        message: "사용 가능한 이메일입니다."
-                    })
-                    else response.send({message:"이미 중복된 이메일이 존재합니다."})
-                })
+                sendMessage = await userControl.findEmailVal(queryString)
+                response.send(sendMessage)
                 break
             case 'nickname':
-                users.findOne({nickname:queryString}, function(err, user){
-                    if(err) response.send(err)
-                    if(!user) response.send({data:true,
-                        message: "사용 가능한 닉네임 입니다."
-                    })
-                    else response.send({message:"이미 중복된 닉네임이 존재합니다."})
-                })
+                sendMessage = await userControl.findNickVal(queryString)
+                response.send(sendMessage)
                 break
             default:
                 response.send('error page')
