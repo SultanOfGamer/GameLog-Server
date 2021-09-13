@@ -119,7 +119,7 @@ function initGameList(){
 
 }
 
-function initGameListSave(){ //IGDB to mongo db save function
+async function initGameListSave(){ //IGDB to mongo db save function
     //field 쿼리문 작성
     const gameModes = 'game_modes.name, '
     const genres = 'genres.name, '
@@ -134,17 +134,19 @@ function initGameListSave(){ //IGDB to mongo db save function
     let sumStr = gameModes + genres + platforms + themes + alter_names + involved_com + cover + screenshots;
 
     const attribute = 'fields *, ' + sumStr + ';'
-    const condition = 'where aggregated_rating > 70 & aggregated_rating_count > 5; '
+    const condition = 'where aggregated_rating > 50 & aggregated_rating_count > 1; '
     const sort = 'sort aggregated_rating desc; '
     // const sort = ''
-    const limitCount = 'limit 25; '
+    const limitCount = 'limit 50; '
 
     let pos = 0;
     let offset = ' offset ' + pos  + ';';
-    for (let i = 0; i < 25; i++) {
-        const gameList = saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
+    for (let i = 0; i < 1000; i++) {
+        const gameList = await saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
+        offset = ' offset ' + pos  + ';';
         pos = pos + 1;
-        setTimeout(() => {}, 2000);
+        console.log(pos)
+        await new Promise(res=>setTimeout(res,1000))
     }
 }
 function saveGameListIGDBToDB(attribute, condition='', sort='',

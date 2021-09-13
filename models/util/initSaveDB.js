@@ -1,6 +1,6 @@
 
 // 서버 구축시 실행하는 파일, database 구축
-const initDB = require('../initDB')
+const mongoose = require('../initDB')
 
 
 const gameGameModes = require('../gameGameModes')
