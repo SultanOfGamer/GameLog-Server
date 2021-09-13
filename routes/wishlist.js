@@ -39,5 +39,13 @@ router.post('/insert', (request,response)=>{
     }
 })
 
+router.post('/delete', async (request,response)=>{
+    if(userControl.isUser(request,response)) {
+        const sendMessage = await userGameControl.deleteUserGames(request.body)
+        response.send(sendMessage)
+    }else{
+        response.send({message:'please login!'})
+    }
+})
 
 module.exports = router;
