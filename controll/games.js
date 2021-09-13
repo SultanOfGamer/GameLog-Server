@@ -4,10 +4,10 @@ const gameThemesDB = require('../models/index').getThemes
 const gameGameList = require('../models/index').getGameList
 
 module.exports = {
-    getGame:function(){// init data
+    getGame:function(genres){// init data
         return new Promise(function(resolve){
-            gameGameList.find()
-            .where('aggregated_rating').gte(95)
+            gameGameList.find({genres:{$elemMatch:{name:genres}}})
+            .where('aggregated_rating').gte(3)
             .where('aggregated_rating_count').gt(5)
             .sort('aggregated_rating')
             .limit(10)
@@ -37,7 +37,7 @@ module.exports = {
                 break
             case 'themes':
                 response = gameThemesDB.find()
-                    .limit(3)
+                    .limit(5)
                     .then(data=>{
                         return data
                     })
