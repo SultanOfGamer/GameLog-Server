@@ -13,7 +13,7 @@ router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)) {
         let page = request.query.page - 1 //pagination
         try{
-            const userLibraryList = await userGameControl.getUserGames(request.user, request.params.page)
+            const userLibraryList = await userGameControl.getUserGames(request.user, page)
             response.send(userLibraryList)
         }catch(err){
             response.send(err)
