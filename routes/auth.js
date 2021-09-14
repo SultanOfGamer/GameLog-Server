@@ -2,8 +2,6 @@
 const express = require('express')
 const router = express.Router()
 
-// const users = require('../models/userDatabase');
-
 const userControl = require('../controll/index').users
 
 // const shortid = require('shortid')
@@ -11,16 +9,6 @@ const userControl = require('../controll/index').users
 const bcrypt = require('bcrypt')
 
 module.exports = function(passport){
-    // router.post('/login', (request,response,next)=>{
-    //     passport.authenticate('login', function(err, user, info) {
-    //         if (err) { return next(err); }
-    //         if (!user) { return response.send('user undefined!'); }
-    //         // response.logIn(user, function(err) {
-    //         //     if (err) { return next(err); }
-    //         //     return response.send(user.username);
-    //         // });
-    //     })(request, response, next);
-    // })
     //TODO Login 성공 시에 처리
     router.post('/login',
         passport.authenticate('login', {
@@ -28,7 +16,8 @@ module.exports = function(passport){
             // failureRedirect: '/login'
         }), (request,response)=>{
             if(request.user){ //로그인성공
-                response.send('welcome! ' + request.user.nickname)
+
+                response.send({message:'welcome! ' + request.user.nickname})
             }
         }
     )
@@ -39,13 +28,13 @@ module.exports = function(passport){
         //     res.redirect('/')
         // })
         request.session.save(function () { //session 값을 저장함
-            response.send('logout!')
+            response.send({message:'logout!'})
         })
     })
 
     router.post('/signup', (request,response)=>{
         if(request.body.password !== request.body.passwordConfirm){
-            return response.send('Incorrect confirm password !')
+            return response.send({message:'Incorrect confirm password !'})
         }
         bcrypt.hash(request.body.password, 10, function(err, hash){
             userControl.signupInsert(request.body, hash)
