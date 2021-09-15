@@ -2,6 +2,8 @@
 const users = require('../models/index').userDatabase;
 const getDate = require('../util/index').date;
 
+const userProfile = require('./userProfile');
+
 module.exports = {
     isUser:function(request,response){
         if(request.user){
@@ -15,11 +17,15 @@ module.exports = {
             return (email != '' && email != 'undefined' && regex.test(email));
     },
     signupInsert:function(body, hash){
+        const temp = userProfile.temp()
         return users.create({
                 email:body.email,
                 nickname:body.nickname,
                 signDate:getDate(),
-                password:hash
+                password:hash,
+                profileImage:{
+                    url:temp
+                }
             })
     },
     findEmailVal:function(queryString){
