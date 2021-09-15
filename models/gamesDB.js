@@ -106,12 +106,7 @@ const gameGameList = mongoose.model('game_gameList', gameSchema);
 const IGDBconfig = require('../config/IGDBconfig.json')
 
 // 사용자 별 추천 DB 전송
-
 //genres 별 게임 전송
-
-//init = Themes 로 해야할지 genres로 해야할지 고민
-//선호별 genres 5개 안에 게임 10개씩 담아서 rating 내림차순으로 전송
-
 //데이터 가져오는 것은 것은 것은것은 mongodb default, 없는 값은 IGDB로 새로 전송 해서 받아오는 로직을 짜야하는데 어케하지
 
 function initGameList(){
@@ -134,7 +129,7 @@ async function initGameListSave(){ //IGDB to mongo db save function
     let sumStr = gameModes + genres + platforms + themes + alter_names + involved_com + cover + screenshots;
 
     const attribute = 'fields *, ' + sumStr + ';'
-    const condition = 'where aggregated_rating > 50 & aggregated_rating_count > 1; '
+    let condition = 'where aggregated_rating > 80 & aggregated_rating_count > 5; '
     const sort = 'sort aggregated_rating desc; '
     // const sort = ''
     const limitCount = 'limit 50; '
@@ -145,7 +140,18 @@ async function initGameListSave(){ //IGDB to mongo db save function
         const gameList = await saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
         offset = ' offset ' + pos  + ';';
         pos = pos + 1;
-        console.log(pos)
+        console.log('first', pos)
+        await new Promise(res=>setTimeout(res,1000))
+    }
+
+    condition = 'where aggregated_rating > 50 & aggregated_rating_count > 1; '
+    pos = 0;
+    offset = ' offset ' + pos  + ';';
+    for (let i = 0; i < 1000; i++) {
+        const gameList = await saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
+        offset = ' offset ' + pos  + ';';
+        pos = pos + 1;
+        console.log('second', pos)
         await new Promise(res=>setTimeout(res,1000))
     }
 }
@@ -186,10 +192,6 @@ function saveGameListIGDBToDB(attribute, condition='', sort='',
             console.error(err);
         });
     return gameGameList
-}
-
-function postGameList(){
-
 }
 
 module.exports = {
