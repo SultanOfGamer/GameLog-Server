@@ -11,16 +11,22 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({storage:storage,
-    limits:{file:5 * 1024 * 1024} //5 MB 저장 제한
-})
-
+    limits:{file:5 * 1024 * 1024}, //5 MB 저장 제한
+    fileFilter:function (req, file, cb){
+        if(file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png'){
+            return cb(null, false, new Error('I don\'t have a clue!'));
+        }
+        cb(null, true);
+    }
+}).single('image')
 const userProfile = require('../controll/index').userProfile
 
 
-router.post('/image',  upload.single('image'), (request, response, next)=>{
-    console.log(request.file)
-    // userProfile.uploadImg()
-    response.json({message:'upload image success'})
+router.post('/image',  (request, response)=>{
+    upload(request, response, function(err){
+        if(err) response.json({message:'upload fail'})
+        else response.json({message:'upload image success'})
+    })
 })
 
 module.exports = router;
