@@ -5,6 +5,14 @@ const router = express.Router();
 const userControl = require('../controll/index').users
 const gameControl = require('../controll/index').games;
 
+router.get('/popular', async (request,response)=>{
+    try{
+        const gamedata = await gameControl.getPopularGame()
+        response.json(gamedata)
+    }catch(err){
+        response.send(err)
+    }
+})
 
 //query page
 router.get('/', async (request,response)=>{

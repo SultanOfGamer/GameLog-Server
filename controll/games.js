@@ -52,9 +52,9 @@ module.exports = {
         return new Promise(function(resolve){
             gameGameList.find()
             .where('aggregated_rating').gte(4)
-            .where('aggregated_rating_count').gt(5)
-            .sort('aggregated_rating')
-                .sort('aggregated_rating_count')
+            .where('aggregated_rating_count').gt(4)
+            .sort({aggregated_rating:1, aggregated_rating_count:1})
+                // .sort('aggregated_rating_count')
             .limit(10)
             .then(data=>{
                 resolve(data)
