@@ -8,7 +8,7 @@ function randomArr(arr){
 }
 
 function defaultProfile(){
-    // public에 존재하는 이미지 랜덤으로 생성하여 받아오기
+    // profile default에 존재하는 이미지 랜덤으로 생성하여 받아오기
     const publicURL = '/../public/images/user_profile_default/'
     const folderURL = __dirname + publicURL
     const saveURL = '/images/user_profile_default/'
@@ -22,14 +22,13 @@ function defaultProfile(){
     return result
 }
 
-function uploadProfileImg(){
+function uploadProfileImg(userid){
     // pulbic 폴더 안에 img 파일 저장
-}
 
-function getProfileImg(){
-    // img 파일 불러오기
+    return 'te'
 }
 // console.log(defaultProfile())
 module.exports = {
     defaultProfile:defaultProfile,
+    uploadImg:uploadProfileImg,
 }

@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(compression())
 app.use(helmet());
-
+app.use(express.static('public'))
 app.use(
     session({
         secret: "rqwr@#^^#fsazfcz",
@@ -37,11 +37,13 @@ const passport = require('./controll/index').passport(app)
 
 const homeRouter = require('./routes/index').home
 const authRouter = require('./routes/index').auth(passport);
+const userProfileRouter = require('./routes/index').userProfile;
 const libraryRouter = require('./routes/index').library;
 const wishlistRouter = require('./routes/index').wishlist;
 const searchRouter = require('./routes/index').search;
 
 app.use('/auth', authRouter);
+app.use('/profile', userProfileRouter);
 
 app.use('/', homeRouter)
 app.use('/game/library', libraryRouter);
