@@ -24,14 +24,35 @@ const upload = multer({storage:storage,
 const userProfile = require('../controll/index').userProfile
 const userControl = require('../controll/index').users
 
-
-router.post('/image',  (request, response)=>{
+// router.get('/user', (request, response)=>{
+//     if(userControl.isUser(request,response)){
+//
+//         response.json(request.user)
+//     }else{
+//         response.json({message:'please login!'})
+//     }
+// })
+router.get('/test', async (request, response)=>{
     if(userControl.isUser(request,response)){
-        upload(request, response, function(err){
-            if(err) response.json({message:'upload fail', err:err})
-            const sendMessage = userControl.updateUserStat(request.user, request.file)
-            response.send(sendMessage)
-        })
+        console.log(request.user)
+        response.send(request.user)
+    }else{
+        response.json({message:'please login!'})
+    }
+})
+
+router.post('/image',  async (request, response)=>{
+    if(userControl.isUser(request,response)){
+        try{
+            upload(request, response, async function(err){
+                if(err) response.json({message:'upload fail', err:err})
+                const sendMessage = await userControl.updateUserStat(request.user, request.file)
+                response.json(sendMessage)
+            })
+        }catch(err){
+            response.send(err)
+        }
+
     }else{
         response.json({message:'please login!'})
     }
