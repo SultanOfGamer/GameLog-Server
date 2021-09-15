@@ -48,10 +48,17 @@ module.exports = {
         }
         return response
     },
-    getGenres:function(model){
-
-    },
-    updateGame: function (  ) {
-
+    getPopularGame:function(){
+        return new Promise(function(resolve){
+            gameGameList.find()
+            .where('aggregated_rating').gte(4)
+            .where('aggregated_rating_count').gt(5)
+            .sort('aggregated_rating')
+                .sort('aggregated_rating_count')
+            .limit(10)
+            .then(data=>{
+                resolve(data)
+            })
+        })
     }
 }
