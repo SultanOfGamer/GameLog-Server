@@ -27,8 +27,9 @@ module.exports = {
                     const tempGame = data[0]
 
                     userGameModel.create({
-                        userEmail: user.email,
-                        userNickname: user.nickname,
+                        userid:user.id,
+                        // userEmail: user.email,
+                        // userNickname: user.nickname,
 
                         // game list 에서 받아온 game 정보 저장
                         gameId: tempGame.id,

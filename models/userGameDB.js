@@ -4,8 +4,9 @@ const autoIncrementIndex = require('mongoose-sequence')(mongoose);
 
 const userGamesSchema = new mongoose.Schema({
     // id:{type:Number}, // Database id
-    userEmail:{type:String, required:true},        //작성 user email
-    userNickname:{type:String, required:true},     //작성 user nickname
+    userid:{type:Number},
+    // userEmail:{type:String, required:true},        //작성 user email
+    // userNickname:{type:String, required:true},     //작성 user nickname
     wishTime:String,                 //wishlist 담은 날짜
 
     // Client 측에서 game 정보 전송
@@ -25,8 +26,7 @@ const userGamesSchema = new mongoose.Schema({
     updatedTime:String,             //update 날짜
 });
 userGamesSchema.index({
-    userEmail:1,
-    userNickname:1,
+    userid:1,
     gameId:1
 },{unique:true})
 userGamesSchema.plugin(autoIncrementIndex, {id:"gameUser_seq",inc_field:'id'});
