@@ -41,12 +41,10 @@ module.exports = {
                 {id:user.id},
                 {
                     nickname:user.nickname,
-                    profileImage:{
-                        url:imageURL
-                    }
+                    profileImage:{url:imageURL}
                 }, {new:true},
                 (err, userStat)=>{
-                    if(err) reject(err)
+                    if(err) {reject(err)}
                     if(!userStat) resolve({message:'update fail not exist data'})
                     resolve({message:'update success!'})
                 }
