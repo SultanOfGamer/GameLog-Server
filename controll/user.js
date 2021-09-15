@@ -17,14 +17,14 @@ module.exports = {
             return (email != '' && email != 'undefined' && regex.test(email));
     },
     signupInsert:function(body, hash){
-        const temp = userProfile.temp()
+        const profileURL = userProfile.defaultProfile()
         return users.create({
                 email:body.email,
                 nickname:body.nickname,
                 signDate:getDate(),
                 password:hash,
                 profileImage:{
-                    url:temp
+                    url:profileURL
                 }
             })
     },

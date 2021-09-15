@@ -11,15 +11,14 @@ function defaultProfile(){
     // public에 존재하는 이미지 랜덤으로 생성하여 받아오기
     const publicURL = '/../public/images/user_profile_default/'
     const folderURL = __dirname + publicURL
+    const saveURL = '/images/user_profile_default/'
     // fs.readdir(folderURL, (err, files)=>{ //비동기
     //     if(err)return console.log(err);
     //     const img = randomImage(files)
     //     return img
     // })
     const files = fs.readdirSync(folderURL)
-    // console.log(files)
-    // console.log(randomArr(files))
-    const result = publicURL + randomArr(files)
+    const result = saveURL + randomArr(files)
     return result
 }
 
@@ -32,20 +31,5 @@ function getProfileImg(){
 }
 // console.log(defaultProfile())
 module.exports = {
-    temp:function(){
-        // public에 존재하는 이미지 랜덤으로 생성하여 받아오기
-        const publicURL = '/../public/images/user_profile_default/'
-        const folderURL = __dirname + publicURL
-        const saveURL = '/public/images/user_profile_default/'
-        // fs.readdir(folderURL, (err, files)=>{ //비동기
-        //     if(err)return console.log(err);
-        //     const img = randomImage(files)
-        //     return img
-        // })
-
-        const files = fs.readdirSync(folderURL)
-        const result = saveURL + randomArr(files)
-        return result
-    },
-
+    defaultProfile:defaultProfile,
 }
