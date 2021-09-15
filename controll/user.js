@@ -28,6 +28,31 @@ module.exports = {
                 }
             })
     },
+    updateUserStat:function(user, image){
+        return new Promise((resolve, reject)=>{
+            const saveURL = '/images/user_profile/'
+            let imageURL = '';
+            if(image === undefined) {
+                imageURL = userProfile.defaultProfile()
+            } else {
+                imageURL = saveURL + image.filename
+            }
+            users.findOneAndUpdate(
+                {id:user.id},
+                {
+                    nickname:user.nickname,
+                    profileImage:{
+                        url:imageURL
+                    }
+                }, {new:true},
+                (err, userStat)=>{
+                    if(err) reject(err)
+                    if(!userStat) resolve({message:'update fail not exist data'})
+                    resolve({message:'update success!'})
+                }
+            )
+        })
+    },
     findEmailVal:function(queryString){
         return new Promise((resolve, reject) => {
             users.findOne({email:queryString}, function(err, user){

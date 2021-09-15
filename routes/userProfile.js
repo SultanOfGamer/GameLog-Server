@@ -22,13 +22,19 @@ const upload = multer({storage:storage,
 
 
 const userProfile = require('../controll/index').userProfile
+const userControl = require('../controll/index').users
 
 
 router.post('/image',  (request, response)=>{
-    upload(request, response, function(err){
-        if(err) response.json({message:'upload fail'})
-        else response.json({message:'upload image success'})
-    })
+    if(userControl.isUser(request,response)){
+        upload(request, response, function(err){
+            if(err) response.json({message:'upload fail', err:err})
+            const sendMessage = userControl.updateUserStat(request.user, request.file)
+            response.send(sendMessage)
+        })
+    }else{
+        response.json({message:'please login!'})
+    }
 })
 
 module.exports = router;
