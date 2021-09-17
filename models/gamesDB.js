@@ -43,27 +43,27 @@ const mongoose = require('./initDB')
 
 //platform schema
 const gamePlatformsSchema = new mongoose.Schema({
-    id:{type:String},
-    category:{type:String},
+    id:{type:Number},
+    category:{type:Number},
     category_name:{type:String},
     name:{type:String}
 })
 
 //genres, themes, game_modes, alter_names , involved_com in schema
 const childrenSchema = new mongoose.Schema({
-    id:{type:String},
+    id:{type:Number},
     name:{type:String}
 })
 
 // involved_company Schema
 const involved_com = new mongoose.Schema({
-    id:{type:String},
+    id:{type:Number},
     company:[childrenSchema]
 })
 
 const imageSchema = new mongoose.Schema({
-    id:{type:String},
-    game:{type:String},
+    id:{type:Number},
+    game:{type:Number},
     height:{type:Number},
     width:{type:Number},
     url:{type:String},
@@ -79,7 +79,7 @@ const gameSchema = new mongoose.Schema({
     alternative_names:[childrenSchema],         //검색시에 사용되는 대안 이름
     involved_companies:[involved_com],
 
-    first_release_date:{type:String},       // 첫 배포 날짜 UNIX time
+    first_release_date:{type:Number},       // 첫 배포 날짜 UNIX time
     created_at:{type:Number},               // create 날짜
     updated_at:{type:Number},               //업데이트 날짜
     release_dates:[{type:Number}],

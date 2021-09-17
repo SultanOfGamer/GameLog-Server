@@ -7,7 +7,7 @@ const userGamesSchema = new mongoose.Schema({
     userid:{type:Number},
     // userEmail:{type:String, required:true},        //작성 user email
     // userNickname:{type:String, required:true},     //작성 user nickname
-    wishTime:String,                 //wishlist 담은 날짜
+    wishTime:Number,                 //wishlist 담은 날짜
 
     // Client 측에서 game 정보 전송
     gameId:{type:Number, required:true},           //gameId, gameList의 id값
@@ -22,8 +22,8 @@ const userGamesSchema = new mongoose.Schema({
     userGameMemo:{type:String},     //게임 메모
     userGameStatus:{type:String},   //게임 상태 {wish, todo, doing, done}
 
-    createdTime:String,             //생성 날짜 게임을 담은 날짜
-    updatedTime:String,             //update 날짜
+    createdTime:Number,             //생성 날짜 게임을 담은 날짜
+    updatedTime:Number,             //update 날짜
 });
 userGamesSchema.index({
     userid:1,

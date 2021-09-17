@@ -1,13 +1,13 @@
 const mongoose = require('./initDB')
 
 const gamePlatformsSchema = new mongoose.Schema({
-    id:{type:String, unique: true},
+    id:{type:Number, unique: true},
     name:{type:String},
     slug:{type:String},
     alternative_name:{type:String},
-    created_at:{type:String},
-    updated_at:{type:String},
-    category_id:{type:String},
+    created_at:{type:Number},
+    updated_at:{type:Number},
+    category_id:{type:Number},
     category_name:{type:String}
 })
 

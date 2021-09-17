@@ -3,11 +3,11 @@ const mongoose = require('./initDB')
 
 
 const gameGameModesSchema = new mongoose.Schema({
-    id:{type:String, unique: true},
+    id:{type:Number, unique: true},
     name:{type:String, unique: true},
     slug:{type:String},
-    created_at:{type:String},
-    updated_at:{type:String},
+    created_at:{type:Number},
+    updated_at:{type:Number},
 })
 
 const axios = require('axios')

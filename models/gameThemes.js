@@ -1,11 +1,11 @@
 const mongoose = require('./initDB')
 
 const gameThemesSchema = new mongoose.Schema({
-    id:{type:String, unique: true},
+    id:{type:Number, unique: true},
     name:{type:String, unique: true},
     slug:{type:String, unique: true},
-    created_at:{type:String},
-    updated_at:{type:String},
+    created_at:{type:Number},
+    updated_at:{type:Number},
 })
 
 const axios = require('axios')
