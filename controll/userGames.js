@@ -8,7 +8,7 @@ module.exports = {
     getUserGames:function(user, offset){ //get user 별 library 데이터 베이스
         const pageCount = 30;
         return new Promise(function(resolve, reject){
-            userGameModel.find({userNickname:user.nickname, userGameStatus:{$ne:'wish'}}) //wish 제외 get
+            userGameModel.find({userid:user.id, userGameStatus:{$ne:'wish'}}) //wish 제외 get
                 .limit(pageCount)
                 .skip(offset * pageCount)
                 .then(data=>{
@@ -85,7 +85,7 @@ module.exports = {
     getUserWishGames:function(user, body, page){
         const pageCount = 30;
         return new Promise(function(resolve, reject){
-            userGameModel.find({userNickname:user.nickname, userGameStatus:'wish'})
+            userGameModel.find({userid:user.id, userGameStatus:'wish'})
                 .limit(pageCount)
                 .skip(page * pageCount)
                 .then(data=>{
