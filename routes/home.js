@@ -7,8 +7,8 @@ const gameControl = require('../controll/index').games;
 
 router.get('/popular', async (request,response)=>{
     try{
-        const gamedata = await gameControl.getPopularGame()
-        response.json(gamedata)
+        const data = await gameControl.getPopularGame()
+        response.json(data)
     }catch(err){
         response.send(err)
     }
