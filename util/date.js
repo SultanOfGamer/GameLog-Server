@@ -15,4 +15,10 @@ function getDate(){
     return year + '/' +  month + '/' + day + '_' + hours + ':' + minutes + ':' + seconds;
 }
 
-module.exports = getDate;
+function getDateUNIX(){
+    return Date.now();
+}
+module.exports = {
+    getDate:getDate,
+    getDateUNIX:getDateUNIX
+};
