@@ -31,8 +31,18 @@ router.get('/', async (request,response)=>{
     }
 })
 
-router.get('/', (request,response)=>{
-    response.send('this is game')
+
+router.post('/:tapbar/insert', (request,response)=>{
+    if(userControl.isUser(request,response)) {
+        userGameControl.insertUserGames(request.user, request.body)
+            .then(()=>{
+                return response.send({message:'insert success'})
+            }).catch((err)=>{
+                return response.send({message:'insert fail', err:err})
+        })
+    }else{
+        response.send({message:'please login!'})
+    }
 })
 
 module.exports = router;
