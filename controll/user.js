@@ -21,7 +21,7 @@ module.exports = {
         return users.create({
                 email:body.email,
                 nickname:body.nickname,
-                signDate:getDate(),
+                signDate:getDate.getDateUNIX(),
                 password:hash,
                 profileImage:{
                     url:profileURL

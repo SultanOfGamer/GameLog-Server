@@ -44,7 +44,8 @@ module.exports = {
                         userGameMemo: body.userGameMemo,
                         userGameStatus: body.userGameStatus,
                         //정보가 저장된 시점
-                        createdTime: getDate()
+                        createdTime: getDate.getDateUNIX(),
+                        wishTime: getDate.getDateUNIX()
                     }, function (err, game) {
                         if (err) reject(err)
                         resolve(game)
@@ -61,7 +62,7 @@ module.exports = {
                     userGameEvalText: body.userGameEvalText,
                     userGameMemo: body.userGameMemo,
                     userGameStatus: body.userGameStatus,
-                    updatedTime:getDate()
+                    updatedTime:getDate.getDateUNIX()
                 },{new:true},
                 (err, game)=>{
                     if(err) reject(err)
