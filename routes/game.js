@@ -45,4 +45,31 @@ router.post('/:tapbar/insert', (request,response)=>{
     }
 })
 
+//user library 데이터 업데이트
+// 해당하는 user, id를 찾아서 데이터 변경
+// body -> 게임 id(number), 게임평가(number), 게임 평가(text), 게임 메모(text), 게임 status
+// body -> gameId, userGameEval, userGameEvalText, userGameMemo, userGameStatus 필요
+router.post('/:tapbar/update', async (request,response)=>{
+    if(userControl.isUser(request,response)) {
+        const sendMessage = await userGameControl.updateUserGames(request.user, request.body)
+            .catch((err)=> {
+                return response.send({message: 'update fail', err: err})
+            })
+        response.send(sendMessage)
+    }else{
+        response.send({message:'please login!'})
+    }
+})
+
+//user library 데이터 삭제
+//삭제하는 id 전송후 삭제
+// null, 빈칸 입력 혹은 유저가 삭제했을 시
+router.post('/:tapbar/delete', async (request,response)=>{
+    if(userControl.isUser(request,response)) {
+        const sendMessage = await userGameControl.deleteUserGames(request.body)
+        response.send(sendMessage)
+    }else{
+        response.send({message:'please login!'})
+    }
+})
 module.exports = router;
