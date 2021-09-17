@@ -5,6 +5,7 @@ const userControl = require('../controll/index').users
 const userGameControl = require('../controll/index').userGames;
 
 
+//duplicated code
 
 
 router.get('/', (request,response)=>{
