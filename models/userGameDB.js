@@ -15,8 +15,7 @@ const userGamesSchema = new mongoose.Schema({
     aggregated_rating:{type:Number},//IGDB 기관 평가
     aggregated_rating_count:{type:Number},//IGDB 기관 평가 count
 
-    first_release_date:{type:String},//첫배포 날짜
-
+    first_release_date:{type:Number},//첫배포 날짜
     userGameEval:{type:Number},     //게임 평점 5점만점
     userGameEvalText:{type:String}, //게임 평가 Text
     userGameMemo:{type:String},     //게임 메모
