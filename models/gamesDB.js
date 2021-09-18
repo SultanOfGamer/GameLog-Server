@@ -130,13 +130,12 @@ async function initGameListSave(){ //IGDB to mongo db save function
 
     const attribute = 'fields *, ' + sumStr + ';'
     let condition = 'where aggregated_rating > 80 & aggregated_rating_count > 5; '
-    const sort = 'sort aggregated_rating desc; '
-    // const sort = ''
+    let sort = 'sort aggregated_rating desc; '
     const limitCount = 'limit 50; '
 
     let pos = 0;
     let offset = ' offset ' + pos  + ';';
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 10000; i++) {
         const gameList = await saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
         offset = ' offset ' + pos  + ';';
         pos = pos + 1;
@@ -145,13 +144,26 @@ async function initGameListSave(){ //IGDB to mongo db save function
     }
 
     condition = 'where aggregated_rating > 50 & aggregated_rating_count > 1; '
+    sort = ''
     pos = 0;
     offset = ' offset ' + pos  + ';';
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 10000; i++) {
         const gameList = await saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
         offset = ' offset ' + pos  + ';';
         pos = pos + 1;
         console.log('second', pos)
+        await new Promise(res=>setTimeout(res,1000))
+    }
+
+    condition = ''
+    sort = ''
+    pos = 0;
+    offset = ' offset ' + pos  + ';';
+    for (let i = 0; i < 10000; i++) {
+        const gameList = await saveGameListIGDBToDB(attribute, condition, sort, limitCount, offset);
+        offset = ' offset ' + pos  + ';';
+        pos = pos + 1;
+        console.log('third', pos)
         await new Promise(res=>setTimeout(res,1000))
     }
 }
