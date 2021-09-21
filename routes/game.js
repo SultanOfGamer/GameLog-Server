@@ -15,7 +15,10 @@ router.get('/:tabOption/get', async (request,response)=>{
             switch (bar){
                 case 'library': // user library 전송
                     const userLibraryList = await userGameControl.getUserGames(request.user, page)
-                    response.send(userLibraryList)
+                    response.json({
+                        message:'success response',
+                        data:userLibraryList
+                    })
                     break;
                 case 'wishlist': //user wishlist 전송
                     const wishlistData = await userGameControl.getUserWishGames(request.user, request.body, page)
