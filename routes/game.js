@@ -19,16 +19,19 @@ router.get('/:tabOption/get', async (request,response)=>{
                     break;
                 case 'wishlist': //user wishlist 전송
                     const wishlistData = await userGameControl.getUserWishGames(request.user, request.body, page)
-                    response.send(wishlistData)
+                    response.json({
+                        message:'success response',
+                        data:wishlistData
+                    })
                     break;
                 default:
-                    response.send({message:'라우팅 확인!'})
+                    response.json({message:'라우팅 확인!'})
             }
         }catch(err){
-            response.send(err)
+            response.json({message:err})
         }
     }else{
-        response.send({message:'please login!'})
+        response.json({message:'please login!'})
     }
 })
 
