@@ -26,7 +26,7 @@ async function translateToKor (query_test){
     }
     const response = await axios.post(api_url, data, config)
         .then(response =>{
-            console.log(response.data)
+            console.log(response)
         }).catch(err=>{
             console.log(err)
         })
