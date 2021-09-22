@@ -1,4 +1,4 @@
-const papagoConfig = require('../config/papagoConfig.json')
+const papagoConfig = require('../config/translate.json')
 
 const client_id = papagoConfig.papago.Client_ID;
 const client_secret = papagoConfig.papago.Client_Secret;
