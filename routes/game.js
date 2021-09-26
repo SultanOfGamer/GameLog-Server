@@ -4,6 +4,8 @@ const router = express.Router();
 const userControl = require('../controll/index').users
 const userGameControl = require('../controll/index').userGames;
 
+//TODO 쿼리별 데이터 받아오기 argument 수정
+
 
 //Library & Wishlist
 
