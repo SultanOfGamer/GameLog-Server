@@ -46,11 +46,13 @@ const searchRouter = require('./routes/index').search;
 
 app.use('/auth', authRouter);
 app.use('/profile', userProfileRouter);
-app.use('/game', gameUserRouter);
+
 app.use('/', homeRouter)
-app.use('/game/library', libraryRouter);
-app.use('/game/wishlist', wishlistRouter);
-// app.use('/search', searchRouter);
+app.use('/game', gameUserRouter);
+
+// app.use('/game/library', libraryRouter);
+// app.use('/game/wishlist', wishlistRouter);
+app.use('/search', searchRouter);
 
 
 // ERROR handling
