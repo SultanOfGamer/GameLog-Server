@@ -105,7 +105,7 @@ const gameGameList = mongoose.model('game_gameList', gameSchema);
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
-const transToKorea = require('../util/index').transToKorea;
+// const transToKorea = require('../util/index').transToKorea;
 
 // 사용자 별 추천 DB 전송
 //genres 별 게임 전송
