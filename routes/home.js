@@ -26,8 +26,8 @@ router.get('/', async (request,response)=>{
                     gameControl.getGameQuery(genres.name)
                         .then(r=>{
                             let tempDict = {};
-                            tempDict['genres'] = genres.name;
-                            tempDict['gameList'] = r;
+                            tempDict['type'] = genres.name;
+                            tempDict['game'] = r;
                             resolve(tempDict)
                         })
                 })
@@ -49,8 +49,8 @@ router.get('/', async (request,response)=>{
                     gameControl.getGame(genres.name)
                         .then(r=>{
                             let tempDict = {};
-                            tempDict['genres'] = genres.name;
-                            tempDict['gameList'] = r;
+                            tempDict['type'] = genres.name;
+                            tempDict['game'] = r;
                             resolve(tempDict)
                         })
                 })
