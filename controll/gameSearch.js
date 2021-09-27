@@ -26,12 +26,13 @@ function getAlterSearch(name){
     const pageCount = 10;
     return new Promise(function(resolve, reject){
         gameList.find({'alternative_names.name':{$regex:name, $options: "i"}},{id:1,name:1, cover:1})
-        .limit(pageCount)
-        .skip(pageCount)
-        .then(data=>{
-            console.log(data)
-            resolve(data)
-        })
+            .select({_id:0})
+            .limit(pageCount)
+            .skip(pageCount)
+            .then(data=>{
+                console.log(data)
+                resolve(data)
+            })
     })
 }
 
