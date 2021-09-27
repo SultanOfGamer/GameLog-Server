@@ -70,7 +70,7 @@ const imageSchema = new mongoose.Schema({
 })
 
 const gameSchema = new mongoose.Schema({
-    id:{type:String, index:true, sparse:true, unique:true},
+    id:{type:Number, index:true, sparse:true, unique:true},
     name:{type:String, required:true},
     slug:{type:String},
 
