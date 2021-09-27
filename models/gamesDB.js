@@ -105,6 +105,8 @@ const gameGameList = mongoose.model('game_gameList', gameSchema);
 
 const IGDBconfig = require('../config/IGDBconfig.json')
 
+const transToKorea = require('../util/index').transToKorea;
+
 // 사용자 별 추천 DB 전송
 //genres 별 게임 전송
 //데이터 가져오는 것은 것은 것은것은 mongodb default, 없는 값은 IGDB로 새로 전송 해서 받아오는 로직을 짜야하는데 어케하지
@@ -167,7 +169,7 @@ async function initGameListSave(){ //IGDB to mongo db save function
         await new Promise(res=>setTimeout(res,1000))
     }
 }
-function saveGameListIGDBToDB(attribute, condition='', sort='',
+async function saveGameListIGDBToDB(attribute, condition='', sort='',
                                  limitCount='', offset=''){
     const response = axios({
         url: "https://api.igdb.com/v4/games",
@@ -182,7 +184,6 @@ function saveGameListIGDBToDB(attribute, condition='', sort='',
         .then(response => {
             const resultData = response.data;
             resultData.forEach((i,index)=>{
-                // setTimeout(() => {},index * 1000);
                 const gameGameInstance = new gameGameList(i);
                 //category, status 영문표기로 변경
                 gameGameInstance.category = gameCategory[i.category]
@@ -193,6 +194,14 @@ function saveGameListIGDBToDB(attribute, condition='', sort='',
                     data.category_name = gamePlatformsCategory[data.category]
                 })
                 gameGameInstance.aggregated_rating = Number.parseFloat(gameGameInstance.aggregated_rating / 20).toFixed(2)
+
+                // transToKorea(gameGameInstance.storyline)
+                //     .then(data=>{
+                //         console.log(data)
+                //     })
+                //     .catch(err=>{
+                //         return err
+                //     })
                 gameGameInstance.save((err)=>{
                     if(err) return 'err'
                     else return 'save'
