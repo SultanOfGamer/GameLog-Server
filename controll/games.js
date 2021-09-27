@@ -18,17 +18,15 @@ function checkSelectedGame(user, gameId){
 }
 
 async function getSelectedGame(gameId){
-    // return new Promise(function(resolve, reject){
-        gameGameList.findOne({id:27384})
-            .limit(1)
+    return new Promise(function(resolve, reject){
+        gameGameList.findOne({id:gameId})
             .then(data=>{
-                console.log(data)
-                // resolve(data)
+                resolve(data)
             })
             .catch(err=>{
-                // reject(err)
+                reject(err)
             })
-    // })
+    })
 }
 
 module.exports = {
