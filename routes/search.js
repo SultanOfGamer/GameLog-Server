@@ -24,22 +24,7 @@ router.get('/', async (request,response)=>{
         })
 })
 
-//선택된 하나의 게임 detail 전송
-router.get('/select', async (request, response)=>{
-    const obj = {
-        id:request.query.id,
-    }
-    if(userControl.isUser(request,response)) {
-        gameSearch.checkSelectedGame(request.user.id, request.query.id)
-            .then(data=>{
-                console.log(data)
-            })
-    }
-    gameSearch.getSelectedGame(obj)
-        .then(data=>{
-            response.json(data)
-        })
-})
+
 
 //
 // router.get('/autotest',async (request, response)=>{
