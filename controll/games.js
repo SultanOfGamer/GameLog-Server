@@ -6,7 +6,7 @@ const gameGameList = require('../models/index').getGameList
 module.exports = {
     getGame:function(genres){// 로그인 X 유명 장르를 통하여 게임 받아오기
         return new Promise(function(resolve){
-            gameGameList.find({genres:{$elemMatch:{name:genres}}})
+            gameGameList.find({genres:{$elemMatch:{name:genres}}}, {id:1,name:1, cover:1}).select({_id:0})
             .where('aggregated_rating').gte(4)
             .where('aggregated_rating_count').gt(5)
             .sort('aggregated_rating')
@@ -18,7 +18,7 @@ module.exports = {
     },
     getGameQuery:function(genres){ //user genres 속 데이터 받아오기
         return new Promise(function(resolve){
-            gameGameList.find({genres:{$elemMatch:{name:genres}}})
+            gameGameList.find({genres:{$elemMatch:{name:genres}}}, {id:1,name:1, cover:1}).select({_id:0})
             .limit(5)
             .then(data=>{
                 resolve(data)
@@ -49,8 +49,9 @@ module.exports = {
         return response
     },
     getPopularGame:function(){
+        //TODO 두개의 sort 를 사용하는 방법 고안
         return new Promise(function(resolve){
-            gameGameList.find()
+            gameGameList.find({},{id:1,name:1, cover:1}).select({_id:0})
             .where('aggregated_rating').gte(4)
             .where('aggregated_rating_count').gt(4)
             .sort({aggregated_rating:1, aggregated_rating_count:1})
