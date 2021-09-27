@@ -3,6 +3,34 @@ const gameGenresDB = require('../models/index').getGenres
 const gameThemesDB = require('../models/index').getThemes
 const gameGameList = require('../models/index').getGameList
 
+const userGame = require('../models/index').getUserGames
+
+function checkSelectedGame(user, gameId){
+    return new Promise(function (resolve, reject){
+        userGame.findOne({userid:user.id, gameId:gameId})
+            .then(data=>{
+                resolve(data)
+            })
+            .catch(err=>{
+                reject(err)
+            })
+    })
+}
+
+async function getSelectedGame(gameId){
+    // return new Promise(function(resolve, reject){
+        gameGameList.findOne({id:27384})
+            .limit(1)
+            .then(data=>{
+                console.log(data)
+                // resolve(data)
+            })
+            .catch(err=>{
+                // reject(err)
+            })
+    // })
+}
+
 module.exports = {
     getGame:function(genres){// 로그인 X 유명 장르를 통하여 게임 받아오기
         return new Promise(function(resolve){
@@ -61,5 +89,7 @@ module.exports = {
                 resolve(data)
             })
         })
-    }
+    },
+    getSelectedGame:getSelectedGame,
+    checkSelectedGame:checkSelectedGame,
 }
