@@ -5,12 +5,40 @@ const router = express.Router();
 const userControl = require('../controll/index').users
 const gameControl = require('../controll/index').games;
 
+
+
 router.get('/popular', async (request,response)=>{
     try{
         const data = await gameControl.getPopularGame()
         response.json(data)
     }catch(err){
         response.send(err)
+    }
+})
+
+//선택된 하나의 게임 detail 전송
+router.get('/select', async (request, response)=>{
+    const gameId = request.query.gameId
+    const user = request.user;
+
+    let sendObj = {};
+    if(userControl.isUser(request,response)) {//game library 혹은 wish 정보 전송
+        gameControl.checkSelectedGame(user, gameId)
+            .then(data=>{
+                gameControl.getSelectedGame(gameId)
+                    .then(dataDetail=>{
+                        sendObj['userGame'] = data;
+                        sendObj['gameDetail'] = dataDetail
+                        response.json(sendObj)
+                    })
+            })
+    }else{ //game detail만
+        gameControl.getSelectedGame(gameId)
+            .then(dataDetail=>{
+                sendObj['userGame'] = undefined;
+                sendObj['gameDetail'] = dataDetail
+                response.json(sendObj)
+            })
     }
 })
 
