@@ -38,9 +38,9 @@ module.exports = {
             })
         })
     },
-    insertUserGames:function(user, body, tabBar){ // add user 별 library 데이터 추가
+    insertUserGames:function(user, body, tabBar){
         let wishTime = undefined;
-        if (tabBar === 'wishlist') wishTime = getDate.getDateUNIX()
+        if (tabBar === 'wishlist') wishTime = getDate.getDateUNIX() // library일 시 wish time 생성 x
 
         return new Promise(function(resolve, reject){
             gameList.find({id:body.gameId})
