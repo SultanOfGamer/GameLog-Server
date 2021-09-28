@@ -6,7 +6,7 @@ const userControl = require('../controll/index').users
 const gameControl = require('../controll/index').games;
 
 
-
+//aggregated_rating_count , aggregated_rating 순 Game 정렬
 router.get('/popular', async (request,response)=>{
     try{
         const data = await gameControl.getPopularGame()
