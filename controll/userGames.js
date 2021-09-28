@@ -21,6 +21,23 @@ module.exports = {
                 })
         })
     },
+    //wishlist 전용 Controller
+    getUserWishGames:function(user, body, page, sortType){
+        const pageCount = 30;
+        return new Promise(function(resolve, reject){
+            userGameModel.find({userid:user.id, userGameStatus:'wish'},
+                {id:1, gameId:1, gameName:1, cover:1, userGameStatus:1})
+                .select({_id:0})
+                .limit(pageCount)
+                .skip(page * pageCount)
+                .sort(sortType)
+                .then(data=>{
+                    resolve(data)
+                }).catch(err=>{
+                    reject(err)
+            })
+        })
+    },
     insertUserGames:function(user, body){ // add user 별 library 데이터 추가
         return new Promise(function(resolve, reject){
             gameList.find({id:body.gameId})
@@ -84,21 +101,6 @@ module.exports = {
                 if(err) reject({message:'delete fail', err:err})
                 if(result.deletedCount == 0) resolve({message: 'delete fail'})
                 resolve({message: 'delete success'})
-            })
-        })
-    },
-
-    //wishlist 전용 Controller
-    getUserWishGames:function(user, body, page){
-        const pageCount = 30;
-        return new Promise(function(resolve, reject){
-            userGameModel.find({userid:user.id, userGameStatus:'wish'})
-                .limit(pageCount)
-                .skip(page * pageCount)
-                .then(data=>{
-                    resolve(data)
-                }).catch(err=>{
-                    reject(err)
             })
         })
     }
