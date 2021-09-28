@@ -6,16 +6,6 @@ const userControl = require('../controll/index').users
 const gameControl = require('../controll/index').games;
 
 
-//aggregated_rating_count , aggregated_rating 순 Game 정렬
-router.get('/popular', async (request,response)=>{
-    try{
-        const data = await gameControl.getPopularGame()
-        response.json(data)
-    }catch(err){
-        response.send(err)
-    }
-})
-
 //선택된 하나의 게임 detail 전송
 router.get('/select', async (request, response)=>{
     const gameId = request.query.gameId
@@ -42,26 +32,30 @@ router.get('/select', async (request, response)=>{
     }
 })
 
-//query page
+//home game list load
+// TODO pagination 끝 부분 일 시 어떻게 처리해야할지 고민
 router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에 회원별 데이터 전송
         try{
             //genresData를 user genres로 편의성 맞게 변경
             const genresData = await gameControl.getCategory('genres')
-
             const tempPromise = genresData.map(async function(genres){
                 return new Promise(function(resolve){
                     gameControl.getGameQuery(genres.name)
                         .then(r=>{
-                            let tempDict = {};
-                            tempDict['type'] = genres.name;
-                            tempDict['game'] = r;
-                            resolve(tempDict)
+                            let tempObj = {};
+                            tempObj['type'] = genres.name;
+                            tempObj['game'] = r;
+                            resolve(tempObj)
                         })
                 })
             })
             Promise.all(tempPromise).then(r=>{
-                response.send(r)
+                gameControl.getPopularGame()
+                    .then(popularData=>{ // 유명 게임 포함 전송
+                        r.unshift({'type':'popular', 'game':popularData})
+                        response.send(r)
+                    })
             })
         }catch(err){
             response.json(err)
@@ -69,22 +63,26 @@ router.get('/', async (request,response)=>{
     }else{ //로그인 X, 첫 페이지 데이터 전송
         try{
             //genresData를 user genres로 편의성 맞게 변경
-            const page = Math.floor(Math.random() * 5);
+            let page = Math.floor(Math.random() * 5);
             const genresData = await gameControl.getCategory('genres', page)
 
             const tempPromise = genresData.map(async function(genres){
                 return new Promise(function(resolve){
                     gameControl.getGame(genres.name)
                         .then(r=>{
-                            let tempDict = {};
-                            tempDict['type'] = genres.name;
-                            tempDict['game'] = r;
-                            resolve(tempDict)
+                            let tempObj = {};
+                            tempObj['type'] = genres.name;
+                            tempObj['game'] = r;
+                            resolve(tempObj)
                         })
                 })
             })
             Promise.all(tempPromise).then(r=>{
-                response.send(r)
+                gameControl.getPopularGame()
+                    .then(popularData=>{ // 유명 게임 포함 전송
+                        r.unshift({'type':'popular', 'game':popularData})
+                        response.send(r)
+                    })
             })
         }catch(err){
             response.json(err)
