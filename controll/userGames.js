@@ -5,12 +5,15 @@ const gameList = require('../models/index').getGameList
 const userGameModel = require('../models/index').getUserGames;
 
 module.exports = {
-    getUserGames:function(user, offset){ //get user 별 library 데이터 베이스
+    getUserGames:function(user, offset, sortType){ //get user 별 library 데이터 베이스
         const pageCount = 30;
         return new Promise(function(resolve, reject){
-            userGameModel.find({userid:user.id, userGameStatus:{$ne:'wish'}}) //wish 제외 get
+            userGameModel.find({userid:user.id, userGameStatus:{$ne:'wish'}},
+                {id:1, gameId:1, gameName:1, cover:1, userGameStatus:1}) //wish 제외 get
+                .select({_id:0})
                 .limit(pageCount)
                 .skip(offset * pageCount)
+                .sort(sortType)
                 .then(data=>{
                     resolve(data)
                 }).catch(err=>{
