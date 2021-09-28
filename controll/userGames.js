@@ -38,7 +38,10 @@ module.exports = {
             })
         })
     },
-    insertUserGames:function(user, body){ // add user 별 library 데이터 추가
+    insertUserGames:function(user, body, tabBar){ // add user 별 library 데이터 추가
+        let wishTime = undefined;
+        if (tabBar === 'wishlist') wishTime = getDate.getDateUNIX()
+
         return new Promise(function(resolve, reject){
             gameList.find({id:body.gameId})
                 .limit(1)
@@ -68,7 +71,7 @@ module.exports = {
                         userGameStatus: body.userGameStatus,
                         //정보가 저장된 시점
                         createdTime: getDate.getDateUNIX(),
-                        wishTime: getDate.getDateUNIX()
+                        wishTime: wishTime
                     }, function (err, game) {
                         if (err) reject(err)
                         resolve(game)
