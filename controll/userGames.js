@@ -25,15 +25,18 @@ module.exports = {
                 .exec(function(err, data){
                     if(err) reject(err)
                     const tempGame = data[0]
-
                     userGameModel.create({
                         userid:user.id,
-                        // userEmail: user.email,
-                        // userNickname: user.nickname,
-
                         // game list 에서 받아온 game 정보 저장
                         gameId: tempGame.id,
                         gameName: tempGame.name,
+                        cover: {
+                            id:tempGame.cover[0].id,
+                            game:tempGame.id,
+                            height:tempGame.cover[0].height,
+                            width:tempGame.cover[0].width,
+                            url:tempGame.cover[0].url
+                        },
                         aggregated_rating: tempGame.aggregated_rating,
                         aggregated_rating_count: tempGame.aggregated_rating_count,
                         first_release_date: tempGame.first_release_date,
