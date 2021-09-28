@@ -16,7 +16,6 @@ module.exports = function(passport){
             // failureRedirect: '/login'
         }), (request,response)=>{
             if(request.user){ //로그인성공
-
                 response.send({message:'welcome! ' + request.user.nickname})
             }
         }
@@ -46,7 +45,7 @@ module.exports = function(passport){
         })
     })
 
-    router.post('/validation/:value', async (request,response)=>{
+    router.get('/validation/:value', async (request,response)=>{
         const value = request.params.value
         const queryString = request.query.value;
         let sendMessage = {};
