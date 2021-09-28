@@ -59,12 +59,13 @@ router.get('/:tapbar/get', async (request,response)=>{
 
 
 router.post('/:tapbar/insert', (request,response)=>{
+    const tabBar = request.params.tapbar;
     if(userControl.isUser(request,response)) {
-        userGameControl.insertUserGames(request.user, request.body)
+        userGameControl.insertUserGames(request.user, request.body, tabBar)
             .then(()=>{
                 return response.json({message:'insert success'})
             }).catch((err)=>{
-                return response.json({message:'insert fail', err:err})
+            return response.json({message:'insert fail', err:err})
         })
     }else{
         response.json({message:'please login!'})
