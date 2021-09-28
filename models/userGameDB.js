@@ -2,16 +2,23 @@ const mongoose = require('./initDB')
 
 const autoIncrementIndex = require('mongoose-sequence')(mongoose);
 
+const imageSchema = new mongoose.Schema({
+    id:{type:Number},
+    game:{type:Number},
+    height:{type:Number},
+    width:{type:Number},
+    url:{type:String},
+})
+
 const userGamesSchema = new mongoose.Schema({
     // id:{type:Number}, // Database id
-    userid:{type:Number},
-    // userEmail:{type:String, required:true},        //작성 user email
-    // userNickname:{type:String, required:true},     //작성 user nickname
+    userid:{type:Number, required:true},
     wishTime:Number,                 //wishlist 담은 날짜
 
     // Client 측에서 game 정보 전송
     gameId:{type:Number, required:true},           //gameId, gameList의 id값
-    gameName:{type:String},         //game Name
+    gameName:{type:String, required:true},         //game Name
+    cover:imageSchema,            //game cover image
     aggregated_rating:{type:Number},//IGDB 기관 평가
     aggregated_rating_count:{type:Number},//IGDB 기관 평가 count
 
