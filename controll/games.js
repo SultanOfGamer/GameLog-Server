@@ -55,13 +55,14 @@ module.exports = {
             })
         })
     },
-    getCategory:function(type, offset = 0){ // 테마, 장르 보내기, 각 별로 게임 불러오기
+    getCategory:function(type, offset = 0, showNumArg = 5){ // 테마, 장르 보내기, 각 별로 게임 불러오기
         let response; // return 값
-        const showCount = 5; // 보여주는 수
-        let skipNum = offset * showCount; // skip 하는 데이터 개수 조절
+        const showCount = showNumArg; // 보여주는 수
+        const skipNum = offset * showCount; // skip 하는 데이터 개수 조절
         switch(type){
             case 'genres':
                 response = gameGenresDB.find()
+                    .select({_id:0})
                     .limit(showCount)
                     .skip(skipNum)
                     .then(data=>{
@@ -70,6 +71,7 @@ module.exports = {
                 break
             case 'themes':
                 response = gameThemesDB.find()
+                    .select({_id:0})
                     .limit(showCount)
                     .skip(skipNum)
                     .then(data=>{
