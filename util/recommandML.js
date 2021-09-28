@@ -30,10 +30,5 @@ module.exports = {
         console.log(result)
         let ndcg = evaluation.ndcg(gtr, result);
         console.log(ndcg);
-
-
-// let gt = cf.gt(test, 'user_id', 'movie_id', 'rating')
-// let result = cf.recommendGT(gt, 40);
-// let ndcg = evaluation.ndcg(gtr, result);
     }
 }
