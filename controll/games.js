@@ -5,7 +5,7 @@ const gameGameList = require('../models/index').getGameList
 
 const userGame = require('../models/index').getUserGames
 
-function checkSelectedGame(user, gameId){
+function checkSelectedGame(user, gameId){ // user가 갖고있는 정보의 game인지
     return new Promise(function (resolve, reject){
         userGame.findOne({userid:user.id, gameId:gameId})
             .select({_id:0})
@@ -18,7 +18,7 @@ function checkSelectedGame(user, gameId){
     })
 }
 
-async function getSelectedGame(gameId){
+async function getSelectedGame(gameId){ // 선택된 게임의 detail 정보
     return new Promise(function(resolve, reject){
         gameGameList.findOne({id:gameId})
             .select({_id:0})
