@@ -38,12 +38,14 @@ const passport = require('./controll/index').passport(app)
 
 
 const authRouter = require('./routes/index').auth(passport);
+const initRouter = require('./routes/index').initdata;
 const userProfileRouter = require('./routes/index').userProfile;
 
 const homeRouter = require('./routes/index').home
 const LibAndWishRouter = require('./routes/index').LibAndWish;
 const searchRouter = require('./routes/index').search;
 
+app.use('/initdata', initRouter);
 app.use('/auth', authRouter);
 app.use('/profile', userProfileRouter);
 
