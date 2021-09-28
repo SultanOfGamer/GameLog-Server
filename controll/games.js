@@ -35,7 +35,7 @@ module.exports = {
             gameGameList.find({genres:{$elemMatch:{name:genres}}}, {id:1,name:1, cover:1}).select({_id:0})
             .where('aggregated_rating').gte(4)
             .where('aggregated_rating_count').gt(5)
-            .sort('aggregated_rating')
+            .sort({'aggregated_rating_count':-1, 'aggregated_rating':-1})
             .limit(10)
             .then(data=>{
                 resolve(data)
@@ -75,13 +75,12 @@ module.exports = {
         return response
     },
     getPopularGame:function(){
-        //TODO 두개의 sort 를 사용하는 방법 고안
         return new Promise(function(resolve){
-            gameGameList.find({},{id:1,name:1, cover:1}).select({_id:0})
+            gameGameList.find({},{id:1,name:1, cover:1})
+                .select({_id:0})
             .where('aggregated_rating').gte(4)
-            .where('aggregated_rating_count').gt(4)
-            .sort({aggregated_rating:1, aggregated_rating_count:1})
-                // .sort('aggregated_rating_count')
+            .where('aggregated_rating_count').gt(20)
+            .sort({'aggregated_rating_count':-1, 'aggregated_rating':-1})
             .limit(10)
             .then(data=>{
                 resolve(data)
