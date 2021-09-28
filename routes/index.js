@@ -3,10 +3,10 @@ const auth = require('./auth')
 
 //Tab bar(footer) 기준으로 라우팅 분리
 
-const home = require('./home')
-const search = require('./search')
+const home = require('./tabBarHome')
+const search = require('./tabBarSearch')
 
-const gameUser = require('./game');
+const LibAndWish = require('./tabBarLibAndWish');
 
 const userProfile = require('./userProfile')
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
 
     search:search,
 
-    gameUser:gameUser,
+    LibAndWish:LibAndWish,
 
     userProfile:userProfile
 }

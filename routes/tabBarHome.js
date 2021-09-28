@@ -10,7 +10,6 @@ const gameControl = require('../controll/index').games;
 router.get('/select', async (request, response)=>{
     const gameId = request.query.gameId
     const user = request.user;
-
     let sendObj = {};
     if(userControl.isUser(request,response)) {//game library 혹은 wish 정보 전송
         gameControl.checkSelectedGame(user, gameId)
