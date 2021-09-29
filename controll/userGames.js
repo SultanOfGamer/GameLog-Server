@@ -65,8 +65,8 @@ module.exports = {
                         first_release_date: tempGame.first_release_date,
 
                         //유저측, 전송되는 데이터, request body로 받을 것
-                        userGameEval: body.userGameEval,
-                        userGameEvalText: body.userGameEvalText,
+                        userGameRating: body.userGameRating,
+                        // userGameEvalText: body.userGameEvalText,
                         userGameMemo: body.userGameMemo,
                         userGameStatus: body.userGameStatus,
                         //정보가 저장된 시점
@@ -84,8 +84,8 @@ module.exports = {
             userGameModel.findOneAndUpdate(
                 {id:body.id},
                 {
-                    userGameEval: body.userGameEval,
-                    userGameEvalText: body.userGameEvalText,
+                    userGameRating: body.userGameRating,
+                    // userGameEvalText: body.userGameEvalText,
                     userGameMemo: body.userGameMemo,
                     userGameStatus: body.userGameStatus,
                     updatedTime:getDate.getDateUNIX()
