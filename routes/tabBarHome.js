@@ -36,7 +36,7 @@ router.get('/select', async (request, response)=>{
 router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에 회원별 데이터 전송
         try{
-            //genresData를 user genres로 편의성 맞게 변경
+            //TODO 추천 끝날 시 type 추천, 추가 전송!
             const genresData = await gameControl.getCategory('genres')
             const tempPromise = genresData.map(async function(genres){
                 return new Promise(function(resolve){
