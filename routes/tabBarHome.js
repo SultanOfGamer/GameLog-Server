@@ -39,29 +39,30 @@ router.get('/', async (request,response)=>{
         try{
             //TODO 추천 끝날 시 type 추천, 추가 전송!
             const genresData = await gameControl.getCategory('genres')
-            const themesData = await gameControl.getCategory('themes')
-            // const tempPromise = genresData.map(async function(genres){
-            //     return new Promise(function(resolve){
-            //         gameControl.getGameQuery('genres', genres.name)
-            //             .then(r=>{
-            //                 let tempObj = {};
-            //                 tempObj['type'] = genres.name;
-            //                 tempObj['game'] = r;
-            //                 resolve(tempObj)
-            //             })
-            //     })
-            // })
-            const tempPromise = themesData.map(async function(themes){
+
+            const tempPromise = genresData.map(async function(genres){
                 return new Promise(function(resolve){
-                    gameControl.getGameQuery('themes', themes.name)
+                    gameControl.getGameQuery('genres', genres.name)
                         .then(r=>{
                             let tempObj = {};
-                            tempObj['type'] = themes.name;
+                            tempObj['type'] = genres.name;
                             tempObj['game'] = r;
                             resolve(tempObj)
                         })
                 })
             })
+            // const themesData = await gameControl.getCategory('themes')
+            // const tempPromise = themesData.map(async function(themes){
+            //     return new Promise(function(resolve){
+            //         gameControl.getGameQuery('themes', themes.name)
+            //             .then(r=>{
+            //                 let tempObj = {};
+            //                 tempObj['type'] = themes.name;
+            //                 tempObj['game'] = r;
+            //                 resolve(tempObj)
+            //             })
+            //     })
+            // })
 
             Promise.all(tempPromise).then(r=>{
                 gameControl.getPopularGame()
