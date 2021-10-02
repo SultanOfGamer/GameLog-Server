@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const url = 'mongodb://127.0.0.1:27017/testserver';
+const url = 'mongodb://127.0.0.1:27017/gamelog';
 const db = mongoose.connect(url, {
   authSource:"admin",
   auth:{
