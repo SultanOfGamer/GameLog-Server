@@ -4,7 +4,6 @@ const {CF, evaluation} = require('nodeml')
 const gameGameList = require('../models/index').getGameList
 const userGameModel = require('../models/index').getUserGames;
 
-
 function getConBasedGame(){
     return new Promise(function(resolve, reject){
         gameGameList.find({},
@@ -22,14 +21,6 @@ function getConBasedGame(){
                 resolve(data);
             })
     })
-}
-
-function preProcessingGame(game){
-    game.forEach(data=>{
-        // let temp ;
-
-    })
-    // console.log(game)
 }
 function getUserGamesEval(){
     return new Promise(function(resolve, reject){
@@ -52,8 +43,6 @@ async function contentBasedRecommand(){
         id:10
     }
     const game = await getConBasedGame()
-    // console.log(game)
-    // preProcessingGame(game)
 }
 
 // user에 library가 쌓여있을때 based 추천
@@ -78,11 +67,10 @@ async function userBasedRecommnad(){
     for (let user in gt) {
         gtr[user] = gt[user];
         users.push(user);
-        if (users.length === 10) break;
+        if (users.length === 40) break;
     }
-
     //10개의 유저, 10개의 추천 game
-    let result = cf.recommendToUsers(users, 10);
+    let result = cf.recommendToUsers(users, 40);
     return result
 }
 
