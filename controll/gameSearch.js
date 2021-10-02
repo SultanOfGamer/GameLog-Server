@@ -28,7 +28,6 @@ function getAlterSearch(name){
             .limit(pageCount)
             .skip(pageCount)
             .then(data=>{
-                console.log(data)
                 resolve(data)
             })
     })
