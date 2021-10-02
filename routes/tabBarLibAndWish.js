@@ -22,11 +22,12 @@ router.get('/:tapbar/get', async (request,response)=>{
 
     if(sortReqType === sortTypeAsc[0]) sort[sortReq] = 1; //오름차순
     else if(sortReqType === sortTypeAsc[1]) sort[sortReq] = -1; //내림차순
-    else if(sortReqType === undefined) sort['createdTime'] = -1 //default sort값
+    else if(sortReqType === undefined || sortReq === undefined) sort['createdTime'] = -1 //default sort값
 
     //domain에 있는 sort값이 아닐 때 예외처리
     if(sortTypeAsc.includes(sortReqType) === false || checkInArrayString(sortDomain, sortReq) === false)
-        response.json({message:'err in sort type'})
+        if(sortReqType !== undefined && sortReq !== undefined) //default 예외처리
+            response.json({message:'err in sort type'})
 
     if(userControl.isUser(request,response)) {
         let page = request.query.page - 1 // pagination
@@ -35,6 +36,10 @@ router.get('/:tapbar/get', async (request,response)=>{
                 case 'library': // user library 전송
                     const userLibraryList = await userGameControl.getUserGames(request.user, page, sort)
                     response.json({
+                        user:{
+                            id:request.user.id,
+                            email:request.user.email
+                        },
                         message:'success response',
                         data:userLibraryList
                     })
@@ -42,12 +47,17 @@ router.get('/:tapbar/get', async (request,response)=>{
                 case 'wishlist': //user wishlist 전송
                     const wishlistData = await userGameControl.getUserWishGames(request.user, request.body, page, sort)
                     response.json({
+                        user:{
+                            id:request.user.id,
+                            email:request.user.email
+                        },
                         message:'success response',
                         data:wishlistData
                     })
                     break;
                 default:
                     response.json({message:'라우팅 확인!'})
+                    break;
             }
         }catch(err){
             response.json({message:err})
