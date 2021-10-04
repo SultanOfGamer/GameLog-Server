@@ -13,20 +13,19 @@ function checkInArrayString(arr, val) { //domain check value
 router.get('/:tapbar/get', async (request,response)=>{
     const tabBar = request.params.tapbar;
 
-    const sort = {}; // sort send value
+    const sortObj = {}; // sort send value
     const sortDomain = ['aggregated_rating', 'first_release_date', 'gameName', 'createdTime'] //{별점순, 출시일 순, abc순, 담은 순}
     const sortTypeAsc = ['asc', 'desc'] // {asc, desc} 오름차순 내림차순
 
-    const sortReqType = request.query.sorttype;
-    const sortReq = request.query.sort
+    const {sort, sorttype} = request.query;
 
-    if(sortReqType === sortTypeAsc[0]) sort[sortReq] = 1; //오름차순
-    else if(sortReqType === sortTypeAsc[1]) sort[sortReq] = -1; //내림차순
-    else if(sortReqType === undefined || sortReq === undefined) sort['createdTime'] = -1 //default sort값
+    if(sorttype === sortTypeAsc[0]) sortObj[sort] = 1; //오름차순
+    else if(sorttype === sortTypeAsc[1]) sortObj[sort] = -1; //내림차순
+    else if(sorttype === undefined || sortObj === undefined) sortObj['createdTime'] = -1 //default sort값
 
     //domain에 있는 sort값이 아닐 때 예외처리
-    if(sortTypeAsc.includes(sortReqType) === false || checkInArrayString(sortDomain, sortReq) === false)
-        if(sortReqType !== undefined && sortReq !== undefined) //default 예외처리
+    if(sortTypeAsc.includes(sorttype) === false || checkInArrayString(sortDomain, sort) === false)
+        if(sorttype !== undefined && sort !== undefined) //default 예외처리
             response.json({message:'err in sort type'})
 
     if(userControl.isUser(request,response)) {
@@ -34,7 +33,7 @@ router.get('/:tapbar/get', async (request,response)=>{
         try{
             switch (tabBar){
                 case 'library': // user library 전송
-                    const userLibraryList = await userGameControl.getUserGames(request.user, page, sort)
+                    const userLibraryList = await userGameControl.getUserGames(request.user, page, sortObj)
                     response.json({
                         user:{
                             id:request.user.id,
@@ -45,7 +44,7 @@ router.get('/:tapbar/get', async (request,response)=>{
                     })
                     break;
                 case 'wishlist': //user wishlist 전송
-                    const wishlistData = await userGameControl.getUserWishGames(request.user, request.body, page, sort)
+                    const wishlistData = await userGameControl.getUserWishGames(request.user, request.body, page, sortObj)
                     response.json({
                         user:{
                             id:request.user.id,
