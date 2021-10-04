@@ -10,12 +10,12 @@ const gameSearch = require('./gameSearch')
 const passport = require('./passport')
 
 module.exports = {
-    users:users,
-    userProfile:userProfile,
+    users,
+    userProfile,
 
-    userGames:userGames,
-    games:games,
+    userGames,
+    games,
 
-    gameSearch:gameSearch,
-    passport:passport
+    gameSearch,
+    passport
 }

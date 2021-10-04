@@ -47,6 +47,6 @@ function saveGameModesDB(){
 
 
 module.exports={
-    saveGameModesDB:saveGameModesDB,
+    saveGameModesDB,
     getGameModes:gameGameModes
 }

@@ -216,7 +216,7 @@ async function saveGameListIGDBToDB(attribute, condition='', sort='',
 }
 
 module.exports = {
-    initGameList:initGameList,
+    initGameList,
     saveGameList:initGameListSave,
     getGameList:gameGameList
 }

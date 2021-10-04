@@ -10,12 +10,12 @@ const LibAndWish = require('./tabBarLibAndWish');
 
 const userProfile = require('./userProfile')
 module.exports = {
-    auth:auth,
-    initdata:initdata,
+    auth,
+    initdata,
 
-    home:home,
-    search:search,
-    LibAndWish:LibAndWish,
+    home,
+    search,
+    LibAndWish,
 
-    userProfile:userProfile
+    userProfile
 }

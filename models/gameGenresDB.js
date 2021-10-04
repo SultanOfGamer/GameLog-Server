@@ -48,6 +48,6 @@ function saveGenresDB(){
 
 // module.exports = gameGenres
 module.exports ={ //limit를 설정해서 데이터 가져오기
-    saveGenresDB:saveGenresDB,
+    saveGenresDB,
     getGameGenresDB: gameGenres
 }

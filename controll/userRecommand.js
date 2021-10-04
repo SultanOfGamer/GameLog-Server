@@ -75,6 +75,6 @@ async function userBasedRecommnad(){
 }
 
 module.exports = {
-    userBasedRecommnad:userBasedRecommnad,
-    contentBasedRecommand:contentBasedRecommand,
+    userBasedRecommnad,
+    contentBasedRecommand,
 }

@@ -1,24 +1,24 @@
 const initDB = require('./initDB')
 
 const userDatabase = require('./userDatabase')
-const userGames = require('./userGameDB');
+const getUserGames = require('./userGameDB').getUserGames;
 
-const gameGameModes = require('./gameGameModes')
-const gameGenres = require('./gameGenresDB')
-const gamePlatforms = require('./gamePlatforms')
-const gameThemes = require('./gameThemes')
+const getGameModes = require('./gameGameModes').getGameModes
+const getGenres = require('./gameGenresDB').getGameGenresDB
+const getPlatforms = require('./gamePlatforms').getGamePlatforms
+const getThemes = require('./gameThemes').getGameThemes
 
-const gameDB = require('./gamesDB')
+const getGameList = require('./gamesDB').getGameList
 
 
 module.exports = {
-    userDatabase:userDatabase,
-    getUserGames:userGames.getUserGames,
+    userDatabase,
+    getUserGames,
 
-    getGameModes:gameGameModes.getGameModes,
-    getGenres:gameGenres.getGameGenresDB,
-    getPlatforms:gamePlatforms.getGamePlatforms,
-    getThemes:gameThemes.getGameThemes,
+    getGameModes,
+    getGenres,
+    getPlatforms,
+    getThemes,
 
-    getGameList:gameDB.getGameList,
+    getGameList,
 }

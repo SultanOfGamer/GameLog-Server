@@ -29,6 +29,6 @@ function uploadProfileImg(userid){
 }
 // console.log(defaultProfile())
 module.exports = {
-    defaultProfile:defaultProfile,
+    defaultProfile,
     uploadImg:uploadProfileImg,
 }

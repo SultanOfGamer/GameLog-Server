@@ -63,6 +63,6 @@ function savePlatformsDB(){
 // gameGameModes
 
 module.exports={
-    savePlatformsDB:savePlatformsDB,
+    savePlatformsDB,
     getGamePlatforms:gamePlatforms
 }

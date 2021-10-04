@@ -44,7 +44,7 @@ function saveThemesDB(){
 
 
 module.exports={
-    saveThemesDB:saveThemesDB,
+    saveThemesDB,
     getGameThemes: gameThemes
 }
 
