@@ -5,18 +5,18 @@ const getDate = require('../util/index').date;
 const userProfile = require('./userProfile');
 
 module.exports = {
-    isUser:function(request,response){
+    isUser(request,response){
         if(request.user){
             return true
         }else{
             return false
         }
     },
-    emailValidation: function ( email ) {
+    emailValidation ( email ) {
             var regex=/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
             return (email != '' && email != 'undefined' && regex.test(email));
     },
-    signupInsert:function(body, hash){
+    signupInsert(body, hash){
         const profileURL = userProfile.defaultProfile()
         return users.create({
                 email:body.email,
@@ -28,7 +28,7 @@ module.exports = {
                 }
             })
     },
-    updateUserStat:function(user, image){
+    updateUserStat(user, image){
         return new Promise((resolve, reject)=>{
             const saveURL = '/images/user_profile/'
             let imageURL = '';
@@ -51,7 +51,22 @@ module.exports = {
             )
         })
     },
-    findEmailVal:function(queryString){
+    updateUserPrefer(user, body){
+        return new Promise((resolve, reject)=>{
+            users.findOneAndUpdate(
+                {id:user.id},
+                {
+
+                }, {new:true},
+                (err, userStat)=>{
+                    if(err) {reject(err)}
+                    if(!userStat) resolve({message:'update fail not exist data'})
+                    resolve({message:'update success!'})
+                }
+            )
+        })
+    },
+    findEmailVal(queryString){
         return new Promise((resolve, reject) => {
             users.findOne({email:queryString}, function(err, user){
                 if(err) reject(err)
@@ -62,7 +77,7 @@ module.exports = {
             })
         })
     },
-    findNickVal:function(queryString){
+    findNickVal(queryString){
         return new Promise((resolve, reject) => {
             users.findOne({nickname:queryString}, function(err, user){
                 if(err) reject(err)

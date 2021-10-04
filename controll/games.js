@@ -32,7 +32,7 @@ async function getSelectedGame(gameId){ // 선택된 게임의 detail 정보
 }
 
 module.exports = {
-    getGame:function(type, genres){// 로그인 X 유명 장르를 통하여 게임 받아오기
+    getGame(type, genres){// 로그인 X 유명 장르를 통하여 게임 받아오기
         if(type === 'genres'){
             return new Promise(function(resolve){
                 gameGameList.find({genres:{$elemMatch:{name:genres}}}, {id:1,name:1, cover:1})
@@ -59,7 +59,7 @@ module.exports = {
             })
         }
     },
-    getGameQuery:function(type, name){ //user genres & themes  속 데이터 받아오기
+    getGameQuery(type, name){ //user genres & themes  속 데이터 받아오기
         if(type === 'genres'){
             return new Promise(function(resolve){
                 gameGameList.find({genres:{$elemMatch:{name:name}}}, {id:1,name:1, cover:1})
@@ -80,7 +80,7 @@ module.exports = {
             })
         }
     },
-    getCategory:function(type, offset = 0, showNumArg = 5){ // 테마, 장르 보내기, 각 별로 게임 불러오기
+    getCategory(type, offset = 0, showNumArg = 5){ // 테마, 장르 보내기, 각 별로 게임 불러오기
         let response; // return 값
         const showCount = showNumArg; // 보여주는 수
         const skipNum = offset * showCount; // skip 하는 데이터 개수 조절
@@ -109,7 +109,7 @@ module.exports = {
         }
         return response
     },
-    getPopularGame:function(){
+    getPopularGame(){
         return new Promise(function(resolve){
             gameGameList.find({},{id:1,name:1, cover:1})
                 .select({_id:0})
@@ -122,6 +122,6 @@ module.exports = {
                 })
         })
     },
-    getSelectedGame:getSelectedGame,
-    checkSelectedGame:checkSelectedGame,
+    getSelectedGame,
+    checkSelectedGame,
 }
