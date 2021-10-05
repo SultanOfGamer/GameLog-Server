@@ -6,35 +6,33 @@ async function getSearchResult(name){
     const pageCount = 10;
     const string = name;
     const reg = new RegExp(string, 'i')
-    return new Promise(function(resolve, reject){
-        gameList.find({name:{$regex:name, $options: "i"}},{id:1, name:1, cover:1})
-            .select({_id:0}) //_id 제거
-            .limit(pageCount)
-            .skip(pageCount)
-            .then(data=>{
-                resolve(data)
-            })
-            .catch(err=>{
-                reject(err)
-            })
-    })
+    const result = await gameList.find(
+        {
+            name:
+                {
+                    $regex:name,
+                    $options: "i"
+                }
+        },
+        {id:1, name:1, cover:1})
+        .select({_id:0}) //_id 제거
+        .limit(pageCount)
+        .skip(pageCount)
+    return result
 }
 
-function getAlterSearch(name){
+async function getAlterSearch(name){
     const pageCount = 10;
-    return new Promise(function(resolve, reject){
-        gameList.find({'alternative_names.name':{$regex:name, $options: "i"}},{id:1,name:1, cover:1})
-            .select({_id:0})
-            .limit(pageCount)
-            .skip(pageCount)
-            .then(data=>{
-                resolve(data)
-            })
-    })
+    const result = await gameList.find(
+        {'alternative_names.name':{$regex:name, $options: "i"}},
+        {id:1,name:1, cover:1})
+        .select({_id:0})
+        .limit(pageCount)
+        .skip(pageCount)
+    return result
 }
 
 module.exports={
-    getSearchResult:getSearchResult,
-    getAlterSearch:getAlterSearch,
-
+    getSearchResult,
+    getAlterSearch,
 }
