@@ -5,7 +5,7 @@ const gameList = require('../models/index').getGameList
 const userGameModel = require('../models/index').getUserGames;
 
 module.exports = {
-    getUserGames:function(user, offset, sortType){ //get user 별 library 데이터 베이스
+    getUserGames(user, offset, sortType){ //get user 별 library 데이터 베이스
         const pageCount = 30;
         return new Promise(function(resolve, reject){
             userGameModel.find({userid:user.id, userGameStatus:{$ne:'wish'}},
@@ -22,7 +22,7 @@ module.exports = {
         })
     },
     //wishlist 전용 Controller
-    getUserWishGames:function(user, body, page, sortType){
+    getUserWishGames(user, body, page, sortType){
         const pageCount = 30;
         return new Promise(function(resolve, reject){
             userGameModel.find({userid:user.id, userGameStatus:'wish'},
@@ -38,7 +38,7 @@ module.exports = {
             })
         })
     },
-    insertUserGames:function(user, body, tabBar){
+    insertUserGames(user, body, tabBar){
         let wishTime = undefined;
         if (tabBar === 'wishlist') wishTime = getDate.getDateUNIX() // library일 시 wish time 생성 x
 
@@ -79,7 +79,7 @@ module.exports = {
                 })
         })
     },
-    updateUserGames:function(user, body){
+    updateUserGames(user, body){
         return new Promise((resolve, reject) => {
             userGameModel.findOneAndUpdate(
                 {id:body.id},
@@ -98,7 +98,7 @@ module.exports = {
             )
         })
     },
-    deleteUserGames:function(body){
+    deleteUserGames(body){
         return new Promise((resolve, reject) => {
             userGameModel.deleteOne({id:body.id}, function(err, result){
                 if(err) reject({message:'delete fail', err:err})
