@@ -3,8 +3,9 @@
 GameLog는 콘솔 및 PC 게임 평가 및 추천 어플리케이션 시스템 입니다.
 
 <div align="center">
- <img alt="node" src ="https://img.shields.io/badge/node-12.18.3-yellowgreen">
- <img alt="npmVersion" src ="https://img.shields.io/badge/npm package-7.11.1-brightgreen">
+ <img alt="node" src ="https://img.shields.io/badge/node-12.18.3-339933?logo=nodedotjs">
+ <img alt="npmVersion" src ="https://img.shields.io/badge/npm package-7.11.1-CB3837?logo=npm">
+ <img alt="Jest" src ="https://img.shields.io/badge/Jest-27.2.4-C21325?logo=jest">
 </div>
 
 <div align="center" style="margin: 10px">
