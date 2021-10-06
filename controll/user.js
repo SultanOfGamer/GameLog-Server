@@ -87,5 +87,14 @@ module.exports = {
                 else resolve({message:"이미 중복된 닉네임이 존재합니다."})
             })
         })
+    },
+    deleteUser(user){
+        return new Promise((resolve, reject) => {
+            users.deleteOne({id:user.id}, function(err, result){
+                if(err) reject({message:'delete fail', err:err})
+                if(result.deletedCount == 0) resolve({message: 'delete fail'})
+                resolve({message: 'delete success'})
+            })
+        })
     }
 }

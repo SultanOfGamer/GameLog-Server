@@ -23,19 +23,12 @@ const upload = multer({storage:storage,
 const userProfile = require('../controll/index').userProfile
 const userControl = require('../controll/index').users
 
-router.get('/test', async (request, response)=>{
-    if(userControl.isUser(request,response)){
-        response.send(request.user)
-    }else{
-        response.json({message:'please login!'})
-    }
-})
-
+//user 프로필 변경
 router.post('/image',  async (request, response)=>{
     if(userControl.isUser(request,response)){
         try{
             upload(request, response, async function(err){ // upload 에러처리 필요
-                console.log(request.file)
+                // console.log(request.file)
                 if(err) response.json({message:'upload fail', err:err})
                 if(request.file === undefined) return response.json({message:'not find image file'})
                 const sendMessage = await userControl.updateUserStat(request.user, request.file)
@@ -44,10 +37,26 @@ router.post('/image',  async (request, response)=>{
         }catch(err){
             response.send(err)
         }
+    }else{
+        response.json({message:'please login!'})
+    }
+})
+
+//회원 탈퇴
+router.post('/deleteuser', async (request, response)=>{
+    const sendMessage = await userControl.deleteUser(request.user)
+    response.json(sendMessage)
+})
+
+//user 회원가입 시 선호 장르 저장
+router.post('/prefer', async (request, response)=>{
+    if(userControl.isUser(request,response)) {
+        const sendMessage = await userControl.updateUserStat(request.user, request.body)
 
     }else{
         response.json({message:'please login!'})
     }
+
 })
 
 module.exports = router;
