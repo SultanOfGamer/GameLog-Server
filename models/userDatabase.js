@@ -8,13 +8,20 @@ const imageSchema = new mongoose.Schema({
     url:{type:String, required:true},
 })
 
+const preferCategorySchema = new mongoose.Schema({
+    category:{type:String}, //themes, genres
+    id:{type:Number},
+    name:{type:String}
+})
+
 const userSchema = new mongoose.Schema({
-  // id:{type:String, unique: true},
-  email:{type:String, unique: true, index:true, required:true},
-  nickname:{type:String, unique: true, required:true},
-  password:{type:String, required:true},
-  signDate:Number,
-  profileImage:imageSchema
+    // id:{type:String, unique: true},
+    email:{type:String, unique: true, index:true, required:true},
+    nickname:{type:String, unique: true, required:true},
+    password:{type:String, required:true},
+    signDate:Number,
+    profileImage:imageSchema,
+    preferCategory:[preferCategorySchema]
 })
 
 userSchema.plugin(autoIncrementIndex, {id:"user_seq",inc_field:'id'});
