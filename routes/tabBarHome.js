@@ -37,6 +37,8 @@ router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에 회원별 데이터 전송
         try{
             const preferArr = request.user.preferCategory
+            if(preferArr.length === 0) //prefer가 없을시 에러처리
+                throw 'preferArr is null'
             const tempPromise = preferArr.map(async (elem)=>{
                 return new Promise(function(resovle){
                     gameControl.getGameQuery(elem.category, elem.name)
@@ -56,7 +58,7 @@ router.get('/', async (request,response)=>{
                     })
             })
         }catch(err){
-            response.json(err)
+            response.json({err:err})
         }
     }else{ //로그인 X, 첫 페이지 데이터 전송
         try{
