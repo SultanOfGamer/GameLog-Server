@@ -51,12 +51,12 @@ module.exports = {
             )
         })
     },
-    updateUserPrefer(user, body){
+    updateUserPrefer(user, categoryArr){
         return new Promise((resolve, reject)=>{
             users.findOneAndUpdate(
                 {id:user.id},
                 {
-
+                    preferCategory:categoryArr
                 }, {new:true},
                 (err, userStat)=>{
                     if(err) {reject(err)}
