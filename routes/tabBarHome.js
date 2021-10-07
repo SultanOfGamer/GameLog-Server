@@ -33,37 +33,21 @@ router.get('/select', async (request, response)=>{
 })
 
 //home game list load
-// TODO pagination 끝 부분 일 시 어떻게 처리해야할지 고민
 router.get('/', async (request,response)=>{
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에 회원별 데이터 전송
         try{
-            //TODO 추천 끝날 시 type 추천, 추가 전송!
-            const genresData = await gameControl.getCategory('genres')
-
-            const tempPromise = genresData.map(async function(genres){
-                return new Promise(function(resolve){
-                    gameControl.getGameQuery('genres', genres.name)
+            const preferArr = request.user.preferCategory
+            const tempPromise = preferArr.map(async (elem)=>{
+                return new Promise(function(resovle){
+                    gameControl.getGameQuery(elem.category, elem.name)
                         .then(r=>{
                             let tempObj = {};
-                            tempObj['type'] = genres.name;
+                            tempObj['type'] = elem.name;
                             tempObj['game'] = r;
-                            resolve(tempObj)
+                            resovle(tempObj)
                         })
                 })
             })
-            // const themesData = await gameControl.getCategory('themes')
-            // const tempPromise = themesData.map(async function(themes){
-            //     return new Promise(function(resolve){
-            //         gameControl.getGameQuery('themes', themes.name)
-            //             .then(r=>{
-            //                 let tempObj = {};
-            //                 tempObj['type'] = themes.name;
-            //                 tempObj['game'] = r;
-            //                 resolve(tempObj)
-            //             })
-            //     })
-            // })
-
             Promise.all(tempPromise).then(r=>{
                 gameControl.getPopularGame()
                     .then(popularData=>{ // 유명 게임 포함 전송
