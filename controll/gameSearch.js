@@ -8,27 +8,23 @@ async function getSearchResult(name){
     const reg = new RegExp(string, 'i')
     const result = await gameList.find(
         {
-            name:
-                {
-                    $regex:name,
-                    $options: "i"
-                }
+            name:reg
         },
         {id:1, name:1, cover:1})
         .select({_id:0}) //_id 제거
         .limit(pageCount)
-        .skip(pageCount)
     return result
 }
 
 async function getAlterSearch(name){
     const pageCount = 10;
+    const string = name;
+    const reg = new RegExp(string, 'i')
     const result = await gameList.find(
-        {'alternative_names.name':{$regex:name, $options: "i"}},
+        {'alternative_names.name':reg},
         {id:1,name:1, cover:1})
         .select({_id:0})
         .limit(pageCount)
-        .skip(pageCount)
     return result
 }
 
