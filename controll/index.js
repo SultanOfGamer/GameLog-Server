@@ -4,6 +4,7 @@ const userProfile = require('./userProfile')
 
 const games = require('./games')
 const userGames = require('./userGames')
+const userRecommand = require('./userRecommand');
 
 const gameSearch = require('./gameSearch')
 
@@ -14,6 +15,7 @@ module.exports = {
     userProfile,
 
     userGames,
+    userRecommand,
     games,
 
     gameSearch,

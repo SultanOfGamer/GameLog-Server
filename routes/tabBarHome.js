@@ -4,6 +4,7 @@ const router = express.Router();
 
 const userControl = require('../controll/index').users
 const gameControl = require('../controll/index').games;
+const userRecommand = require('../controll/index').userRecommand;
 
 const shuffle = require('../util/index').shuffleArray
 
@@ -51,11 +52,16 @@ router.get('/', async (request,response)=>{
                 })
             })
             Promise.all(tempPromise).then(r=>{
-                gameControl.getPopularGame()
-                    .then(popularData=>{ // 유명 게임 포함 전송
-                        r.unshift({'type':'popular', 'game':popularData})
-                        response.send(r)
+                userRecommand.recommandGameList(request.user)
+                    .then(recoGame=>{
+                        r.unshift({'type':'recommand', 'game':recoGame})
+                        gameControl.getPopularGame()
+                            .then(popularData=>{ // 유명 게임 포함 전송
+                                r.unshift({'type':'popular', 'game':popularData})
+                                response.send(r)
+                            })
                     })
+
             })
         }catch(err){
             response.json({err:err})
