@@ -51,8 +51,13 @@ router.post('/deleteuser', async (request, response)=>{
 //user 회원가입 시 선호 장르 저장
 router.post('/prefer', async (request, response)=>{
     if(userControl.isUser(request,response)) {
-        const sendMessage = await userControl.updateUserPrefer(request.user, request.body.prefer)
-        response.json(sendMessage)
+        try{
+            const sendMessage = await userControl.updateUserPrefer(request.user, request.body.prefer)
+            response.json(sendMessage)
+        }catch(err){
+            response.json({err:err})
+        }
+
     }else{
         response.json({message:'please login!'})
     }
