@@ -1,5 +1,7 @@
 const recommandUser = require('./createRecommandUser')
-const signUp = require('../../controll/user').signupInsert
+
+const signUp = require('../../controll/index').users.signupInsert
+const updateUserPrefer = require('../../controll/index').users.updateUserPrefer
 const insertUserGame = require('../../controll/userGames').insertUserGames;
 
 const gameList = require('../index').getGameList;
@@ -25,10 +27,16 @@ async function getCategoryGame(categories){
 
 async function saveUserAndGame(users){
     await new Promise(res=>setTimeout(res,1000))
+
     for(let user of users){
+        //test user 회원가입
         await signUp(user, user.password)
         const userId = await userDB.findOne({email:user.email}, {id:1}).select({_id:0})
         user.id = userId.id;
+
+        //test user prefer category update
+        await updateUserPrefer(user, user.preferCategory)
+
         const recommandGames = await getCategoryGame(user.preferCategory)
         for(let game of recommandGames){
             game.userGameRating = game.aggregated_rating;
@@ -40,9 +48,11 @@ async function saveUserAndGame(users){
 
 async function main(){
     await saveUserAndGame(recommandUser)
-    console.log('랜덤 추천 게임 저장 완료')
 }
 
-main();
+main()
+    .then(r=>{
+        console.log('랜덤 추천 게임 저장 완료')
+    });
 
 module.exports = main;
