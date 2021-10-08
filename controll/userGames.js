@@ -93,7 +93,10 @@ module.exports = {
                 (err, game)=>{
                     if(err) reject(err)
                     if(!game) resolve({message:'update fail not exist data'})
-                    resolve({message:'update success!'})
+                    resolve({
+                        message:'update success!',
+                        data:game
+                    })
                 }
             )
         })
@@ -103,7 +106,10 @@ module.exports = {
             userGameModel.deleteOne({id:body.id}, function(err, result){
                 if(err) reject({message:'delete fail', err:err})
                 if(result.deletedCount == 0) resolve({message: 'delete fail'})
-                resolve({message: 'delete success'})
+                resolve({
+                    message: 'delete success',
+                    data:result
+                })
             })
         })
     }
