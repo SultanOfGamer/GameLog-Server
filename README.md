@@ -105,6 +105,16 @@ node initSaveDB.js
 node main.js
 ```
 
+### 1.7 recommand game save
+
+추천 게임을 위한 카테고리별 랜덤 데이터 저장
+1.5의 IGDB game save 후 실행 추천!
+
+```console
+cd models/util
+node scriptRecommand.js
+```
+
 
 
 
