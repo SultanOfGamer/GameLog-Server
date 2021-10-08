@@ -14,7 +14,6 @@ function testRecommnad(){
         if (Math.random() > 0.8) test.push(movie[i]);
         else train.push(movie[i])
     }
-    console.log(test)
     const cf = new CF();
 
     cf.maxRelatedItem = 40;
@@ -36,7 +35,7 @@ function testRecommnad(){
     // let ndcg = evaluation.ndcg(gtr, result);
 }
 
-testRecommnad()
+// testRecommnad()
 function recommand({user, genres, themes}){
     let result // 추천하는 game list
 
