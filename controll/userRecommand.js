@@ -47,25 +47,20 @@ async function userBasedRecommnad(user){
 
     let train = [], test = []
     for (let i = 0; i < game.length; i++) {
-        if (Math.random() > 0.8) test.push(game[i]);
+        if (Math.random() > 0.7) test.push(game[i]);
         else train.push(game[i])
     }
 
     const cf = new CF();
-    cf.maxRelatedItem = 40;
-    cf.maxRelatedUser = 40;
+    cf.maxRelatedItem = 20;
+    cf.maxRelatedUser = 10;
 
     cf.train(train, 'userid', 'gameId', 'userGameRating');
-    // let gt = cf.gt(test, 'userid', 'gameId', 'userGameRating')
-    // let gtr = {};
     let users = [user.id];
-    // for (let user in gt) {
-    //     gtr[user] = gt[user];
-    //     users.push(user);
-    //     if (users.length === 10) break;
-    // }
+
     //1명의 유저, 10개의 추천 game
     let result = cf.recommendToUsers(users, 10);
+
     //result key 변경
     result[user.id].forEach(item=>{
         if (item.hasOwnProperty('play')) {
@@ -77,13 +72,26 @@ async function userBasedRecommnad(user){
             delete item.itemId;
         }
     })
-    return result
+    return result[user.id]
 }
-userBasedRecommnad({id:2})
-    .then(r=>{
-        console.log(r)
+
+async function recommandGameList(user){
+    const recoGameList = await userBasedRecommnad(user)
+    const sendGameList = recoGameList.map( async (game)=>{
+        const result =  await gameGameList.findOne({id:game.gameId},
+            {id:1, name:1, cover:1})
+            .select({_id:0})
+        return result;
     })
+    return new Promise((resolve, reject)=>{
+        Promise.all(sendGameList).then(r=>{
+            resolve(r)
+        })
+    })
+}
+
 module.exports = {
     userBasedRecommnad,
     contentBasedRecommand,
+    recommandGameList,
 }
