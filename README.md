@@ -9,7 +9,7 @@ GameLog는 콘솔 및 PC 게임 평가 및 추천 어플리케이션 시스템 �
 </div>
 
 <div align="center" style="margin: 10px">
-  <img alt="JavaScript" src ="https://img.shields.io/badge/JavaScript-F7DF1E.svg?&style=for-the-badge&logo=JavaScript&logoColor=black"/>
+  <img alt="JavaScript" src ="https://img.shields.io/badge/JavaScript-F7DF1E.svg?&style=for-the-badge&logo=JavaScript&logoColor=white"/>
   <img alt="nodeJS" src ="https://img.shields.io/badge/nodeJS-339933.svg?&style=for-the-badge&logo=nodedotjs&logoColor=white"/>
   <img alt="Express" src ="https://img.shields.io/badge/Express-000000.svg?&style=for-the-badge&logo=Express&logoColor=white"/>
   <img alt="MongoDB" src ="https://img.shields.io/badge/MongoDB-47A248.svg?&style=for-the-badge&logo=MongoDB&logoColor=white"/>
@@ -103,6 +103,16 @@ node initSaveDB.js
 ### 1.6 server
 ```console
 node main.js
+```
+
+### 1.7 recommand game save
+
+추천 게임을 위한 카테고리별 랜덤 데이터 저장
+1.5의 IGDB game save 후 실행 추천!
+
+```console
+cd models/util
+node scriptRecommand.js
 ```
 
 
