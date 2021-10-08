@@ -8,7 +8,7 @@ const userDB = require('../index').userDatabase;
 async function getCategoryGame(categories){
     for(let gameCategory of categories){
         const {category, id, name} = gameCategory
-        const showNum = 40;
+        const showNum = 50;
         const gameForCount = await gameList.find({[`${category}.id`]:id}, {id:1})
         const count = gameForCount.length
         const randomPage = Math.floor(Math.random() * parseInt(count / showNum))
@@ -23,10 +23,10 @@ async function getCategoryGame(categories){
     }
 }
 
-async function saveUser(users){
+async function saveUserAndGame(users){
     await new Promise(res=>setTimeout(res,1000))
     for(let user of users){
-        // await signUp(user, user.password)
+        await signUp(user, user.password)
         const userId = await userDB.findOne({email:user.email}, {id:1}).select({_id:0})
         user.id = userId.id;
         const recommandGames = await getCategoryGame(user.preferCategory)
@@ -35,15 +35,14 @@ async function saveUser(users){
             game.gameId = game.id;
             await insertUserGame(user, game, 'library');
         }
-        // console.log(user.preferCategory)
     }
 }
 
 async function main(){
-    await saveUser(recommandUser)
+    await saveUserAndGame(recommandUser)
+    console.log('랜덤 추천 게임 저장 완료')
 }
 
-main()
+main();
 
-
-// module.exports = saveScript;
+module.exports = main;
