@@ -69,3 +69,5 @@ app.use(function (err, request, response, next) {
 app.listen(3000, ()=>{
     console.log('listen express server!')
 })
+
+module.exports = app;
