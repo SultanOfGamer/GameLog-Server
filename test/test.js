@@ -1,20 +1,14 @@
+const request = require('supertest')
+const APP = require('../main')
 
-const search = require('../controll/index').gameSearch
-
-// test('테스트 코드명', () => {
-//   expect(실행값).toBe(기댓값);
-// })
-
-test("search test", ()=>{
-    // search.getSearchResult('the').
-    expect(()=>
-        {
-            console.log(search.getSearchResult('ㅎㅎ').toThrow())
-        }
-    )
-    // expect("0").toBeTruthy();
-})
-
-test ('1+1은 2', ()=>{
-    expect(1+1).toEqual(2);
+describe("application 실행",() => {
+    let app = APP;
+    it("application", async () => {
+        // beforeAll(async() => {
+        //     APP.cre
+        // })
+        const res = await request(app)
+            .get('/')
+        expect(res.statusCode).toEqual(200)
+    })
 })
