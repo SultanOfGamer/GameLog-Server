@@ -1,4 +1,4 @@
-const prefer = {
+export const prefer = {
     "prefer":[
         {
             "category": "themes",

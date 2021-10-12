@@ -1,4 +1,4 @@
-const users = [
+export const users = [
     {
         email:'testUser1@naver.com',
         password:'123456'
@@ -12,3 +12,4 @@ const users = [
         password:'123456'
     },
 ]
+

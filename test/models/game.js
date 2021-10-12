@@ -1,4 +1,4 @@
-const game = {
+export const game = {
     "id" : 999999,
     "name" : "The Elder Scrolls V: Skyrim TestGame",
     "slug" : "the-elder-scrolls-v-skyrim testgame",
@@ -6,56 +6,16 @@ const game = {
     "aggregated_rating_count" : 12,
     "alternative_names" : [
         {
-            "id" : 4222,
-            "name" : "TESV",
-        },
-        {
-            "id" : 9916,
-            "name" : "Skyrim",
-        },
-        {
-            "id" : 13759,
-            "name" : "TESV: Skyrim",
-        },
-        {
             "id" : 13760,
             "name" : "The Elder Scrolls 5: Skyrim",
         },
         {
-            "id" : 35673,
-            "name" : "TESV Skyrim",
+            "id" : 999999,
+            "name" : "스카이림",
         },
         {
-            "id" : 35674,
-            "name" : "TES5 Skyrim",
-        },
-        {
-            "id" : 35675,
-            "name" : "TES5: Skyrim",
-        },
-        {
-            "id" : 37431,
-            "name" : "TES5",
-        },
-        {
-            "id" : 37432,
-            "name" : "TES 5",
-        },
-        {
-            "id" : 37433,
-            "name" : "TES Skyrim",
-        },
-        {
-            "id" : 47147,
-            "name" : "The Elder Scrolls V: Skyrim Special Edition",
-        },
-        {
-            "id" : 47148,
-            "name" : "Dawnguard",
-        },
-        {
-            "id" : 47149,
-            "name" : "TES5",
+            "id" : 99999999,
+            "name" : "엘더스크롤",
         },
         {
             "id" : 47150,
@@ -65,10 +25,6 @@ const game = {
             "id" : 47151,
             "name" : "Skyrim",
         },
-        {
-            "id" : 47152,
-            "name" : "TESV: Skyrim",
-        }
     ],
     "involved_companies" : [
         {
@@ -209,6 +165,3 @@ const game = {
     ],
     "__v" : 0
 }
-
-
-module.exports = game;
