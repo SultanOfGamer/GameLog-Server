@@ -1,7 +1,3 @@
-
-
-
-
 //gameCategory, status str 변경 enum
 const gameCategory = {
     0: "main_game",
@@ -170,8 +166,8 @@ async function initGameListSave(){ //IGDB to mongo db save function
     }
 }
 async function saveGameListIGDBToDB(attribute, condition='', sort='',
-                                 limitCount='', offset=''){
-    const response = axios({
+                                    limitCount='', offset=''){
+    const response = await axios({
         url: "https://api.igdb.com/v4/games",
         method: 'POST',
         headers: {
@@ -184,28 +180,29 @@ async function saveGameListIGDBToDB(attribute, condition='', sort='',
         .then(response => {
             const resultData = response.data;
             resultData.forEach((i,index)=>{
-                const gameGameInstance = new gameGameList(i);
-                //category, status 영문표기로 변경
-                gameGameInstance.category = gameCategory[i.category]
-                gameGameInstance.status = gameStatus[i.status]
-
-                //platforms의 category_name 추가해서 저장
-                gameGameInstance.platforms.forEach((data, index)=>{
-                    data.category_name = gamePlatformsCategory[data.category]
-                })
-                gameGameInstance.aggregated_rating = Number.parseFloat(gameGameInstance.aggregated_rating / 20).toFixed(2)
-
-                // transToKorea(gameGameInstance.storyline)
-                //     .then(data=>{
-                //         console.log(data)
-                //     })
-                //     .catch(err=>{
-                //         return err
-                //     })
-                gameGameInstance.save((err)=>{
-                    if(err) return 'err'
-                    else return 'save'
-                })
+                createGameSample(i)
+                // const gameGameInstance = new gameGameList(i);
+                // //category, status 영문표기로 변경
+                // gameGameInstance.category = gameCategory[i.category]
+                // gameGameInstance.status = gameStatus[i.status]
+                //
+                // //platforms의 category_name 추가해서 저장
+                // gameGameInstance.platforms.forEach((data, index)=>{
+                //     data.category_name = gamePlatformsCategory[data.category]
+                // })
+                // gameGameInstance.aggregated_rating = Number.parseFloat(gameGameInstance.aggregated_rating / 20).toFixed(2)
+                //
+                // // transToKorea(gameGameInstance.storyline)
+                // //     .then(data=>{
+                // //         console.log(data)
+                // //     })
+                // //     .catch(err=>{
+                // //         return err
+                // //     })
+                // gameGameInstance.save((err)=>{
+                //     if(err) return 'err'
+                //     else return 'save'
+                // })
             })
             return response.data;
         })
@@ -215,8 +212,52 @@ async function saveGameListIGDBToDB(attribute, condition='', sort='',
     return gameGameList
 }
 
+async function getOneGame(game){
+    const gameOne = await gameGameList.findOne({id:game.id}, function(err, result){
+        if(err) return err;
+        return result;
+    })
+    return gameOne
+}
+
+async function createGameSample(game){
+    const gameGameInstance = new gameGameList(game);
+    //category, status 영문표기로 변경
+    gameGameInstance.category = gameCategory[game.category]
+    gameGameInstance.status = gameStatus[game.status]
+
+    //platforms의 category_name 추가해서 저장
+    gameGameInstance.platforms.forEach((data, index)=>{
+        data.category_name = gamePlatformsCategory[data.category]
+    })
+    gameGameInstance.aggregated_rating = Number.parseFloat(gameGameInstance.aggregated_rating / 20).toFixed(2)
+
+    // 번역 주석처리
+    // transToKorea(gameGameInstance.storyline)
+    //     .then(data=>{
+    //         console.log(data)
+    //     })
+    //     .catch(err=>{
+    //         return err
+    //     })
+    await gameGameInstance.save((err)=>{
+        if(err) return 'err'
+        else return 'save'
+    })
+}
+
+async function deleteGameSample(game){
+    gameGameList.deleteOne({id:game.id}, function(err, result){
+        if(err) return err;
+        if(result.deletedCount== 0 ) return 'delete fail';
+        return 'delete success'
+    })
+}
+
+
 module.exports = {
     initGameList,
     saveGameList:initGameListSave,
-    getGameList:gameGameList
+    getGameList:gameGameList,
+    createGameSample,
 }
