@@ -18,9 +18,9 @@ async function getConBasedGame(){
         .select({_id:0})
     return game;
 }
-function getUserGamesEval(){
+function getUserGamesEval(user){
     return new Promise(function(resolve, reject){
-        userGameModel.find({userGameStatus:{$ne:'wish'}},
+        userGameModel.find({userid:{$ne:user.id}, userGameStatus:{$ne:'wish'}},
             {id:1, userid:1, gameId:1, aggregated_rating:1, aggregated_rating_count:1,
                 userGameRating:1})
             .select({_id:0})
@@ -43,7 +43,7 @@ async function contentBasedRecommand(){
 // Collaborative Filtering Function
 async function userBasedRecommnad(user){
     await new Promise(res=>setTimeout(res,1000))
-    const game = await getUserGamesEval();
+    const game = await getUserGamesEval(user);
 
     let train = [], test = []
     for (let i = 0; i < game.length; i++) {
