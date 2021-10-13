@@ -18,7 +18,7 @@ GameLog는 콘솔 및 PC 게임 평가 및 추천 어플리케이션 시스템 �
 
 # 목차
 
-1. [GameLog Install] (#GameLog-Install)
+1. GameLog Install (#GameLog-Install)
 
 1.1 init server install
 
