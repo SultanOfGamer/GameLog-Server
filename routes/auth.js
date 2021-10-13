@@ -21,7 +21,7 @@ module.exports = function(passport){
         }
     )
 
-    router.get('/logout', (request,response)=>{
+    router.post('/logout', (request,response)=>{
         request.logout();
         // req.session.destroy(function(){ // session을 지우는 function
         //     res.redirect('/')

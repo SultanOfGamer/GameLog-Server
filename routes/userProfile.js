@@ -24,7 +24,7 @@ const userProfile = require('../controll/index').userProfile
 const userControl = require('../controll/index').users
 
 //user 프로필 변경
-router.post('/image',  async (request, response)=>{
+router.put('/image',  async (request, response)=>{
     if(userControl.isUser(request,response)){
         try{
             upload(request, response, async function(err){ // upload 에러처리 필요
@@ -42,14 +42,8 @@ router.post('/image',  async (request, response)=>{
     }
 })
 
-//회원 탈퇴
-router.post('/deleteuser', async (request, response)=>{
-    const sendMessage = await userControl.deleteUser(request.user)
-    response.json(sendMessage)
-})
-
 //user 회원가입 시 선호 장르 저장
-router.post('/prefer', async (request, response)=>{
+router.put('/category', async (request, response)=>{
     if(userControl.isUser(request,response)) {
         try{
             const sendMessage = await userControl.updateUserPrefer(request.user, request.body.prefer)
@@ -63,5 +57,12 @@ router.post('/prefer', async (request, response)=>{
     }
 
 })
+
+//회원 탈퇴
+router.delete('/user', async (request, response)=>{
+    const sendMessage = await userControl.deleteUser(request.user)
+    response.json(sendMessage)
+})
+
 
 module.exports = router;
