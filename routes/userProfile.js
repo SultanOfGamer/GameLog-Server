@@ -23,6 +23,23 @@ const upload = multer({storage:storage,
 const userProfile = require('../controll/index').userProfile
 const userControl = require('../controll/index').users
 
+//user get
+router.get('/', async (request, response)=>{
+    if(userControl.isUser(request,response)) {
+        const cloneObj = obj => JSON.parse(JSON.stringify(obj))
+        let user = cloneObj(request.user)
+
+        delete user._id
+        delete user.password
+        delete user.signDate
+        delete user.password
+        delete user.__v
+        response.send(user)
+    }else{
+        response.json({message:'please login!'})
+    }
+})
+
 //user 프로필 변경
 router.put('/image',  async (request, response)=>{
     if(userControl.isUser(request,response)){
