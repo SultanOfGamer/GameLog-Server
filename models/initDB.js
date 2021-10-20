@@ -14,7 +14,12 @@ const dbConnect = async () =>
   })
 }
 dbConnect()
-    .then(res=>console.log('mongodb success connect!!'))
+    .then(res=>{
+          if(!process.env.NODE_ENV === 'test') {
+            console.log('mongodb success connect!!')
+          }
+        }
+    )
     .catch(err=>console.log(err))
 
 module.exports = mongoose;

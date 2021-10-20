@@ -65,9 +65,11 @@ app.use(function (err, request, response, next) {
     }
     response.status(500).send('500 ERROR !!')
 });
+if(process.env.NODE_ENV !== 'test'){
+    app.listen(3000, ()=>{
+        console.log('listen express server!')
+    })
+}
 
-app.listen(3000, ()=>{
-    console.log('listen express server!')
-})
 
 module.exports = app;
