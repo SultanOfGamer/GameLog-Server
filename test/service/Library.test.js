@@ -1,8 +1,26 @@
-// const APP = require('../../main')
+const APP = require('../../main')
 const request = require('supertest')
 
-describe("Library TABBAR",() => {
-    it("Library", () => {
+describe("GET /game/library",() => {
+    test("Library", () => {
+
+    })
+})
+
+describe("POST /game/library",() => {
+    test("Library", () => {
+
+    })
+})
+
+describe("PUT /game/library",() => {
+    test("Library", () => {
+
+    })
+})
+
+describe("DELETE /game/library",() => {
+    test("Library", () => {
 
     })
 })
