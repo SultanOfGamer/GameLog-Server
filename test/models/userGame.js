@@ -1,6 +1,6 @@
 const getDate = require('../../util').date
 
-export const userGame = (user, game, body) =>{
+const userGame = (user, game, body) =>{
     return [
         {
             userid:user.id,
@@ -29,3 +29,5 @@ export const userGame = (user, game, body) =>{
         }
     ]
 }
+
+module.exports = userGame

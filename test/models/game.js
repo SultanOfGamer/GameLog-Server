@@ -1,4 +1,4 @@
-export const game = {
+const game = {
     "id" : 999999,
     "name" : "The Elder Scrolls V: Skyrim TestGame",
     "slug" : "the-elder-scrolls-v-skyrim testgame",
@@ -165,3 +165,5 @@ export const game = {
     ],
     "__v" : 0
 }
+
+module.exports = game;
