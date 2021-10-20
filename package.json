@@ -5,10 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
-    "unit": "cross-env NODE_ENV=test jest test/* --forceExit",
-    "test": "jest",
+    "test": "cross-env NODE_ENV=test jest test/* --watch",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage"
+    "test:cov": "cross-env NODE_ENV=test jest --coverage"
   },
   "repository": {
     "type": "git",
