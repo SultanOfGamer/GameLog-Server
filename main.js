@@ -56,14 +56,21 @@ app.use('/search', searchRouter);
 
 // ERROR handling
 app.use(function(request, response, next){
-    response.status(404).send('Sorry cant find that!');
+    response.status(404).send(
+        {
+            status:404,
+            message:'Sorry cant find that!'
+        });
 })
 app.use(function (err, request, response, next) {
     console.log(err)
     if(response.headerSent){
         return next(err);
     }
-    response.status(500).send('500 ERROR !!')
+    response.status(500).send({
+        status:500,
+        message:'500 ERROR !!'
+    })
 });
 if(process.env.NODE_ENV !== 'test'){
     app.listen(3000, ()=>{
