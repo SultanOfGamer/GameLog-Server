@@ -79,8 +79,6 @@ module.exports = function(passport){
                         })
                 }
                 ({status, message} = await userControl.findEmailVal(queryString))
-                console.log(status)
-                console.log(message)
                 response.status(status).send({
                     status: status,
                     message: message
