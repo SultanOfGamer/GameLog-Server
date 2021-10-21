@@ -23,12 +23,12 @@ module.exports = function(passport){
 
     router.post('/logout', (request,response)=>{
         request.logout();
-        // req.session.destroy(function(){ // session을 지우는 function
-        //     res.redirect('/')
-        // })
-        request.session.save(function () { //session 값을 저장함
+        request.session.destroy(function(){ // session을 지우는 function
             response.send({message:'logout!'})
         })
+        // request.session.save(function () { //session 값을 저장함
+        //     response.send({message:'logout!'})
+        // })
     })
 
     router.post('/signup', (request,response)=>{
