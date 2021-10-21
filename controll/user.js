@@ -45,8 +45,8 @@ module.exports = {
                 }, {new:true},
                 (err, userStat)=>{
                     if(err) {reject(err)}
-                    if(!userStat) resolve({message:'update fail not exist data'})
-                    resolve({message:'update success!'})
+                    if(!userStat) resolve('update fail not exist data')
+                    resolve('update success!')
                 }
             )
         })
@@ -60,8 +60,8 @@ module.exports = {
                 }, {new:true},
                 (err, userStat)=>{
                     if(err) {reject(err)}
-                    if(!userStat) resolve({message:'update fail not exist data'})
-                    resolve({message:'update success!'})
+                    if(!userStat) resolve('update fail not exist data')
+                    resolve('update success!')
                 }
             )
         })
@@ -70,10 +70,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             users.findOne({email:queryString}, function(err, user){
                 if(err) reject(err)
-                if(!user) resolve({data:true,
-                        message: "사용 가능한 이메일입니다."
-                    })
-                else resolve({message:"이미 중복된 이메일이 존재합니다."})
+                if(!user) resolve("사용 가능한 이메일입니다.")
+                else resolve("이미 중복된 이메일이 존재합니다.")
             })
         })
     },
@@ -81,10 +79,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             users.findOne({nickname:queryString}, function(err, user){
                 if(err) reject(err)
-                if(!user) resolve({data:true,
-                        message: "사용 가능한 닉네임입니다."
-                    })
-                else resolve({message:"이미 중복된 닉네임이 존재합니다."})
+                if(!user) resolve("사용 가능한 닉네임입니다.")
+                else resolve("이미 중복된 닉네임이 존재합니다.")
             })
         })
     },
@@ -92,8 +88,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             users.deleteOne({id:user.id}, function(err, result){
                 if(err) reject({message:'delete fail', err:err})
-                if(result.deletedCount == 0) resolve({message: 'delete fail'})
-                resolve({message: 'delete success'})
+                if(result.deletedCount == 0) resolve('delete fail')
+                resolve( 'delete success')
             })
         })
     }
