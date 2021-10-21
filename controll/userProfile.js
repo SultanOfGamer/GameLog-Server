@@ -22,13 +22,13 @@ function defaultProfile(){
     return result
 }
 
-function uploadProfileImg(userid){
-    // pulbic 폴더 안에 img 파일 저장
-
-    return 'te'
-}
+// function uploadProfileImg(userid){
+//     // pulbic 폴더 안에 img 파일 저장
+//
+//     return 'te'
+// }
 // console.log(defaultProfile())
 module.exports = {
     defaultProfile,
-    uploadImg:uploadProfileImg,
+    // uploadImg:uploadProfileImg,
 }

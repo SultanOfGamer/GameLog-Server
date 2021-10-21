@@ -1,4 +1,3 @@
-
 const users = require('./user')
 const userProfile = require('./userProfile')
 
