@@ -35,7 +35,9 @@
     "nodeml": "^0.4.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
