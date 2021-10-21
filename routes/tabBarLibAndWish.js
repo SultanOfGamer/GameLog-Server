@@ -89,6 +89,19 @@ router.post('/:tapbar', (request,response)=>{
     })
 })
 
+router.use(async (request, response, next)=>{
+    const userid = await userGameControl.valUserGames(request.body)
+    if(userid !== request.user.id){
+        logger.error('타유저 데이터 접근')
+        response.send({
+            status:403,
+            message:'올바른 user game이 아닙니다.'
+        })
+    }else{
+        next()
+    }
+})
+
 //user library 데이터 업데이트
 // 해당하는 user, id를 찾아서 데이터 변경
 // body -> 게임 id(number), 게임평가(number), 게임 평가(text), 게임 메모(text), 게임 status
