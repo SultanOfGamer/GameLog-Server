@@ -19,59 +19,75 @@ const upload = multer({storage:storage,
     //     cb(null, true);
     // }
 }).single('image')
-
+const logger = require('../config/wiston')
 const userProfile = require('../controll/index').userProfile
 const userControl = require('../controll/index').users
 
+
+router.use((request, response, next) => {
+    if(!(userControl.isUser(request, response))){
+        logger.error('로그인 필요')
+        response.status(401).send({
+            status:401,
+            message:'로그인이 필요합니다.'
+        })
+    }
+    next();
+})
+
 //user get
 router.get('/', async (request, response)=>{
-    if(userControl.isUser(request,response)) {
-        const cloneObj = obj => JSON.parse(JSON.stringify(obj))
-        let user = cloneObj(request.user)
+    const cloneObj = obj => JSON.parse(JSON.stringify(obj))
+    let user = cloneObj(request.user)
 
-        delete user._id
-        delete user.password
-        delete user.signDate
-        delete user.password
-        delete user.__v
-        response.send(user)
-    }else{
-        response.json({message:'please login!'})
-    }
+    delete user._id
+    delete user.password
+    delete user.signDate
+    delete user.password
+    delete user.__v
+    response.status(200).send({
+        status:200,
+        user:user
+    })
 })
 
 //user 프로필 변경
-router.put('/image',  async (request, response)=>{
-    if(userControl.isUser(request,response)){
-        try{
-            upload(request, response, async function(err){ // upload 에러처리 필요
-                // console.log(request.file)
-                if(err) response.json({message:'upload fail', err:err})
-                if(request.file === undefined) return response.json({message:'not find image file'})
-                const sendMessage = await userControl.updateUserStat(request.user, request.file)
-                response.json(sendMessage)
+router.put('/image',  async (request, response,next)=>{
+    try{
+        upload(request, response, async function(err){ // upload 에러처리 필요
+            if(err) response.status(400).json({
+                status:400,
+                message:'upload fail',
+                err:err
             })
-        }catch(err){
-            response.send(err)
-        }
-    }else{
-        response.json({message:'please login!'})
+            if(request.file === undefined) return response.status(404).json({
+                status:404,
+                message:'not find image file'
+            })
+            const sendMessage = await userControl.updateUserStat(request.user, request.file)
+            response.status(200).json({
+                status:200,
+                message:sendMessage
+            })
+        })
+    }catch(err){
+        next(err)
     }
+
 })
 
 //user 회원가입 시 선호 장르 저장
-router.put('/category', async (request, response)=>{
-    if(userControl.isUser(request,response)) {
-        try{
-            const sendMessage = await userControl.updateUserPrefer(request.user, request.body.prefer)
-            response.json(sendMessage)
-        }catch(err){
-            response.json({err:err})
-        }
-
-    }else{
-        response.json({message:'please login!'})
+router.put('/category', async (request, response,next)=>{
+    try{
+        const sendMessage = await userControl.updateUserPrefer(request.user, request.body.prefer)
+        response.status(200).json({
+            status:200,
+            message:sendMessage
+        })
+    }catch(err){
+        next(err)
     }
+
 
 })
 
@@ -80,7 +96,8 @@ router.delete('/user', async (request, response)=> {
     const sendMessage = await userControl.deleteUser(request.user)
     request.logout();
     request.session.save(function () { //session 값을 저장함})
-        return response.json({
+        return response.status(200).json({
+            status:200,
             message: sendMessage,
         })
     })
