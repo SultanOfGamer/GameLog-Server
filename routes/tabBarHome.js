@@ -34,12 +34,12 @@ router.get('/select', async (request, response)=>{
 })
 
 //home game list load
-router.get('/', async (request,response)=>{
+router.get('/', async (request,response, next)=>{
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에 회원별 데이터 전송
         try{
             const preferArr = request.user.preferCategory
             if(preferArr.length === 0) //prefer가 없을시 에러처리
-                throw 'preferArr is null'
+                throw '유저의 선호 카테고리를 입력해 주십시오.'
             const tempPromise = preferArr.map(async (elem)=>{
                 return new Promise(function(resovle){
                     gameControl.getGameQuery(elem.category, elem.name)
@@ -64,12 +64,10 @@ router.get('/', async (request,response)=>{
 
             })
         }catch(err){
-            response.json({err:err})
+            next(err)
         }
     }else{ //로그인 X, 첫 페이지 데이터 전송
         try{
-            //TODO genres page가 4이하일때 themes를 불러올 필요 x
-            //themes data
             let page2 = Math.floor(Math.random() * 11)
             const themesData = await gameControl.getCategory('themes', page2, 2)
             const tempThemesData = themesData.map(async function(category){
@@ -111,7 +109,7 @@ router.get('/', async (request,response)=>{
                     })
             })
         }catch(err){
-            response.json(err)
+            next(err)
         }
     }
 })

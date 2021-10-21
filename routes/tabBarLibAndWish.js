@@ -12,7 +12,7 @@ function checkInArrayString(arr, val) { //domain check value
 router.use((request, response, next) => {
     if(!(userControl.isUser(request, response))){
         logger.error('로그인 필요')
-        response.send({
+        response.status(401).send({
             status:401,
             message:'로그인이 필요합니다.'
         })

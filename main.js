@@ -57,8 +57,7 @@ app.use('/search', searchRouter);
 // ERROR handling
 app.use(function(request, response, next){
     logger.error("can't find address")
-    response.status(404).send(
-        {
+    response.status(404).send({
             status:404,
             message:'Sorry cant find that!'
         });

@@ -87,8 +87,6 @@ router.put('/category', async (request, response,next)=>{
     }catch(err){
         next(err)
     }
-
-
 })
 
 //회원 탈퇴
