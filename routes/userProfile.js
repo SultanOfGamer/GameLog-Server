@@ -76,10 +76,14 @@ router.put('/category', async (request, response)=>{
 })
 
 //회원 탈퇴
-router.delete('/user', async (request, response)=>{
+router.delete('/user', async (request, response)=> {
     const sendMessage = await userControl.deleteUser(request.user)
-    response.json(sendMessage)
+    request.logout();
+    request.session.save(function () { //session 값을 저장함})
+        return response.json({
+            message: sendMessage,
+        })
+    })
 })
-
 
 module.exports = router;
