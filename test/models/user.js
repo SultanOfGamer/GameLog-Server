@@ -16,4 +16,21 @@ const users = [
     },
 ]
 
-module.exports = users
+const signUpErrUser = [
+    {
+        email:'testErr@naver',
+        nickname:'testErr',
+        password:'12345678'
+    },
+    {
+        email:'testErr@naver',
+        nickname:'testUser1',
+        password:'12345678'
+    }
+
+]
+
+module.exports = {
+    users,
+    signUpErrUser
+}
