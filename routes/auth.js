@@ -67,28 +67,36 @@ module.exports = function(passport){
     router.get('/validation/:value', async (request,response, next)=>{
         const value = request.params.value
         const queryString = request.query.value;
-        let sendMessage = {};
+        let status ;
+        let message ;
         switch(value){
             case 'email':
-                if(!userControl.emailValidation(queryString)) return response.send({message:"이메일 형식이 아닙니다."})
-                sendMessage = await userControl.findEmailVal(queryString)
-                response.status(200).send({
-                    status: 200,
-                    message:sendMessage
+                if(!userControl.emailValidation(queryString)) {
+                    return response.status(403)
+                        .send({
+                            status:403,
+                            message: "이메일 형식이 아닙니다."
+                        })
+                }
+                ({status, message} = await userControl.findEmailVal(queryString))
+                console.log(status)
+                console.log(message)
+                response.status(status).send({
+                    status: status,
+                    message: message
                 })
                 break
             case 'nickname':
-                sendMessage = await userControl.findNickVal(queryString)
-                response.status(200).send({
-                    status: 200,
-                    message: sendMessage
+                ({status, message} = await userControl.findNickVal(queryString))
+                response.status(status).send({
+                    status: status,
+                    message: message
                 })
                 break
             default:
                 next()
                 break
         }
-
     })
     return router
 }
