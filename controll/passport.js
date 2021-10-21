@@ -34,13 +34,13 @@ module.exports = function(app) {
             usersDB.findOne({ email: email }, function (err, user) {
                     if (err) { return done(err); }
                     if (!user) { // user email이 없을 때
-                        return done(null, false, { message: 'there is no email.' });
+                        return done(null, false, 'there is no email.');
                     }else{
                         bcrypt.compare(password, user.password, function(err, result){
                             if(result){
                                 return done(null, user);
                             }else{ // password가 일치하지 않을 때
-                                return done(null, false,{message:'Incorrect password'})
+                                return done(null, false,'Incorrect password')
                             }
                         })
                     }

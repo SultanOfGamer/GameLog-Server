@@ -9,15 +9,21 @@ const userControl = require('../controll/index').users
 const bcrypt = require('bcrypt')
 
 module.exports = function(passport){
-    //TODO Login 성공 시에 처리
-    router.post('/login',
-        passport.authenticate('login', {
-            // successRedirect: '/',
-            // failureRedirect: '/login'
-        }), (request,response)=>{
-            if(request.user){ //로그인성공
-                response.send({message:'welcome! ' + request.user.nickname})
-            }
+    router.post('/login', function(request, response, next){
+            passport.authenticate('login', function(err, user, info){
+                if(err) return next(err)
+                if(info) return response.send({
+                    status:403,
+                    message:info
+                })
+                request.logIn(user, function(err){
+                    if(err) return next(err)
+                    return response.send({
+                        status: 200,
+                        message: 'welcome! ' + request.user.nickname
+                    })
+                })
+            })(request, response, next);
         }
     )
 
