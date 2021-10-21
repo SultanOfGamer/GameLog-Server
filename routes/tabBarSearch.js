@@ -12,9 +12,9 @@ router.get('/', async (request,response)=>{
 
     const gameName = await gameSearch.getSearchResult(name)
     const alterName = await gameSearch.getAlterSearch(name)
-
-    sendObj = {gameName, alterName}
-    response.json(sendObj)
+    const status = 200;
+    sendObj = {status, gameName, alterName}
+    response.status(200).json(sendObj)
 })
 
 module.exports = router;
