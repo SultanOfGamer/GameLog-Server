@@ -12,13 +12,13 @@ module.exports = function(passport){
     router.post('/login', function(request, response, next){
             passport.authenticate('login', function(err, user, info){
                 if(err) return next(err)
-                if(info) return response.send({
+                if(info) return response.status(403).send({
                     status:403,
                     message:info
                 })
                 request.logIn(user, function(err){
                     if(err) return next(err)
-                    return response.send({
+                    return response.status(200).send({
                         status: 200,
                         message: 'welcome! ' + request.user.nickname
                     })
@@ -30,7 +30,10 @@ module.exports = function(passport){
     router.post('/logout', (request,response)=>{
         request.logout();
         request.session.destroy(function(){ // session을 지우는 function
-            response.send({message:'logout!'})
+            response.status(200).send({
+                status: 200,
+                message:'logout 성공!'
+            })
         })
         // request.session.save(function () { //session 값을 저장함
         //     response.send({message:'logout!'})
@@ -39,15 +42,25 @@ module.exports = function(passport){
 
     router.post('/signup', (request,response)=>{
         if(request.body.password !== request.body.passwordConfirm){
-            return response.send({message:'Incorrect confirm password !'})
+            return response.status(403).send({
+                status: 403,
+                message:'Incorrect confirm password !'
+            })
         }
         bcrypt.hash(request.body.password, 10, function(err, hash){
             userControl.signupInsert(request.body, hash)
                 .then(()=>{
-                    return response.status(500).json({message: '회원가입 완료'})
+                    return response.status(200).json({
+                        status: 200,
+                        message: '회원가입 완료'
+                    })
                 }).catch((err)=>{
-                    return response.status(200).json({message:'회원가입 실패', err:err})
+                return response.status(403).json({
+                    status: 403,
+                    message:'회원가입 실패',
+                    error:err
                 })
+            })
         })
     })
 
@@ -59,18 +72,20 @@ module.exports = function(passport){
             case 'email':
                 if(!userControl.emailValidation(queryString)) return response.send({message:"이메일 형식이 아닙니다."})
                 sendMessage = await userControl.findEmailVal(queryString)
-                response.send(sendMessage)
+                response.status(200).send({
+                    status: 200,
+                    message:sendMessage
+                })
                 break
             case 'nickname':
                 sendMessage = await userControl.findNickVal(queryString)
-                response.send(sendMessage)
+                response.status(200).send({
+                    status: 200,
+                    message: sendMessage
+                })
                 break
             default:
                 next()
-                // response.send({
-                //         status:404,
-                //         message:'error page'
-                // })
                 break
         }
 
