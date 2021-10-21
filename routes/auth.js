@@ -45,7 +45,7 @@ module.exports = function(passport){
         })
     })
 
-    router.get('/validation/:value', async (request,response)=>{
+    router.get('/validation/:value', async (request,response, next)=>{
         const value = request.params.value
         const queryString = request.query.value;
         let sendMessage = {};
@@ -60,7 +60,11 @@ module.exports = function(passport){
                 response.send(sendMessage)
                 break
             default:
-                response.send('error page')
+                next()
+                // response.send({
+                //         status:404,
+                //         message:'error page'
+                // })
                 break
         }
 
