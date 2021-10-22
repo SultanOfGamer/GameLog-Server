@@ -19,17 +19,11 @@ router.use((request, response, next) => {
     }
     next();
 })
-//경로 에러
-router.use('/:tabbar', ((request, response, next) => {
-    const tabBar = request.params.tapbar;
-    if(tabBar !== "library" || tabBar !== "wishlist") {
-        next(`/game/${tabBar} 경로 에러`)
-    }
-}))
 //Library & Wishlist
 router.get('/:tapbar', async (request,response,next)=>{
     const tabBar = request.params.tapbar;
-
+    if(tabBar !== "library" && tabBar !== "wishlist")
+        next("잘못된 Tabbar 입니다.")
     const sortObj = {}; // sort send value
     const sortDomain = ['aggregated_rating', 'first_release_date', 'gameName', 'createdTime'] //{별점순, 출시일 순, abc순, 담은 순}
     const sortTypeAsc = ['asc', 'desc'] // {asc, desc} 오름차순 내림차순
@@ -88,8 +82,10 @@ router.get('/:tapbar', async (request,response,next)=>{
 })
 
 //Library & Wishlist insert
-router.post('/:tapbar', (request,response)=>{
+router.post('/:tapbar', (request,response, next)=>{
     const tabBar = request.params.tapbar;
+    if(tabBar !== "library" && tabBar !== "wishlist")
+        next("잘못된 Tabbar 입니다.")
     userGameControl.insertUserGames(request.user, request.body, tabBar)
         .then((data)=>{
             return response.status(201).json({
@@ -107,7 +103,10 @@ router.post('/:tapbar', (request,response)=>{
         })
 })
 
-router.delete('/:tabbar/reset', async (request, response) => {
+router.delete('/:tabbar/reset', async (request, response, next) => {
+    const tabBar = request.params.tapbar;
+    if(tabBar !== "library" && tabBar !== "wishlist")
+        next("잘못된 Tabbar 입니다.")
     const deletedCount = await userGameControl.resetUserGames(request.user)
     response.status(204).send({
         status:204,
@@ -133,7 +132,10 @@ router.use(async (request, response, next)=>{
 // 해당하는 user, id를 찾아서 데이터 변경
 // body -> 게임 id(number), 게임평가(number), 게임 평가(text), 게임 메모(text), 게임 status
 // body -> gameId, userGameEval, userGameEvalText, userGameMemo, userGameStatus 필요
-router.put('/:tapbar', async (request,response)=>{
+router.put('/:tapbar', async (request,response, next)=>{
+    const tabBar = request.params.tapbar;
+    if(tabBar !== "library" && tabBar !== "wishlist")
+        next("잘못된 Tabbar 입니다.")
     const {status, message, data} = await userGameControl.updateUserGames(request.user, request.body)
         .catch((err)=> {
             return response.status(500).json({
@@ -152,7 +154,10 @@ router.put('/:tapbar', async (request,response)=>{
 //user library 데이터 삭제
 //삭제하는 id 전송후 삭제
 // null, 빈칸 입력 혹은 유저가 삭제했을 시
-router.delete('/:tapbar', async (request,response)=>{
+router.delete('/:tapbar', async (request,response, next)=>{
+    const tabBar = request.params.tapbar;
+    if(tabBar !== "library" && tabBar !== "wishlist")
+        next("잘못된 Tabbar 입니다.")
     const {status, message, data} = await userGameControl.deleteUserGames(request.body)
     response.json({
         status,
