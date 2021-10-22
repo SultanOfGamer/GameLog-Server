@@ -121,7 +121,10 @@ router.use(async (request, response, next)=>{
         if(!request.body.id)
             throw `잘못된 접근, body ${request.body.id}`
         const userid = await userGameControl.valUserGames(request.body)
-        if(userid !== request.user.id){
+        if(!userid) {
+            next('존재하지 않는 id 입니다.')
+        }
+        else if(userid !== request.user.id){
             logger.error('타유저 데이터 접근')
             response.status(403).send({
                 status:403,
