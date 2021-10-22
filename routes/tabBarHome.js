@@ -35,6 +35,7 @@ router.get('/select', async (request, response)=>{
 
 //home game list load
 router.get('/', async (request,response, next)=>{
+    let sendObj = {};
     if(userControl.isUser(request,response)){ // 로그인 세션 성공시에 회원별 데이터 전송
         try{
             const preferArr = request.user.preferCategory
@@ -58,10 +59,12 @@ router.get('/', async (request,response, next)=>{
                         gameControl.getPopularGame()
                             .then(popularData=>{ // 유명 게임 포함 전송
                                 r.unshift({'type':'popular', 'game':popularData})
-                                response.send(r)
+                                sendObj.status = 200
+                                sendObj.message = "success get data"
+                                sendObj.data = r
+                                response.status(200).send(sendObj)
                             })
                     })
-
             })
         }catch(err){
             next(err)
@@ -105,7 +108,10 @@ router.get('/', async (request,response, next)=>{
                     .then(popularData=>{ // 유명 게임 포함 전송
                         r = shuffle(r)
                         r.unshift({'type':'popular', 'game':popularData})
-                        response.send(r)
+                        sendObj.status = 200
+                        sendObj.message = "success get data"
+                        sendObj.data = r
+                        response.status(200).send(sendObj)
                     })
             })
         }catch(err){
