@@ -111,14 +111,14 @@ module.exports = {
     deleteUserGames(body){
         return new Promise((resolve, reject) => {
             userGameModel.deleteOne({id:body.id}, function(err, result){
-                if(err) reject({message:'delete fail', err:err})
+                if(err) reject({status:500,message:'delete fail', err:err})
                 if(result.deletedCount == 0) resolve({
                     status:404,
                     message: 'delete fail',
-                    data:null
+                    data: null
                 })
                 resolve({
-                    status:204,
+                    status:200,
                     message: 'delete success',
                     data:result
                 })

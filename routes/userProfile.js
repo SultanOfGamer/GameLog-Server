@@ -99,8 +99,8 @@ router.delete('/user', async (request, response)=> {
     const sendMessage = await userControl.deleteUser(request.user)
     request.logout();
     request.session.save(function () { //session 값을 저장함})
-        return response.status(204).json({
-            status:204,
+        return response.status(200).json({
+            status:200,
             message: sendMessage,
         })
     })

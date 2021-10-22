@@ -19,6 +19,17 @@ router.use((request, response, next) => {
     }
     next();
 })
+
+router.delete('/user/reset', async (request, response, next) => {
+    // try{
+    const resetCount = await userGameControl.resetUserGames(request.user)
+    response.status(200).send({
+        status:200,
+        deletedCount:resetCount.deletedCount,
+        message:'userGame Reset'
+    })
+})
+
 //Library & Wishlist
 router.get('/:tapbar', async (request,response,next)=>{
     const tabBar = request.params.tapbar;
