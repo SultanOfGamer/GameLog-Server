@@ -136,8 +136,11 @@ module.exports = {
     valUserGames(body){
         return new Promise((resolve, reject) => {
             userGameModel.findOne({id:body.id},function (err, result){
-              if(err) reject(err)
-              resolve(result.userid)
+              if(err) {return reject(err)}
+                if(result === null) {
+                    return resolve(null)
+                }
+              return resolve(result.userid)
             })
         })
     }
