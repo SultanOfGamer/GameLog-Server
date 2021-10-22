@@ -87,20 +87,30 @@ module.exports = {
         switch(type){
             case 'genres':
                 response = gameGenresDB.find()
-                    .select({_id:0})
+                    .select({_id:0, __v:0})
                     .limit(showCount)
                     .skip(skipNum)
                     .then(data=>{
-                        return data
+                        const result = data.map(item => {
+                            const tempObj = JSON.parse(JSON.stringify(item))
+                            tempObj.category = 'gernes'
+                            return tempObj
+                        });
+                        return result
                     })
                 break
             case 'themes':
                 response = gameThemesDB.find()
-                    .select({_id:0})
+                    .select({_id:0, __v:0})
                     .limit(showCount)
                     .skip(skipNum)
                     .then(data=>{
-                        return data
+                        const result = data.map(item => {
+                            const tempObj = JSON.parse(JSON.stringify(item))
+                            tempObj.category = 'themes'
+                            return tempObj
+                        });
+                        return result
                     })
                 break
             default:
