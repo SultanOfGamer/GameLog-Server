@@ -37,40 +37,47 @@ router.get('/:tapbar', async (request,response,next)=>{
     //domain에 있는 sort값이 아닐 때 예외처리
     if(sortTypeAsc.includes(sorttype) === false || checkInArrayString(sortDomain, sort) === false)
         if(sorttype !== undefined && sort !== undefined) //default 예외처리
-            response.json({message:'err in sort type'})
+            response.status(400).json({
+                status:400,
+                message:'sort type bad request'
+            })
 
     let page = request.query.page - 1 // pagination
     try{
         switch (tabBar){
             case 'library': // user library 전송
                 const userLibraryList = await userGameControl.getUserGames(request.user, page, sortObj)
-                response.json({
+                response.status(200).json({
+                    status:200,
+                    message:'success response',
                     user:{
                         id:request.user.id,
                         email:request.user.email
                     },
-                    message:'success response',
                     data:userLibraryList
                 })
                 break;
             case 'wishlist': //user wishlist 전송
                 const wishlistData = await userGameControl.getUserWishGames(request.user, request.body, page, sortObj)
-                response.json({
+                response.status(200).json({
+                    status:200,
+                    message:'success response',
                     user:{
                         id:request.user.id,
                         email:request.user.email
                     },
-                    message:'success response',
                     data:wishlistData
                 })
                 break;
             default:
                 next()
-                // response.json({message:'라우팅 확인!'})
                 break;
         }
     }catch(err){
-        response.json({message:err})
+        response.status(500).json({
+            status:500,
+            message:err
+        })
     }
 })
 
@@ -79,13 +86,28 @@ router.post('/:tapbar', (request,response)=>{
     const tabBar = request.params.tapbar;
     userGameControl.insertUserGames(request.user, request.body, tabBar)
         .then((data)=>{
-            return response.json(
-                {
-                    message:'insert success',
-                    data:data
-                })
-        }).catch((err)=>{
-        return response.json({message:'insert fail', err:err})
+            return response.status(201).json({
+                status:201,
+                message:'insert success',
+                data:data
+            })
+        })
+        .catch((err)=>{
+            return response.status(500).json({
+                status:500,
+                message:'insert fail',
+                err:err
+            })
+        })
+})
+
+router.delete('/:tabbar/reset', async (request, response) => {
+    const deletedCount = await userGameControl.resetUserGames(request.user)
+    console.log(deletedCount);
+    response.status(204).send({
+        status:204,
+        deletedCount,
+        message:'userGame Delete'
     })
 })
 
@@ -93,7 +115,7 @@ router.use(async (request, response, next)=>{
     const userid = await userGameControl.valUserGames(request.body)
     if(userid !== request.user.id){
         logger.error('타유저 데이터 접근')
-        response.send({
+        response.status(403).send({
             status:403,
             message:'올바른 user game이 아닙니다.'
         })
@@ -107,19 +129,31 @@ router.use(async (request, response, next)=>{
 // body -> 게임 id(number), 게임평가(number), 게임 평가(text), 게임 메모(text), 게임 status
 // body -> gameId, userGameEval, userGameEvalText, userGameMemo, userGameStatus 필요
 router.put('/:tapbar', async (request,response)=>{
-    const sendMessage = await userGameControl.updateUserGames(request.user, request.body)
+    const {status, message, data} = await userGameControl.updateUserGames(request.user, request.body)
         .catch((err)=> {
-            return response.json({message: 'update fail', err: err})
+            return response.status(500).json({
+                status:500,
+                message: 'update fail',
+                err: err
+            })
         })
-    response.json(sendMessage)
+    response.status(status).json({
+        status,
+        message,
+        data
+    })
 })
 
 //user library 데이터 삭제
 //삭제하는 id 전송후 삭제
 // null, 빈칸 입력 혹은 유저가 삭제했을 시
 router.delete('/:tapbar', async (request,response)=>{
-    const sendMessage = await userGameControl.deleteUserGames(request.body)
-    response.json(sendMessage)
+    const {status, message, data} = await userGameControl.deleteUserGames(request.body)
+    response.json({
+        status,
+        message,
+        data
+    })
 })
 
 module.exports = router;

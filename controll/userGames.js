@@ -92,8 +92,15 @@ module.exports = {
                 },{new:true},
                 (err, game)=>{
                     if(err) reject(err)
-                    if(!game) resolve({message:'update fail not exist data'})
+                    if(!game) {
+                        resolve({
+                            status:404,
+                            message:'update fail not exist data',
+                            data:null
+                        })
+                    }
                     resolve({
+                        status:200,
                         message:'update success!',
                         data:game
                     })
@@ -105,11 +112,24 @@ module.exports = {
         return new Promise((resolve, reject) => {
             userGameModel.deleteOne({id:body.id}, function(err, result){
                 if(err) reject({message:'delete fail', err:err})
-                if(result.deletedCount == 0) resolve({message: 'delete fail'})
+                if(result.deletedCount == 0) resolve({
+                    status:404,
+                    message: 'delete fail',
+                    data:null
+                })
                 resolve({
+                    status:204,
                     message: 'delete success',
                     data:result
                 })
+            })
+        })
+    },
+    resetUserGames(user){
+        return new Promise((resolve, reject) => {
+            userGameModel.deleteMany({userid:user.id}, function(err, result){
+                if(err){ reject(err)  }
+                resolve(result)
             })
         })
     },
