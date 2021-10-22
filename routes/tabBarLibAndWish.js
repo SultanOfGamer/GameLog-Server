@@ -19,7 +19,13 @@ router.use((request, response, next) => {
     }
     next();
 })
-
+//경로 에러
+router.use('/:tabbar', ((request, response, next) => {
+    const tabBar = request.params.tapbar;
+    if(tabBar !== "library" || tabBar !== "wishlist") {
+        next(`/game/${tabBar} 경로 에러`)
+    }
+}))
 //Library & Wishlist
 router.get('/:tapbar', async (request,response,next)=>{
     const tabBar = request.params.tapbar;
@@ -103,14 +109,13 @@ router.post('/:tapbar', (request,response)=>{
 
 router.delete('/:tabbar/reset', async (request, response) => {
     const deletedCount = await userGameControl.resetUserGames(request.user)
-    console.log(deletedCount);
     response.status(204).send({
         status:204,
         deletedCount,
         message:'userGame Delete'
     })
 })
-
+// Library & Wishlist 다른유저 데이터 방지
 router.use(async (request, response, next)=>{
     const userid = await userGameControl.valUserGames(request.body)
     if(userid !== request.user.id){
