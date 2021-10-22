@@ -114,28 +114,24 @@ router.post('/:tapbar', (request,response, next)=>{
         })
 })
 
-router.delete('/:tabbar/reset', async (request, response, next) => {
-    const tabBar = request.params.tapbar;
-    if(tabBar !== "library" && tabBar !== "wishlist")
-        next("잘못된 Tabbar 입니다.")
-    const deletedCount = await userGameControl.resetUserGames(request.user)
-    response.status(204).send({
-        status:204,
-        deletedCount,
-        message:'userGame Delete'
-    })
-})
+
 // Library & Wishlist 다른유저 데이터 방지
 router.use(async (request, response, next)=>{
-    const userid = await userGameControl.valUserGames(request.body)
-    if(userid !== request.user.id){
-        logger.error('타유저 데이터 접근')
-        response.status(403).send({
-            status:403,
-            message:'올바른 user game이 아닙니다.'
-        })
-    }else{
-        next()
+    try{
+        if(!request.body.id)
+            throw `잘못된 접근, body ${request.body.id}`
+        const userid = await userGameControl.valUserGames(request.body)
+        if(userid !== request.user.id){
+            logger.error('타유저 데이터 접근')
+            response.status(403).send({
+                status:403,
+                message:'올바른 user game이 아닙니다.'
+            })
+        }else{
+            next()
+        }
+    }catch(err){
+        next(err)
     }
 })
 
