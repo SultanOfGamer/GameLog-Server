@@ -63,7 +63,7 @@ app.use(function(request, response, next){
         });
 })
 app.use(function (err, request, response, next) {
-    console.log(err)
+    // console.log(err)
     logger.error(err)
     if(response.headerSent){
         return next(err);

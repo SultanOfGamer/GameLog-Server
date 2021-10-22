@@ -247,17 +247,22 @@ async function createGameSample(game){
 }
 
 async function deleteGameSample(game){
-    gameGameList.deleteOne({id:game.id}, function(err, result){
-        if(err) return err;
-        if(result.deletedCount== 0 ) return 'delete fail';
-        return 'delete success'
-    })
-}
+    try{
+        await gameGameList.deleteOne({id:game.id}, function(err, result){
+            if(err) return err;
+            if(result.deletedCount== 0 ) return 'delete fail';
+            return 'delete success'
+        })
+    }catch(err){
+        return err
+    }
 
+}
 
 module.exports = {
     initGameList,
     saveGameList:initGameListSave,
     getGameList:gameGameList,
     createGameSample,
+    deleteGameSample
 }
