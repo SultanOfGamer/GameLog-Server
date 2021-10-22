@@ -27,7 +27,7 @@ const userControl = require('../controll/index').users
 router.use((request, response, next) => {
     if(!(userControl.isUser(request, response))){
         logger.error('로그인 필요')
-        response.status(401).send({
+        return response.status(401).send({
             status:401,
             message:'로그인이 필요합니다.'
         })
@@ -73,14 +73,19 @@ router.put('/image',  async (request, response,next)=>{
     }catch(err){
         next(err)
     }
-
 })
 
 //user 회원가입 시 선호 장르 저장
 router.put('/category', async (request, response,next)=>{
     try{
+        if(request.body.prefer.length < 5 || request.body.prefer.length === undefined){
+            return response.status(400).send({
+                status:400,
+                message:'카테고리 5개 이상 선택해 주십시오.'
+            })
+        }
         const sendMessage = await userControl.updateUserPrefer(request.user, request.body.prefer)
-        response.status(200).json({
+        return response.status(200).json({
             status:200,
             message:sendMessage
         })
@@ -94,8 +99,8 @@ router.delete('/user', async (request, response)=> {
     const sendMessage = await userControl.deleteUser(request.user)
     request.logout();
     request.session.save(function () { //session 값을 저장함})
-        return response.status(200).json({
-            status:200,
+        return response.status(204).json({
+            status:204,
             message: sendMessage,
         })
     })
