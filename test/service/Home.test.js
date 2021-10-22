@@ -57,13 +57,13 @@ describe("GET / Login User", () => {
 })
 
 describe('GET /initdata', function () {
-    test("GET /initdata/genres", () => {
+    test("GET /genres", () => {
         return request(APP)
             .get('/initdata/genres')
             .expect(200)
     })
 
-    test("GET /initdata/themes", () => {
+    test("GET /themes", () => {
         return request(APP)
             .get('/initdata/genres')
             .expect(200)
@@ -71,7 +71,7 @@ describe('GET /initdata', function () {
 
     test("GET /initdata/error", () => {
         return request(APP)
-            .get('/initdata/error')
+            .get('/error')
             .expect(404)
     })
 });
