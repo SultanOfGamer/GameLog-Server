@@ -10,24 +10,31 @@ const router = express.Router();
 const gameControll = require('../controll/index').games;
 
 router.get('/genres', async (request, response)=>{
-    let sendObj = [];
+    let sendObj;
     gameControll.getCategory('genres',0, 23)
         .then(data=>{
-            sendObj.push(data)
+            sendObj = data
         })
         .then(()=>{
-            response.json(sendObj[0])
+            // console.log(sendObj)
+            response.status(200).json({
+                status:200,
+                data:sendObj
+            })
         })
 })
 
 router.get('/themes', async (request, response)=>{
-    let sendObj = [];
+    let sendObj;
     gameControll.getCategory('themes', 0, 22)
         .then(data=>{
-            sendObj.push(data)
+            sendObj = data
         })
         .then(()=>{
-            response.json(sendObj[0])
+            response.status(200).json({
+                status:200,
+                data:sendObj
+            })
         })
 
 })

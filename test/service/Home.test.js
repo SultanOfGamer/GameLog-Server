@@ -55,3 +55,23 @@ describe("GET / Login User", () => {
             .expect(500)
     })
 })
+
+describe('GET /initdata', function () {
+    test("GET /initdata/genres", () => {
+        return request(APP)
+            .get('/initdata/genres')
+            .expect(200)
+    })
+
+    test("GET /initdata/themes", () => {
+        return request(APP)
+            .get('/initdata/genres')
+            .expect(200)
+    })
+
+    test("GET /initdata/error", () => {
+        return request(APP)
+            .get('/initdata/error')
+            .expect(404)
+    })
+});
