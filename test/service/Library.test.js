@@ -45,14 +45,6 @@ describe("/game/library 라이브러리 라우팅",() => {
                 userGameMemo:'testing',
                 userGameStatus:'doing',
             })
-        await testSession
-            .post('/game/library')
-            .send({
-                gameId:testGame[1].id,
-                userGameRating:4,
-                userGameMemo:'testing',
-                userGameStatus:'done',
-            })
     })
     afterAll(async ()=>{
         // 테스트 유저 library 삭제,
@@ -60,9 +52,8 @@ describe("/game/library 라이브러리 라우팅",() => {
             .delete('/game/library/reset')
 
         // 테스트 game delete
-        testGame.forEach(game=>{
-            deleteGame(game)
-        })
+        await deleteGame(testGame[0])
+
         // 테스트 user 회원 탈퇴
         await testSession
             .delete('/profile/user')
@@ -91,35 +82,48 @@ describe("/game/library 라이브러리 라우팅",() => {
                 .get('/game/library/?page=1&sort=aggregated_rating&sorttype=desc')
                 .expect(200)
         })
-        test.skip("GET 500 / sort 에러", () => {
+        test("GET 400 / sort 에러", () => {
             return testSession
-                .get('/game/library/?sort=test&sorrtype=test2')
+                .get('/game/library/?page=1&sort=aggregating_rating_22&sorrtype=desc')
                 .expect(400)
         })
     })
 
-    // describe("POST /game/library",() => {
-    //     test("POST 201 / 데이터 생성 성공", () => {
-    //         return testSession
-    //             .post('/game/library')
-    //             .send({})
-    //             .expect(201)
-    //     })
-    //     test("POST 500 / 데이터 생성 중복 실패", () => {
-    //
-    //     })
-    // })
-    //
-    // describe("PUT /game/library",() => {
-    //     test("Library", () => {
-    //
-    //     })
-    // })
-    //
-    // describe("DELETE /game/library",() => {
-    //     test("Library", () => {
-    //
-    //     })
-    // })
+    describe("POST /game/library",() => {
+        test("POST 201 / 데이터 생성 성공", async () => {
+            await testSession
+                .post('/game/library')
+                .send({
+                    gameId:testGame[1].id,
+                    userGameRating:4,
+                    userGameMemo:'testing',
+                    userGameStatus:'doing',
+                })
+                .expect(201)
+        })
+        test("POST 500 / 데이터 생성 중복 실패", async() => {
+            await testSession
+                .post('/game/library')
+                .send({
+                    gameId:testGame[0].id,
+                    userGameRating:4,
+                    userGameMemo:'testing',
+                    userGameStatus:'doing',
+                })
+                .expect(500)
+        })
+    })
+
+    describe("PUT /game/library",() => {
+        test("Library", () => {
+
+        })
+    })
+
+    describe("DELETE /game/library",() => {
+        test("Library", () => {
+
+        })
+    })
 })
 
