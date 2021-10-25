@@ -39,15 +39,17 @@ describe("GET / Login User", () => {
             .delete('/profile/user')
     })
 
-    // test("Login O", async () =>{
-    //     await testSession
-    //         .put('/profile/category')
-    //         .send({prefer})
-    //
-    //     await testSession
-    //         .get('/')
-    //         .expect(200)
-    // })
+    test("Login O", async () =>{
+        await testSession
+            .put('/profile/category')
+            .send({
+                prefer:prefer.prefer
+            })
+
+        await testSession
+            .get('/')
+            .expect(200)
+    })
 
     test("login don't exist prefer", () => {
         return testSession
