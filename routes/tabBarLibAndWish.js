@@ -43,7 +43,7 @@ router.get('/:tapbar', async (request,response,next)=>{
 
     //domain에 있는 sort값이 아닐 때 예외처리
     if(sortTypeAsc.includes(sorttype) === false || sortDomain.includes(sort) === false)
-        if(sorttype !== undefined && sort !== undefined) //default 예외처리
+        if(sorttype !== undefined || sort !== undefined) //default 예외처리
             return response.status(400).json({
                 status:400,
                 message:'sort type bad request'
