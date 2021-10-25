@@ -5,10 +5,6 @@ const logger = require('../config/wiston');
 const userControl = require('../controll/index').users
 const userGameControl = require('../controll/index').userGames;
 
-function checkInArrayString(arr, val) { //domain check value
-    return arr.some(arrVal => val === arrVal);
-}
-
 router.use((request, response, next) => {
     if(!(userControl.isUser(request, response))){
         logger.error('로그인 필요')
@@ -46,9 +42,9 @@ router.get('/:tapbar', async (request,response,next)=>{
     else if(sorttype === undefined || sortObj === undefined) sortObj['createdTime'] = -1 //default sort값
 
     //domain에 있는 sort값이 아닐 때 예외처리
-    if(sortTypeAsc.includes(sorttype) === false || checkInArrayString(sortDomain, sort) === false)
+    if(sortTypeAsc.includes(sorttype) === false || sortDomain.includes(sort) === false)
         if(sorttype !== undefined && sort !== undefined) //default 예외처리
-            response.status(400).json({
+            return response.status(400).json({
                 status:400,
                 message:'sort type bad request'
             })
@@ -93,11 +89,11 @@ router.get('/:tapbar', async (request,response,next)=>{
 })
 
 //Library & Wishlist insert
-router.post('/:tapbar', (request,response, next)=>{
+router.post('/:tapbar', async (request,response, next)=>{
     const tabBar = request.params.tapbar;
     if(tabBar !== "library" && tabBar !== "wishlist")
         next("잘못된 Tabbar 입니다.")
-    userGameControl.insertUserGames(request.user, request.body, tabBar)
+    await userGameControl.insertUserGames(request.user, request.body, tabBar)
         .then((data)=>{
             return response.status(201).json({
                 status:201,
