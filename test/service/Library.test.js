@@ -1,7 +1,6 @@
 const APP = require('../../main')
 
 const user = require('../models/user').users;
-const userGame = require('../models/userGame');
 const testGame = require('../models/game');
 
 const createGame = require('../../models/gamesDB').createGameSample
@@ -133,25 +132,38 @@ describe("/game/library 라이브러리 라우팅",() => {
                 })
                 .expect(200)
         })
-        test("PUT 404 / 업데이트 game이 존재하지 않습니다.", async() => {
+        test("PUT 500 / 업데이트 game이 존재하지 않습니다.", async() => {
             await testSession
                 .put('/game/library')
                 .send({
-                    id:9999999,
+                    // id:9999999,
                 })
-                .expect(404)
-        })
-        test.skip("PUT 500 / 500 업데이트 에러", async() => {
-
+                .expect(500)
         })
     })
 
     describe("DELETE /game/library",() => {
-        test.skip("DELETE 200 / 삭제 성공", () => {
-
+        let deleteGame;
+        beforeEach(async ()=>{
+            const result = await testSession
+                .get('/game/library')
+            deleteGame = result.body.data
         })
-        test.skip("DELETE 404 / 삭제 실패", () => {
-
+        test("DELETE 200 / 삭제 성공", async () => {
+            await testSession
+                .delete('/game/library')
+                .send({
+                    id:deleteGame[0].id,
+                })
+                .expect(200)
+        })
+        test("DELETE 500 / id 없음실패", async () => {
+            await testSession
+                .delete('/game/library')
+                .send({
+                    // id:9999999,
+                })
+                .expect(500)
         })
     })
 })
