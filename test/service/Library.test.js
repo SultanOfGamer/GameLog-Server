@@ -133,7 +133,7 @@ describe("/game/library 라이브러리 라우팅",() => {
                 })
                 .expect(200)
         })
-        test.skip("PUT 404 / 업데이트 game이 존재하지 않습니다.", async() => {
+        test("PUT 404 / 업데이트 game이 존재하지 않습니다.", async() => {
             await testSession
                 .put('/game/library')
                 .send({
