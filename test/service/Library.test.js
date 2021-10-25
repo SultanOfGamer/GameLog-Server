@@ -53,7 +53,7 @@ describe("/game/library 라이브러리 라우팅",() => {
 
         // 테스트 game delete
         await deleteGame(testGame[0])
-
+        await deleteGame(testGame[1])
         // 테스트 user 회원 탈퇴
         await testSession
             .delete('/profile/user')
@@ -114,14 +114,43 @@ describe("/game/library 라이브러리 라우팅",() => {
         })
     })
 
-    describe("PUT /game/library",() => {
-        test("Library", () => {
+    describe("PUT /game/library", () => {
+        let updateGame;
+        beforeEach(async ()=>{
+            const result = await testSession
+                .get('/game/library')
+            updateGame = result.body.data
+        })
+        test("PUT 200 / 200 업데이트 성공", async () => {
+            await testSession
+                .put('/game/library')
+                .send({
+                    id:updateGame[0].id,
+                    gameId:updateGame[0].gameId,
+                    userGameRating:5,
+                    userGameMemo:'updatedtestGame',
+                    userGameStatus:'doing',
+                })
+                .expect(200)
+        })
+        test.skip("PUT 404 / 업데이트 game이 존재하지 않습니다.", async() => {
+            await testSession
+                .put('/game/library')
+                .send({
+                    id:9999999,
+                })
+                .expect(404)
+        })
+        test.skip("PUT 500 / 500 업데이트 에러", async() => {
 
         })
     })
 
     describe("DELETE /game/library",() => {
-        test("Library", () => {
+        test.skip("DELETE 200 / 삭제 성공", () => {
+
+        })
+        test.skip("DELETE 404 / 삭제 실패", () => {
 
         })
     })

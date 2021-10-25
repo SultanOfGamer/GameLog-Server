@@ -48,7 +48,6 @@ router.get('/:tapbar', async (request,response,next)=>{
                 status:400,
                 message:'sort type bad request'
             })
-
     let page = request.query.page - 1 // pagination
     try{
         switch (tabBar){
