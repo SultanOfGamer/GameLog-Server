@@ -79,31 +79,46 @@ describe("GET /auth/validation 이메일, 닉네임 검사", () => {
 
     test('GET 200 /email 이메일 성공', () => {
         return request(APP)
-            .get('/auth/validation/email?value=testUserUnique@gmail.com')
+            .get('/auth/validation/email')
+            .query({
+                value:'testUserUnique@gmail.com'
+            })
             .expect(200)
     })
 
     test('GET 403 /email 이메일 중복', () => {
         return request(APP)
-            .get(`/auth/validation/email?value=${user[0].email}`)
+            .get('/auth/validation/email')
+            .query({
+                value:user[0].email,
+            })
             .expect(403)
     })
 
     test('GET 403 /email 이메일 형식 실패', () => {
         return request(APP)
-            .get(`/auth/validation/email?value=${errUser[0].email}`)
+            .get('/auth/validation/email')
+            .query({
+                value:errUser[0].email
+            })
             .expect(403)
     })
 
     test('GET 200 /nickname 닉네임 성공', () => {
         return request(APP)
-            .get(`/auth/validation/nickname?value=nicknameTestUnique`)
+            .get(`/auth/validation/nickname`)
+            .query({
+                value:'nicknameTestUnique'
+            })
             .expect(200)
     })
 
     test('GET 403 /nickname 닉네임 중복 실패', () => {
         return request(APP)
-            .get(`/auth/validation/nickname?value=${user[0].nickname}`)
+            .get('/auth/validation/nickname')
+            .query({
+                value:user[0].nickname
+            })
             .expect(403)
     })
 

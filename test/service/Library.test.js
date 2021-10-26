@@ -78,12 +78,22 @@ describe("/game/library 라이브러리 라우팅",() => {
         })
         test("GET 200 /?page=1&sort=aggregated_rating&sorttype=desc 성공 sort", () => {
             return testSession
-                .get('/game/library/?page=1&sort=aggregated_rating&sorttype=desc')
+                .get('/game/library')
+                .query({
+                    page: 1,
+                    sort:'aggregated_rating',
+                    sorttype:'desc',
+                })
                 .expect(200)
         })
         test("GET 400 / sort 에러", () => {
             return testSession
-                .get('/game/library/?page=1&sort=aggregating_rating_22&sorrtype=desc')
+                .get('/game/library/')
+                .query({
+                    page: 1,
+                    sort:'aggregated_rating22',
+                    sorttype:'desc',
+                })
                 .expect(400)
         })
     })
