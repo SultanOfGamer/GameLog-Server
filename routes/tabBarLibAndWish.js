@@ -53,7 +53,7 @@ router.get('/:tapbar', async (request,response,next)=>{
         switch (tabBar){
             case 'library': // user library 전송
                 const userLibraryList = await userGameControl.getUserGames(request.user, page, sortObj)
-                response.status(200).json({
+                return response.status(200).json({
                     status:200,
                     message:'success response',
                     user:{
@@ -65,7 +65,7 @@ router.get('/:tapbar', async (request,response,next)=>{
                 break;
             case 'wishlist': //user wishlist 전송
                 const wishlistData = await userGameControl.getUserWishGames(request.user, request.body, page, sortObj)
-                response.status(200).json({
+                return response.status(200).json({
                     status:200,
                     message:'success response',
                     user:{
@@ -80,10 +80,7 @@ router.get('/:tapbar', async (request,response,next)=>{
                 break;
         }
     }catch(err){
-        response.status(500).json({
-            status:500,
-            message:err
-        })
+        next(err)
     }
 })
 
@@ -92,21 +89,20 @@ router.post('/:tapbar', async (request,response, next)=>{
     const tabBar = request.params.tapbar;
     if(tabBar !== "library" && tabBar !== "wishlist")
         next("잘못된 Tabbar 입니다.")
-    await userGameControl.insertUserGames(request.user, request.body, tabBar)
-        .then((data)=>{
-            return response.status(201).json({
-                status:201,
-                message:'insert success',
-                data:data
-            })
+    try{
+        const data = await userGameControl.insertUserGames(request.user, request.body, tabBar)
+        return response.status(201).json({
+            status:201,
+            message:'insert success',
+            data:data
         })
-        .catch((err)=>{
-            return response.status(500).json({
-                status:500,
-                message:'insert fail',
-                err:err
-            })
+    }catch (err){
+        return response.status(500).json({
+            status:500,
+            message:'insert fail',
+            err:err
         })
+    }
 })
 
 
