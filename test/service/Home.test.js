@@ -39,6 +39,12 @@ describe("GET / Login User", () => {
             .delete('/profile/user')
     })
 
+    test("login don't exist prefer", () => {
+        return testSession
+            .get('/')
+            .expect(500)
+    })
+
     test("Login O", async () =>{
         await testSession
             .put('/profile/category')
@@ -51,11 +57,7 @@ describe("GET / Login User", () => {
             .expect(200)
     })
 
-    test("login don't exist prefer", () => {
-        return testSession
-            .get('/')
-            .expect(500)
-    })
+
 })
 
 describe('GET /initdata', function () {
