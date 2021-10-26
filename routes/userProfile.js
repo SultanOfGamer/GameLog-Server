@@ -4,7 +4,11 @@ const router = express.Router();
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: function(req, file, cb){ //storage path 지정
-        cb(null, 'public/images/user_profile/')
+        if(process.env.NODE_ENV !== 'test'){
+            cb(null, 'public/images/user_profile/')
+        }else{
+            cb(null, 'C:/Users/gg/WebstormProjects/GameLog-Server/public/images/user_profile_test')
+        }
     },
     filename: function(req, file, cb){ //file name 지정
         cb(null, 'profile_user_id_'+req.user.id +'.' + file.originalname.split('.')[1] )
@@ -54,15 +58,19 @@ router.get('/', async (request, response)=>{
 router.put('/image',  async (request, response,next)=>{
     try{
         upload(request, response, async function(err){ // upload 에러처리 필요
-            if(err) return response.status(400).json({
-                status:400,
-                message:'upload fail',
-                err:err
-            })
-            if(request.file === undefined) return response.status(404).json({
-                status:404,
-                message:'not find image file'
-            })
+            if(err) { //업로드 실패
+                return response.status(400).json({
+                    status:400,
+                    message:'upload fail',
+                    err:err
+                })
+            }
+            if(request.file === undefined) { // image 파일을 찾을 수 없습니다.
+                return response.status(404).json({
+                    status:404,
+                    message:'not find image file'
+                })
+            }
             const sendMessage = await userControl.updateUserStat(request.user, request.file)
             return response.status(200).json({
                 status:200,

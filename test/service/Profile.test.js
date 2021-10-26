@@ -1,6 +1,5 @@
 const APP = require('../../main')
 const user = require('../models/user').users;
-const errUser = require('../models/user').signUpErrUser;
 const prefer = require('../models/userPrefer');
 
 const request = require('supertest')
@@ -63,17 +62,25 @@ describe("/profile 유저 프로필", () => {
             })
         })
         describe("PUT /image 유저 프로필 사진 변경", () => {
-            test.skip("PUT 200 / 200 성공",() => {
+            test("PUT 200 / 200 성공",() => {
+
                 return testSession
-                    .put()
+                    .put('/profile/image')
+                    .field('Content-Type', 'multipart/form-data')
+                    .attach('image', 'test_image.jpg')
+                    .expect(200)
             })
-            test.skip("PUT 404 / 404 이미지 파일 없음",() => {
+            test("PUT 404 / 404 이미지 파일 없음",() => {
                 return testSession
-                    .put()
+                    .put('/profile/image')
+                    .expect(404)
             })
-            test.skip("PUT 400 / 업로드 실패",() => {
+            test("PUT 400 / 업로드 실패",() => {
                 return testSession
-                    .put()
+                    .put('/profile/image')
+                    .field('Content-Type', 'multipart/form-data')
+                    .attach('image', 'test_file.txt')
+                    .expect(200)
             })
         })
         describe("PUT /category 현재 유저 선호 카테고리 변경", () =>{
