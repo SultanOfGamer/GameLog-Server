@@ -16,7 +16,7 @@ router.use((request, response, next) => {
     next();
 })
 
-router.delete('/user/reset', async (request, response, next) => {
+router.delete('/user/reset', async (request, response) => {
     // try{
     const resetCount = await userGameControl.resetUserGames(request.user)
     response.status(200).send({
@@ -39,7 +39,7 @@ router.get('/:tapbar', async (request,response,next)=>{
 
     if(sorttype === sortTypeAsc[0]) sortObj[sort] = 1; //오름차순
     else if(sorttype === sortTypeAsc[1]) sortObj[sort] = -1; //내림차순
-    else if(sorttype === undefined || sortObj === undefined) sortObj['createdTime'] = -1 //default sort값
+    else if(sorttype === undefined) sortObj['createdTime'] = -1 //default sort값
 
     //domain에 있는 sort값이 아닐 때 예외처리
     if(sortTypeAsc.includes(sorttype) === false || sortDomain.includes(sort) === false)
@@ -143,13 +143,9 @@ router.put('/:tapbar', async (request,response, next)=>{
         next("잘못된 Tabbar 입니다.")
     const {status, message, data} = await userGameControl.updateUserGames(request.user, request.body)
         .catch((err)=> {
-            return response.status(500).json({
-                status:500,
-                message: 'update fail',
-                err: err
-            })
+            next(err)
         })
-    response.status(status).json({
+    return response.status(status).json({
         status,
         message,
         data
