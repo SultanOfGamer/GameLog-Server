@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({storage:storage,
-    limits:{file:1 * 1024 * 1024} //1 MB 저장 제한
+    limits:{file:1024 * 1024} //1 MB 저장 제한
     // fileFilter:function (req, file, cb){
     //     if(file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png'){
     //         return cb(null, false, new Error('I don\'t have a clue!'));
@@ -20,7 +20,6 @@ const upload = multer({storage:storage,
     // }
 }).single('image')
 const logger = require('../config/wiston')
-const userProfile = require('../controll/index').userProfile
 const userControl = require('../controll/index').users
 
 
@@ -55,7 +54,7 @@ router.get('/', async (request, response)=>{
 router.put('/image',  async (request, response,next)=>{
     try{
         upload(request, response, async function(err){ // upload 에러처리 필요
-            if(err) response.status(400).json({
+            if(err) return response.status(400).json({
                 status:400,
                 message:'upload fail',
                 err:err
@@ -65,7 +64,7 @@ router.put('/image',  async (request, response,next)=>{
                 message:'not find image file'
             })
             const sendMessage = await userControl.updateUserStat(request.user, request.file)
-            response.status(200).json({
+            return response.status(200).json({
                 status:200,
                 message:sendMessage
             })
