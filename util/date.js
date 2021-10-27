@@ -12,13 +12,15 @@ function getDate(){
     let minutes = date.getMinutes();  // 분
     let seconds = date.getSeconds();  // 초
 
-    return year + '/' +  month + '/' + day + '_' + hours + ':' + minutes + ':' + seconds;
+    return year + '/' +  month + '/' + day + '-' + hours + ':' + minutes + ':' + seconds;
 }
 
 function getDateUNIX(){
-    return Date.now();
+    const now = new Date();
+    return parseInt(now.getTime() / 1000);
 }
+
 module.exports = {
-    getDate:getDate,
-    getDateUNIX:getDateUNIX
+    getDate,
+    getDateUNIX
 };

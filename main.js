@@ -1,7 +1,7 @@
 
 // in function
-const path = require('path');
-const fs = require('fs')
+// const path = require('path');
+// const fs = require('fs')
 
 // npm function
 const cookieParser = require('cookie-parser');
@@ -65,6 +65,7 @@ app.use(function(request, response, next){
 app.use(function (err, request, response, next) {
     // console.log(err)
     logger.error(err)
+
     if(response.headerSent){
         return next(err);
     }
