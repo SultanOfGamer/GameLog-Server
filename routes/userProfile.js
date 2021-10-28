@@ -54,6 +54,19 @@ router.get('/', async (request, response)=>{
     })
 })
 
+//프로필 default 설정
+router.put('/image/default', async (request, response, next)=>{
+    try{
+        const sendMessage = await userControl.updateUserStat(request.user, request.file)
+        return response.status(200).json({
+            status:200,
+            message:sendMessage
+        })
+    }catch (err) {
+        next(err)
+    }
+})
+
 //user 프로필 변경
 router.put('/image',  async (request, response,next)=>{
     try{
