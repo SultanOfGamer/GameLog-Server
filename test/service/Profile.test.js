@@ -70,12 +70,20 @@ describe("/profile 유저 프로필", () => {
                     .attach('image', 'test_image.jpg')
                     .expect(200)
             })
+            test("PUT 200 /default default 이미지로 변경",() => {
+                return testSession
+                    .put('/profile/image/default')
+                    .expect(200)
+            })
+
             test("PUT 404 / 404 이미지 파일 없음",() => {
                 return testSession
                     .put('/profile/image')
+                    .field('Content-Type', 'multipart/form-data')
+                    .attach('image', undefined)
                     .expect(404)
             })
-            test("PUT 400 / 업로드 실패",() => {
+            test("PUT 400 / 업로드 txt 파일 실패",() => {
                 return testSession
                     .put('/profile/image')
                     .field('Content-Type', 'multipart/form-data')
