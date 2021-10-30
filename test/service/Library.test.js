@@ -34,6 +34,7 @@ describe("/game/library 라이브러리 라우팅",() => {
         // 테스트 game create
         await createGame(testGame[0])
         await createGame(testGame[1])
+        await createGame(testGame[2])
 
         // 테스트 library create
         await testSession
@@ -46,13 +47,14 @@ describe("/game/library 라이브러리 라우팅",() => {
             })
     })
     afterEach(async ()=>{
-        // 테스트 유저 library 삭제,
-        await testSession
-            .delete('/game/library/reset')
-
         // 테스트 game delete
         await deleteGame(testGame[0])
         await deleteGame(testGame[1])
+        await deleteGame(testGame[2])
+
+        // 테스트 유저 library 삭제,
+        await testSession
+            .delete('/game/user/reset')
         // 테스트 user 회원 탈퇴
         await testSession
             .delete('/profile/user')
