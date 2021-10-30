@@ -230,8 +230,21 @@ async function createGameSample(game){
     gameGameInstance.platforms.forEach((data, index)=>{
         data.category_name = gamePlatformsCategory[data.category]
     })
-    gameGameInstance.aggregated_rating = Number.parseFloat(gameGameInstance.aggregated_rating / 20).toFixed(2)
-
+    if(gameGameInstance.aggregated_rating){
+        gameGameInstance.aggregated_rating = Number.parseFloat(gameGameInstance.aggregated_rating / 20).toFixed(2)
+    }else{
+        gameGameInstance.aggregated_rating = 0;
+    }
+    // 각 attribute 존재 하지 않을때 예외처리
+    if(!gameGameInstance.aggregated_rating_count)  gameGameInstance.aggregated_rating_count = 0;
+    if(!gameGameInstance.first_release_date) gameGameInstance.first_release_date = 0;
+    if(gameGameInstance.cover.length === 0) {
+        gameGameInstance.cover.push({
+            id:0,
+            game:gameGameInstance.id,
+            url:'not exist' // 디폴트 사진 ?
+        })
+    }
     // 번역 주석처리
     // transToKorea(gameGameInstance.storyline)
     //     .then(data=>{
@@ -250,7 +263,7 @@ async function deleteGameSample(game){
     try{
         await gameGameList.deleteOne({id:game.id}, function(err, result){
             if(err) return err;
-            if(result.deletedCount== 0 ) return 'delete fail';
+            if(result.deletedCount === 0 ) return 'delete fail';
             return 'delete success'
         })
     }catch(err){
