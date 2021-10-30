@@ -112,6 +112,17 @@ describe("/game/library 라이브러리 라우팅",() => {
                 })
                 .expect(201)
         })
+        test("POST 201 / first release date가 없을 때", async () => {
+            await testSession
+                .post('/game/library')
+                .send({
+                    gameId:testGame[2].id,
+                    userGameRating:4,
+                    userGameMemo:'first relase date null',
+                    userGameStatus:'doing',
+                })
+                .expect(201)
+        })
         test("POST 500 / 데이터 생성 중복 실패", async() => {
             await testSession
                 .post('/game/library')
