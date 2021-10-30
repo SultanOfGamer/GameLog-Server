@@ -3,7 +3,7 @@ const game = [
         "id" : 999999,
         "name" : "The Elder Scrolls V: Skyrim TestGame",
         "slug" : "the-elder-scrolls-v-skyrim-testgame",
-        "aggregated_rating" : 4.81,
+        "aggregated_rating" : 80,
         "aggregated_rating_count" : 12,
         "alternative_names" : [
             {
@@ -170,7 +170,7 @@ const game = [
         "id" : 9999999,
         "name" : "Monster Hunter: World Test",
         "slug" : "monster-hunter-world-test ",
-        "aggregated_rating" : 4.66,
+        "aggregated_rating" : 78,
         "aggregated_rating_count" : 24,
         "alternative_names" : [
             {
@@ -345,8 +345,8 @@ const game = [
         "id" : 99999999,
         "name" : "Portal 2 Test",
         "slug" : "portal-2-test",
-        "aggregated_rating" : 4.62,
-        "aggregated_rating_count" : 13,
+        // "aggregated_rating" : 4.62,
+        // "aggregated_rating_count" : 13,
         "alternative_names" : [
             {
                 "id" : 50135,
@@ -377,7 +377,7 @@ const game = [
                 ],
             }
         ],
-        "first_release_date" : 1303171200,
+        // "first_release_date" : 1303171200,
         "created_at" : 1297956069,
         "updated_at" : 1633306297,
         "release_dates" : [
@@ -475,15 +475,15 @@ const game = [
         ],
         "storyline" : "You lost your memory, you are alone in a world full of danger, and your mission is survive using your mind. The only way to get out from this hell is.....Hi i'm GLAdOS, and welcome to the amazing world of portal 2, here i will expose you to a lot of tests, and try to k.. help Aperture Science envolve in a new era.\nYour job is advance in the levels i propose and get better and better, you will have an portal gun to help you, and remember nothing is impossible if you try, and try again and again and again....\nThe puzzles are waiting for you!",
         "summary" : "Sequel to the acclaimed Portal (2007), Portal 2 pits the protagonist of the original game, Chell, and her new robot friend, Wheatley, against more puzzles conceived by GLaDOS, an A.I. with the sole purpose of testing the Portal Gun's mechanics and taking revenge on Chell for the events of Portal. As a result of several interactions and revelations, Chell once again pushes to escape Aperture Science Labs.",
-        "cover" : [
-            {
-                "id" : 82660,
-                "game" : 72,
-                "height" : 1948,
-                "width" : 1461,
-                "url" : "//images.igdb.com/igdb/image/upload/t_thumb/co1rs4.jpg",
-            }
-        ],
+        // "cover" : [
+        //     {
+        //         "id" : 82660,
+        //         "game" : 72,
+        //         "height" : 1948,
+        //         "width" : 1461,
+        //         "url" : "//images.igdb.com/igdb/image/upload/t_thumb/co1rs4.jpg",
+        //     }
+        // ],
         "screenshots" : [
             {
                 "id" : 725,
