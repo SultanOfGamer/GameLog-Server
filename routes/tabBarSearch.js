@@ -13,7 +13,13 @@ router.get('/', async (request,response)=>{
     const gameName = await gameSearch.getSearchResult(name)
     const alterName = await gameSearch.getAlterSearch(name)
     const status = 200;
-    sendObj = {status, gameName, alterName}
+    sendObj = {
+        status,
+        data:{
+            gameName,
+            alterName
+        },
+    }
     response.status(200).json(sendObj)
 })
 
