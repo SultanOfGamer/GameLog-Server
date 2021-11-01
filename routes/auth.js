@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt')
 
 module.exports = function(passport){
     router.post('/login', function(request, response, next){
-            passport.authenticate('login', function(err, user, info){
+        passport.authenticate('login', function(err, user, info){
                 if(err) return next(err)
                 if(info) return response.status(403).send({
                     status:403,
@@ -20,6 +20,7 @@ module.exports = function(passport){
                     if(err) return next(err)
                     return response.status(200).send({
                         status: 200,
+                        user:request.user,
                         message: 'welcome! ' + request.user.nickname
                     })
                 })
