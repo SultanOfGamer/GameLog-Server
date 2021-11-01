@@ -14,6 +14,7 @@ const helmet = require('helmet')
 const logger = require('./config/wiston');
 const MongoStore = require('connect-mongo');
 // const mongoose = require("./models/initDB");
+const cors = require('cors');
 
 const express = require('express');
 const app = express();
@@ -24,6 +25,7 @@ app.use(bodyParser.json())
 app.use(compression())
 app.use(helmet());
 app.use(express.static('public'))
+app.use(cors());
 app.use(
     session({
         secret: "rqwr@#^^#fsazfcz",
@@ -77,7 +79,7 @@ app.use(function (err, request, response, next) {
 });
 if(process.env.NODE_ENV !== 'test'){
     app.listen(3000, ()=>{
-        logger.info('listen express server!')
+        logger.info('port 3000 listen express server!')
         console.log('listen express server!')
     })
 }
