@@ -15,6 +15,9 @@ GameLog는 콘솔 및 PC 게임 평가 및 추천 어플리케이션 시스템 �
   <img alt="MongoDB" src ="https://img.shields.io/badge/MongoDB-47A248.svg?&style=for-the-badge&logo=MongoDB&logoColor=white"/>
   <img alt="Passport" src ="https://img.shields.io/badge/Passport-34E27A.svg?&style=for-the-badge&logo=Passport&logoColor=white"/>
 </div>
+# GameLog url
+
+api.gamelog.kro.kr
 
 # 목차
 
