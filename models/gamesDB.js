@@ -179,8 +179,8 @@ async function saveGameListIGDBToDB(attribute, condition='', sort='',
     })
         .then(response => {
             const resultData = response.data;
-            resultData.forEach((i,index)=>{
-                createGameSample(i)
+            resultData.forEach(async (i,index)=>{
+                await createGameSample(i)
                 // const gameGameInstance = new gameGameList(i);
                 // //category, status 영문표기로 변경
                 // gameGameInstance.category = gameCategory[i.category]
