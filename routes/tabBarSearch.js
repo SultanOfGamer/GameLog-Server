@@ -13,8 +13,10 @@ router.get('/', async (request,response)=>{
     const gameName = await gameSearch.getSearchResult(name)
     const alterName = await gameSearch.getAlterSearch(name)
     const status = 200;
+    const message = 'search success'
     sendObj = {
         status,
+        message,
         data:{
             gameName,
             alterName

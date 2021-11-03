@@ -50,7 +50,8 @@ router.get('/', async (request, response)=>{
     delete user.__v
     response.status(200).send({
         status:200,
-        user:user
+        message:'user information',
+        data:user
     })
 })
 

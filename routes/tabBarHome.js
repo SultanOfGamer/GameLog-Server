@@ -60,7 +60,7 @@ router.get('/', async (request,response, next)=>{
                             .then(popularData=>{ // 유명 게임 포함 전송
                                 r.unshift({'type':'popular', 'game':popularData})
                                 sendObj.status = 200
-                                sendObj.message = "success get data"
+                                sendObj.message = "success home data"
                                 sendObj.data = r
                                 response.status(200).send(sendObj)
                             })
@@ -109,7 +109,7 @@ router.get('/', async (request,response, next)=>{
                         r = shuffle(r)
                         r.unshift({'type':'popular', 'game':popularData})
                         sendObj.status = 200
-                        sendObj.message = "success get data"
+                        sendObj.message = "success home data"
                         sendObj.data = r
                         response.status(200).send(sendObj)
                     })

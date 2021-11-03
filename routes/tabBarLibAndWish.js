@@ -119,7 +119,7 @@ router.use(async (request, response, next)=>{
             logger.error('타유저 데이터 접근')
             response.status(403).send({
                 status:403,
-                message:'올바른 user game이 아닙니다.'
+                message:'Invalid user game'
             })
         }else{
             next()

@@ -19,6 +19,7 @@ router.get('/genres', async (request, response)=>{
             // console.log(sendObj)
             response.status(200).json({
                 status:200,
+                message:'genres data',
                 data:sendObj
             })
         })
@@ -33,6 +34,7 @@ router.get('/themes', async (request, response)=>{
         .then(()=>{
             response.status(200).json({
                 status:200,
+                message:'themes',
                 data:sendObj
             })
         })
