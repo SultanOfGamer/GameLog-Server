@@ -61,7 +61,7 @@ GameLog는 콘솔 및 PC 게임 평가 및 추천 어플리케이션 시스템 �
 
 ### 1.1 init server install
 ```console
-npm -i install
+npm -i 
 ```
 
 ### 1.2 IGDB auth
@@ -115,6 +115,13 @@ cd models/util
 node scriptRecommand.js
 ```
 
+### 1.8 mongoDB setting
+```console
+mongo
+show dbs
+use admin
+db.createUser({user:"root", pwd:"root", roels:["root"]});
+```
 
 
 
