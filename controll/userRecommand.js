@@ -42,7 +42,6 @@ async function contentBasedRecommand(){
 // user에 library가 쌓여있을때 based 추천
 // Collaborative Filtering Function
 async function userBasedRecommnad(user){
-    await new Promise(res=>setTimeout(res,1000))
     const game = await getUserGamesEval(user);
 
     let train = [], test = []
