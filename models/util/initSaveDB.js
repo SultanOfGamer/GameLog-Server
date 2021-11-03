@@ -9,9 +9,16 @@ const gamePlatforms = require('../gamePlatforms')
 const gameThemes = require('../gameThemes')
 const gameList = require('../gamesDB')
 
-gameGameModes.saveGameModesDB();
-gameGenres.saveGenresDB();
-gamePlatforms.savePlatformsDB();
-gameThemes.saveThemesDB();
+async function initSaveDB(){
+    await gameGameModes.saveGameModesDB();
+    await gameGenres.saveGenresDB();
+    await gamePlatforms.savePlatformsDB();
+    await gameThemes.saveThemesDB();
+    console.log('gernes modes platform thems save ')
+    gameList.saveGameList();
+}
 
-gameList.saveGameList();
+initSaveDB()
+    .then(()=>{
+        // console.log('save success')
+    });
