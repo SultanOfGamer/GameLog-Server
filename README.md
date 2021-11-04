@@ -89,8 +89,9 @@ Wishlist는 사고 싶은 게임을 저장하며, 이름순, 출시일 순, 점�
 Search는 게임을 검색하는 기능을 제공하며 영어, 일본어, 한국 등 여러 언어로 검색하여 유저에게 제공한다.
 
 
-## 유저기반 추천서비스
+## 유저 기반 추천 
 ![image](https://user-images.githubusercontent.com/49264688/140360851-4d56d64f-3903-4110-baae-bec526ee9708.png)
+
 추천시스템은 기본적으로 콘텐츠 기반 필터링(content based filtering)방식과 협업 필터링(collaborative filtering)방식이 있습니다. GameLog 프로젝트에서는 User-based collaborative filtering 시스템을 이용하고 있습니다. 해당 알고리즘은 아이템 자체의 정보 없이 추천이 가능하며 알고리즘이 간단합니다. 하지만 유저-아이템의 양이 많아질수록 연산이 복잡해지며, 컴퓨팅 자원 소모가 증가하는 단점이 존재하며, 신규 가입자의 경우 아이템이 없어 유저간 유사도를 구할 수 없는 Cold start 단점이 존재합니다. 
 User-based CF(Collaborative Filtering)의 예시로 위 의 그림과 같이 세명의 유저가 있다고 가정한다. 1번 유저는 1번 게임에 4점의 평가를 주고 2 번 유저는 3번 게임에 4점, 3번 유저는 1번 게임에 5점을 부여했다고 가정합니다. 
 이후 연산을 통해 유사도를 구하여 2번 유저에게 1번 3번이 고점을 준 게임 아이템 기반으로 특정 유저에게 추천을 해주는 서비스입니다. 
@@ -172,7 +173,7 @@ MongoDB URL：https://www.mongodb.com/
 
 Mongoose URL : https://mongoosejs.com/docs/queries.html
 
-추천서비스 nodeml URL : https://www.npmjs.com/package/nodeml
+추천 nodeml URL : https://www.npmjs.com/package/nodeml
 
 <div align="center" style="margin: 10px">
  <img alt="Git" src ="https://img.shields.io/badge/Git-F05032.svg?&style=for-the-badge&logo=Git&logoColor=white"/>
