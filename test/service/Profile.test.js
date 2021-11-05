@@ -63,11 +63,10 @@ describe("/profile 유저 프로필", () => {
         })
         describe("PUT /image 유저 프로필 사진 변경", () => {
             test("PUT 200 / 200 성공",() => {
-
                 return testSession
                     .put('/profile/image')
                     .field('Content-Type', 'multipart/form-data')
-                    .attach('image', 'test_image.jpg')
+                    .attach('image', './test/service/test_image.jpg')
                     .expect(200)
             })
             test("PUT 200 /default default 이미지로 변경",() => {
@@ -87,7 +86,7 @@ describe("/profile 유저 프로필", () => {
                 return testSession
                     .put('/profile/image')
                     .field('Content-Type', 'multipart/form-data')
-                    .attach('image', 'test_file.txt')
+                    .attach('image', './test/service/test_file.txt')
                     .expect(200)
             })
         })

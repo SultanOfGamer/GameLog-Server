@@ -1,4 +1,4 @@
-
+//cold start 문제로 인한 추천 User 생성
 const RecommandUser=[
     //선호하는 카테고리별 다르게 게임 평가
     {

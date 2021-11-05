@@ -8,7 +8,7 @@ const userGameControl = require('../controll/index').userGames;
 router.use((request, response, next) => {
     if(!(userControl.isUser(request, response))){
         logger.error('로그인 필요')
-        response.status(401).send({
+        return response.status(401).send({
             status:401,
             message:'로그인이 필요합니다.'
         })
@@ -28,6 +28,7 @@ router.delete('/user/reset', async (request, response) => {
 
 //Library & Wishlist
 router.get('/:tapbar', async (request,response,next)=>{
+
     const tabBar = request.params.tapbar;
     if(tabBar !== "library" && tabBar !== "wishlist")
         next("잘못된 Tabbar 입니다.")

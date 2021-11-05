@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 app.use(compression())
 app.use(helmet());
 app.use(express.static('public'))
-app.use(cors());
+app.use(cors({origin: true, credentials:true}));
 app.use(
     session({
         secret: "rqwr@#^^#fsazfcz",

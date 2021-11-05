@@ -142,7 +142,6 @@ describe("POST /auth/signup 회원가입", () => {
 
         await testSession
             .delete('/profile/user')
-        testSession = null;
     })
 
     test('POST 200 / 회원가입 성공', async () => {

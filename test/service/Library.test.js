@@ -11,7 +11,7 @@ const session = require('supertest-session')
 let testSession = null;
 
 describe("/game/library 라이브러리 라우팅",() => {
-    beforeEach(async () => {
+    beforeAll(async () => {
         testSession = session(APP);
         // 테스트 회원가입
         await request(APP)
@@ -46,7 +46,7 @@ describe("/game/library 라이브러리 라우팅",() => {
                 userGameStatus:'doing',
             })
     })
-    afterEach(async ()=>{
+    afterAll(async ()=>{
         // 테스트 game delete
         await deleteGame(testGame[0])
         await deleteGame(testGame[1])
