@@ -50,6 +50,7 @@ router.get('/:tapbar', async (request,response,next)=>{
                 message:'sort type bad request'
             })
     let page = request.query.page - 1 // pagination
+    if(!request.query.page) page = 0;
     try{
         switch (tabBar){
             case 'library': // user library 전송
