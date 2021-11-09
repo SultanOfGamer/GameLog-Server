@@ -17,6 +17,8 @@
 
 ## GameLog url
 
+GameLog-iOS(시연영상) : https://www.youtube.com/watch?v=uFUUKgeB_eU
+
 GameLog-Web : http://gamelog.kro.kr (svelte 라이브러리를 활용하여 구현 중)
 
 GameLog-API : http://api.gamelog.kro.kr
