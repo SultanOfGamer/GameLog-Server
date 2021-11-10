@@ -1,22 +1,15 @@
-
-// in function
-// const path = require('path');
-// const fs = require('fs')
-
 // npm function
-const cookieParser = require('cookie-parser');
-const session = require('express-session')
-const bodyParser = require('body-parser')
-const compression = require('compression')
-const helmet = require('helmet')
-// const logger = require('morgan');
-// const axios = require('axios')
-const logger = require('./config/wiston');
-const MongoStore = require('connect-mongo');
-// const mongoose = require("./models/initDB");
-const cors = require('cors');
+import cookieParser from 'cookie-parser';
+import session from 'express-session'
+import bodyParser from 'body-parser'
+import compression from 'compression'
+import helmet from 'helmet'
+import logger from './config/wiston'
+import MongoStore from 'connect-mongo'
+import cors from 'cors'
 
-const express = require('express');
+import express from 'express'
+
 const app = express();
 
 app.use(cookieParser());
@@ -36,16 +29,16 @@ app.use(
         }),
     })
 )
-const passport = require('./controll/index').passport(app)
+import  passport from'./controll/index'.passport(app)
 
 
-const authRouter = require('./routes/index').auth(passport);
-const initRouter = require('./routes/index').initdata;
-const userProfileRouter = require('./routes/index').userProfile;
+import  authRouter from'./routes/auth'.auth(passport);
+import  initRouter from'./routes/index'.initdata;
+import  userProfileRouter from'./routes/index'.userProfile;
 
-const homeRouter = require('./routes/index').home
-const LibAndWishRouter = require('./routes/index').LibAndWish;
-const searchRouter = require('./routes/index').search;
+import  homeRouter from'./routes/index'.home
+import  LibAndWishRouter from'./routes/index'.LibAndWish;
+import  searchRouter from'./routes/index'.search;
 
 app.use('/initdata', initRouter);
 app.use('/auth', authRouter);
