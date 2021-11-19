@@ -93,7 +93,7 @@ module.exports = {
                     .then(data=>{
                         const result = data.map(item => {
                             const tempObj = JSON.parse(JSON.stringify(item))
-                            tempObj.category = 'gernes'
+                            tempObj.category = 'genres'
                             return tempObj
                         });
                         return result
